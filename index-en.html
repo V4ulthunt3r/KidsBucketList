@@ -8,6 +8,7 @@
   <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           colors: {
@@ -18,6 +19,10 @@
             ksurf:   '#FCFEFB',
             ktext:   '#2D3B33',
             kmuted:  '#6B7F71',
+            dkbg:    '#161A17',
+            dksurf:  '#212723',
+            dktext:  '#E8F0EA',
+            dkmuted: '#8AAD91',
           },
           fontFamily: {
             nunito: ['Nunito', 'sans-serif'],
@@ -26,15 +31,26 @@
       },
     }
   </script>
+  <script>
+    (function() {
+      const saved = localStorage.getItem('theme');
+      if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 </head>
-<body class="min-h-screen bg-kbg text-ktext font-nunito flex flex-col">
+<body class="min-h-screen bg-kbg dark:bg-dkbg text-ktext dark:text-dktext font-nunito flex flex-col transition-colors duration-200">
 
   <!-- Navigation -->
-  <nav class="bg-ksurf/90 backdrop-blur-sm border-b border-sage/20 sticky top-0 z-50">
+  <nav class="bg-ksurf/90 dark:bg-dksurf/90 backdrop-blur-sm border-b border-sage/20 dark:border-sage-l/10 sticky top-0 z-50">
     <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-      <span class="text-xl font-black text-sage tracking-tight">Kids Bucket List</span>
-      <a href="index.html" class="text-kmuted hover:text-sage font-semibold transition text-sm">🇩🇪 Deutsch</a>
+      <span class="text-xl font-black text-sage dark:text-sage-l tracking-tight">Kids Bucket List</span>
+      <div class="flex items-center gap-4">
+        <button id="theme-toggle" aria-label="Toggle dark mode" class="text-kmuted dark:text-dkmuted hover:text-sage dark:hover:text-sage-l transition text-lg">🌙</button>
+        <a href="index.html" class="text-kmuted dark:text-dkmuted hover:text-sage dark:hover:text-sage-l font-semibold transition text-sm">🇩🇪 Deutsch</a>
+      </div>
     </div>
   </nav>
 
@@ -46,106 +62,106 @@
       <div class="inline-block bg-sage text-white text-sm font-bold px-4 py-1.5 rounded-full mb-6 tracking-wide">
         ✨ Coming Soon to the App Store
       </div>
-      <h1 class="text-4xl md:text-5xl font-black text-ktext leading-tight mb-4">
+      <h1 class="text-4xl md:text-5xl font-black text-ktext dark:text-dktext leading-tight mb-4">
         Live adventures.<br>
-        <span class="text-sage">Collect memories.</span>
+        <span class="text-sage dark:text-sage-l">Collect memories.</span>
       </h1>
-      <p class="text-lg text-kmuted max-w-xl mx-auto leading-relaxed">
+      <p class="text-lg text-kmuted dark:text-dkmuted max-w-xl mx-auto leading-relaxed">
         The family app for unforgettable moments. Plan activities together, track your adventures and look back on everything you've experienced as a family.
       </p>
     </section>
 
     <!-- Feature Cards -->
     <section class="max-w-5xl mx-auto px-6 pb-16">
-      <h2 class="text-2xl font-black text-center mb-10 text-ktext">What Kids Bucket List can do</h2>
+      <h2 class="text-2xl font-black text-center mb-10 text-ktext dark:text-dktext">What Kids Bucket List can do</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
 
-        <div class="bg-ksurf rounded-2xl p-6 shadow-sm border border-sage/10 hover:shadow-md transition">
+        <div class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 shadow-sm border border-sage/10 dark:border-sage-l/10 hover:shadow-md transition">
           <div class="text-3xl mb-3">📋</div>
-          <h3 class="text-lg font-bold mb-2 text-ktext">Bucket List</h3>
-          <p class="text-kmuted text-sm leading-relaxed">Create activities you absolutely want to experience together – and check them off as a family.</p>
+          <h3 class="text-lg font-bold mb-2 text-ktext dark:text-dktext">Bucket List</h3>
+          <p class="text-kmuted dark:text-dkmuted text-sm leading-relaxed">Create activities you absolutely want to experience together – and check them off as a family.</p>
         </div>
 
-        <div class="bg-ksurf rounded-2xl p-6 shadow-sm border border-sage/10 hover:shadow-md transition">
+        <div class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 shadow-sm border border-sage/10 dark:border-sage-l/10 hover:shadow-md transition">
           <div class="text-3xl mb-3">👨‍👩‍👧‍👦</div>
-          <h3 class="text-lg font-bold mb-2 text-ktext">Multiple Children</h3>
-          <p class="text-kmuted text-sm leading-relaxed">Individual profiles for each child with their own color – stay on top of things for the whole family.</p>
+          <h3 class="text-lg font-bold mb-2 text-ktext dark:text-dktext">Multiple Children</h3>
+          <p class="text-kmuted dark:text-dkmuted text-sm leading-relaxed">Individual profiles for each child with their own colour – stay on top of things for the whole family.</p>
         </div>
 
-        <div class="bg-ksurf rounded-2xl p-6 shadow-sm border border-sage/10 hover:shadow-md transition">
+        <div class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 shadow-sm border border-sage/10 dark:border-sage-l/10 hover:shadow-md transition">
           <div class="text-3xl mb-3">🗂️</div>
-          <h3 class="text-lg font-bold mb-2 text-ktext">13+ Categories</h3>
-          <p class="text-kmuted text-sm leading-relaxed">From movies to day trips to crafting – the right category for every adventure.</p>
+          <h3 class="text-lg font-bold mb-2 text-ktext dark:text-dktext">13+ Categories</h3>
+          <p class="text-kmuted dark:text-dkmuted text-sm leading-relaxed">From movies to day trips to crafting – the right category for every adventure.</p>
         </div>
 
-        <div class="bg-ksurf rounded-2xl p-6 shadow-sm border border-sage/10 hover:shadow-md transition">
+        <div class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 shadow-sm border border-sage/10 dark:border-sage-l/10 hover:shadow-md transition">
           <div class="text-3xl mb-3">📊</div>
-          <h3 class="text-lg font-bold mb-2 text-ktext">Statistics</h3>
-          <p class="text-kmuted text-sm leading-relaxed">Look back: how many adventures have you completed? Charts, streaks and top categories at a glance.</p>
+          <h3 class="text-lg font-bold mb-2 text-ktext dark:text-dktext">Statistics</h3>
+          <p class="text-kmuted dark:text-dkmuted text-sm leading-relaxed">Look back: how many adventures have you completed? Charts, streaks and top categories at a glance.</p>
         </div>
 
-        <div class="bg-ksurf rounded-2xl p-6 shadow-sm border border-sage/10 hover:shadow-md transition">
+        <div class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 shadow-sm border border-sage/10 dark:border-sage-l/10 hover:shadow-md transition">
           <div class="text-3xl mb-3">⭐</div>
-          <h3 class="text-lg font-bold mb-2 text-ktext">Ratings</h3>
-          <p class="text-kmuted text-sm leading-relaxed">How did you like it? Star or emoji ratings – even the little ones can join in.</p>
+          <h3 class="text-lg font-bold mb-2 text-ktext dark:text-dktext">Ratings</h3>
+          <p class="text-kmuted dark:text-dkmuted text-sm leading-relaxed">How did you like it? Star or emoji ratings – even the little ones can join in.</p>
         </div>
 
-        <div class="bg-ksurf rounded-2xl p-6 shadow-sm border border-sage/10 hover:shadow-md transition">
+        <div class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 shadow-sm border border-sage/10 dark:border-sage-l/10 hover:shadow-md transition">
           <div class="text-3xl mb-3">🎬</div>
-          <h3 class="text-lg font-bold mb-2 text-ktext">External Sources</h3>
-          <p class="text-kmuted text-sm leading-relaxed">Import movies, books and games directly – never forget what's up next on your list.</p>
+          <h3 class="text-lg font-bold mb-2 text-ktext dark:text-dktext">External Sources</h3>
+          <p class="text-kmuted dark:text-dkmuted text-sm leading-relaxed">Import movies, books and games directly – never forget what's up next on your list.</p>
         </div>
 
       </div>
     </section>
 
     <!-- Categories Showcase -->
-    <section class="bg-ksurf border-y border-sage/10 py-14">
+    <section class="bg-ksurf dark:bg-dksurf border-y border-sage/10 dark:border-sage-l/10 py-14">
       <div class="max-w-4xl mx-auto px-6">
-        <h2 class="text-2xl font-black text-center mb-3 text-ktext">The right category for every adventure</h2>
-        <p class="text-center text-kmuted mb-10 text-sm">13 built-in categories – plus create your own</p>
+        <h2 class="text-2xl font-black text-center mb-3 text-ktext dark:text-dktext">The right category for every adventure</h2>
+        <p class="text-center text-kmuted dark:text-dkmuted mb-10 text-sm">13 built-in categories – plus create your own</p>
         <div class="flex flex-wrap gap-3 justify-center">
-          <span class="bg-kbg border border-sage/20 text-ktext font-semibold text-sm px-4 py-2 rounded-full">🎬 Movies &amp; Series</span>
-          <span class="bg-kbg border border-sage/20 text-ktext font-semibold text-sm px-4 py-2 rounded-full">📚 Books &amp; Reading</span>
-          <span class="bg-kbg border border-sage/20 text-ktext font-semibold text-sm px-4 py-2 rounded-full">🎮 Gaming &amp; Board Games</span>
-          <span class="bg-kbg border border-sage/20 text-ktext font-semibold text-sm px-4 py-2 rounded-full">🏃 Excursions</span>
-          <span class="bg-kbg border border-sage/20 text-ktext font-semibold text-sm px-4 py-2 rounded-full">🛝 Playgrounds &amp; Adventures</span>
-          <span class="bg-kbg border border-sage/20 text-ktext font-semibold text-sm px-4 py-2 rounded-full">🌿 Nature &amp; Animals</span>
-          <span class="bg-kbg border border-sage/20 text-ktext font-semibold text-sm px-4 py-2 rounded-full">🎨 Creative &amp; Crafts</span>
-          <span class="bg-kbg border border-sage/20 text-ktext font-semibold text-sm px-4 py-2 rounded-full">⚽ Sport &amp; Movement</span>
-          <span class="bg-kbg border border-sage/20 text-ktext font-semibold text-sm px-4 py-2 rounded-full">🏠 Home Experiences</span>
-          <span class="bg-kbg border border-sage/20 text-ktext font-semibold text-sm px-4 py-2 rounded-full">🎉 Celebrations &amp; Seasons</span>
-          <span class="bg-kbg border border-sage/20 text-ktext font-semibold text-sm px-4 py-2 rounded-full">👪 Family Traditions</span>
-          <span class="bg-kbg border border-sage/20 text-ktext font-semibold text-sm px-4 py-2 rounded-full">🔬 Learning &amp; Discovery</span>
-          <span class="bg-kbg border border-sage/20 text-ktext font-semibold text-sm px-4 py-2 rounded-full">✈️ Travel &amp; Places</span>
+          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">🎬 Movies &amp; Series</span>
+          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">📚 Books &amp; Reading</span>
+          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">🎮 Gaming &amp; Board Games</span>
+          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">🏃 Excursions</span>
+          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">🛝 Playgrounds &amp; Adventures</span>
+          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">🌿 Nature &amp; Animals</span>
+          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">🎨 Creative &amp; Crafts</span>
+          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">⚽ Sport &amp; Movement</span>
+          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">🏠 Home Experiences</span>
+          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">🎉 Celebrations &amp; Seasons</span>
+          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">👪 Family Traditions</span>
+          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">🔬 Learning &amp; Discovery</span>
+          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">✈️ Travel &amp; Places</span>
         </div>
       </div>
     </section>
 
     <!-- Family Section -->
     <section class="max-w-4xl mx-auto px-6 py-16">
-      <div class="bg-ksurf rounded-3xl p-10 text-center shadow-sm border border-sage/10">
+      <div class="bg-ksurf dark:bg-dksurf rounded-3xl p-10 text-center shadow-sm border border-sage/10 dark:border-sage-l/10">
         <div class="flex justify-center gap-3 mb-6">
-          <span class="w-10 h-10 rounded-full bg-red-300 inline-block shadow-sm"></span>
-          <span class="w-10 h-10 rounded-full bg-blue-300 inline-block shadow-sm"></span>
-          <span class="w-10 h-10 rounded-full bg-yellow-300 inline-block shadow-sm"></span>
+          <span class="w-10 h-10 rounded-full bg-red-300 dark:bg-red-400/70 inline-block shadow-sm"></span>
+          <span class="w-10 h-10 rounded-full bg-blue-300 dark:bg-blue-400/70 inline-block shadow-sm"></span>
+          <span class="w-10 h-10 rounded-full bg-yellow-300 dark:bg-yellow-400/70 inline-block shadow-sm"></span>
         </div>
-        <h2 class="text-2xl font-black mb-3 text-ktext">Built for the whole family</h2>
-        <p class="text-kmuted max-w-lg mx-auto leading-relaxed">
+        <h2 class="text-2xl font-black mb-3 text-ktext dark:text-dktext">Built for the whole family</h2>
+        <p class="text-kmuted dark:text-dkmuted max-w-lg mx-auto leading-relaxed">
           Every child gets their own profile with a favourite colour. Track progress individually or as a family – Kids Bucket List grows with you.
         </p>
       </div>
     </section>
 
     <!-- Stats Feature Highlight -->
-    <section class="bg-sage/5 border-y border-sage/10 py-14">
+    <section class="bg-sage/5 dark:bg-sage-l/5 border-y border-sage/10 dark:border-sage-l/10 py-14">
       <div class="max-w-4xl mx-auto px-6 text-center">
         <div class="text-4xl mb-4">📊</div>
-        <h2 class="text-2xl font-black mb-3 text-ktext">Every memory counts</h2>
-        <p class="text-kmuted max-w-xl mx-auto leading-relaxed mb-8">
+        <h2 class="text-2xl font-black mb-3 text-ktext dark:text-dktext">Every memory counts</h2>
+        <p class="text-kmuted dark:text-dkmuted max-w-xl mx-auto leading-relaxed mb-8">
           Interactive charts show your family's progress: completed activities, favourite categories, ratings and streaks – all at a glance.
         </p>
-        <div class="flex flex-wrap justify-center gap-6 text-sm font-semibold text-sage">
+        <div class="flex flex-wrap justify-center gap-6 text-sm font-semibold text-sage dark:text-sage-l">
           <span>✓ Activities over time</span>
           <span>✓ Top categories</span>
           <span>✓ Average rating</span>
@@ -156,7 +172,7 @@
 
     <!-- Coming Soon Banner -->
     <section class="max-w-3xl mx-auto px-6 py-16 text-center">
-      <div class="bg-sage rounded-3xl p-10 shadow-lg">
+      <div class="bg-sage dark:bg-sage-d rounded-3xl p-10 shadow-lg">
         <div class="text-5xl mb-4">🍎</div>
         <h2 class="text-2xl font-black text-white mb-2">Coming Soon to the App Store</h2>
         <p class="text-white/80 text-base">
@@ -168,20 +184,33 @@
   </main>
 
   <!-- Footer -->
-  <footer class="bg-ksurf border-t border-sage/20 py-8 mt-4">
+  <footer class="bg-ksurf dark:bg-dksurf border-t border-sage/20 dark:border-sage-l/10 py-8 mt-4">
     <div class="max-w-4xl mx-auto px-6">
       <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-4">
-        <span class="font-black text-sage text-lg">Kids Bucket List</span>
+        <span class="font-black text-sage dark:text-sage-l text-lg">Kids Bucket List</span>
         <div class="flex flex-wrap gap-6 text-sm">
-          <a href="support-en.html" class="text-kmuted hover:text-sage transition font-semibold">Support</a>
-          <a href="privacy-en.html" class="text-kmuted hover:text-sage transition font-semibold">Privacy Policy</a>
-          <a href="impressum-en.html" class="text-kmuted hover:text-sage transition font-semibold">Legal Notice</a>
-          <a href="index.html" class="text-sage hover:text-sage-d transition font-semibold">🇩🇪 Deutsch</a>
+          <a href="support-en.html" class="text-kmuted dark:text-dkmuted hover:text-sage dark:hover:text-sage-l transition font-semibold">Support</a>
+          <a href="privacy-en.html" class="text-kmuted dark:text-dkmuted hover:text-sage dark:hover:text-sage-l transition font-semibold">Privacy Policy</a>
+          <a href="impressum-en.html" class="text-kmuted dark:text-dkmuted hover:text-sage dark:hover:text-sage-l transition font-semibold">Legal Notice</a>
+          <a href="index.html" class="text-sage dark:text-sage-l hover:text-sage-d transition font-semibold">🇩🇪 Deutsch</a>
         </div>
       </div>
-      <div class="text-center text-xs text-kmuted/60 mt-4">&copy; 2025 Peter Hildel. All rights reserved.</div>
+      <div class="text-center text-xs text-kmuted/60 dark:text-dkmuted/60 mt-4">&copy; 2025 Peter Hildel. All rights reserved.</div>
     </div>
   </footer>
+
+  <script>
+    const toggle = document.getElementById('theme-toggle');
+    function updateIcon() {
+      toggle.textContent = document.documentElement.classList.contains('dark') ? '☀️' : '🌙';
+    }
+    updateIcon();
+    toggle.addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+      updateIcon();
+    });
+  </script>
 
 </body>
 </html>

@@ -7,6 +7,7 @@
   <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           colors: {
@@ -17,45 +18,56 @@
             ksurf:   '#FCFEFB',
             ktext:   '#2D3B33',
             kmuted:  '#6B7F71',
+            dkbg:    '#161A17',
+            dksurf:  '#212723',
+            dktext:  '#E8F0EA',
+            dkmuted: '#8AAD91',
           },
-          fontFamily: {
-            nunito: ['Nunito', 'sans-serif'],
-          },
+          fontFamily: { nunito: ['Nunito', 'sans-serif'] },
         },
       },
     }
   </script>
+  <script>
+    (function() {
+      const saved = localStorage.getItem('theme');
+      if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 </head>
-<body class="min-h-screen bg-kbg text-ktext font-nunito flex flex-col">
+<body class="min-h-screen bg-kbg dark:bg-dkbg text-ktext dark:text-dktext font-nunito flex flex-col transition-colors duration-200">
 
-  <nav class="bg-ksurf/90 backdrop-blur-sm border-b border-sage/20 sticky top-0 z-50">
+  <nav class="bg-ksurf/90 dark:bg-dksurf/90 backdrop-blur-sm border-b border-sage/20 dark:border-sage-l/10 sticky top-0 z-50">
     <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-      <a href="index.html" class="text-xl font-black text-sage tracking-tight">Kids Bucket List</a>
-      <a href="privacy-en.html" class="text-kmuted hover:text-sage font-semibold transition text-sm">🇺🇸 English</a>
+      <a href="index.html" class="text-xl font-black text-sage dark:text-sage-l tracking-tight">Kids Bucket List</a>
+      <div class="flex items-center gap-4">
+        <button id="theme-toggle" aria-label="Dark Mode umschalten" class="text-kmuted dark:text-dkmuted hover:text-sage dark:hover:text-sage-l transition text-lg">🌙</button>
+        <a href="privacy-en.html" class="text-kmuted dark:text-dkmuted hover:text-sage dark:hover:text-sage-l font-semibold transition text-sm">🇺🇸 English</a>
+      </div>
     </div>
   </nav>
 
   <main class="max-w-3xl mx-auto px-6 py-12 flex-1">
-    <h1 class="text-4xl font-black text-ktext mb-2">Datenschutzerklärung</h1>
-    <p class="text-kmuted text-sm mb-10">Stand: April 2025</p>
+    <h1 class="text-4xl font-black text-ktext dark:text-dktext mb-2">Datenschutzerklärung</h1>
+    <p class="text-kmuted dark:text-dkmuted text-sm mb-10">Stand: April 2025</p>
 
-    <section class="bg-ksurf rounded-2xl p-6 mb-6 shadow-sm border border-sage/10">
-      <h2 class="text-xl font-bold mb-3 text-ktext">1. Verantwortlicher</h2>
-      <p class="text-kmuted leading-relaxed">
-        Peter Hildel<br>
-        Gustav-Adolf-Str. 19<br>
-        90513 Zirndorf, Deutschland<br>
-        E-Mail: <a href="mailto:peter@hildel.com" class="text-sage hover:underline">peter@hildel.com</a>
+    <section class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 mb-6 shadow-sm border border-sage/10 dark:border-sage-l/10">
+      <h2 class="text-xl font-bold mb-3 text-ktext dark:text-dktext">1. Verantwortlicher</h2>
+      <p class="text-kmuted dark:text-dkmuted leading-relaxed">
+        Peter Hildel<br>Gustav-Adolf-Str. 19<br>90513 Zirndorf, Deutschland<br>
+        E-Mail: <a href="mailto:peter@hildel.com" class="text-sage dark:text-sage-l hover:underline">peter@hildel.com</a>
       </p>
     </section>
 
-    <section class="bg-ksurf rounded-2xl p-6 mb-6 shadow-sm border border-sage/10">
-      <h2 class="text-xl font-bold mb-3 text-ktext">2. Daten in der App</h2>
-      <p class="text-kmuted leading-relaxed mb-3">
-        Die App Kids Bucket List speichert alle eingegebenen Daten (Aktivitäten, Kinderprofile, Kategorien, Bewertungen) ausschließlich lokal auf dem Gerät des Nutzers mittels SwiftData.
+    <section class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 mb-6 shadow-sm border border-sage/10 dark:border-sage-l/10">
+      <h2 class="text-xl font-bold mb-3 text-ktext dark:text-dktext">2. Daten in der App</h2>
+      <p class="text-kmuted dark:text-dkmuted leading-relaxed mb-3">
+        Die App Kids Bucket List speichert alle eingegebenen Daten ausschließlich lokal auf dem Gerät des Nutzers mittels SwiftData.
       </p>
-      <ul class="text-kmuted text-sm space-y-2 list-disc list-inside">
+      <ul class="text-kmuted dark:text-dkmuted text-sm space-y-2 list-disc list-inside">
         <li>Es werden keine Daten an externe Server übermittelt.</li>
         <li>Es wird kein Benutzerkonto benötigt.</li>
         <li>Es findet keine Cloud-Synchronisierung statt.</li>
@@ -64,54 +76,64 @@
       </ul>
     </section>
 
-    <section class="bg-ksurf rounded-2xl p-6 mb-6 shadow-sm border border-sage/10">
-      <h2 class="text-xl font-bold mb-3 text-ktext">3. Externe APIs</h2>
-      <p class="text-kmuted leading-relaxed mb-3">
+    <section class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 mb-6 shadow-sm border border-sage/10 dark:border-sage-l/10">
+      <h2 class="text-xl font-bold mb-3 text-ktext dark:text-dktext">3. Externe APIs</h2>
+      <p class="text-kmuted dark:text-dkmuted leading-relaxed mb-3">
         Für den optionalen Import von Aktivitäten können folgende externe Dienste abgefragt werden:
       </p>
-      <ul class="text-kmuted text-sm space-y-2 list-disc list-inside">
-        <li><strong class="text-ktext">Google Books API</strong> – für die Buchsuche</li>
-        <li><strong class="text-ktext">OMDb API</strong> – für die Film- und Seriensuche</li>
-        <li><strong class="text-ktext">IGDB API</strong> – für die Spielesuche</li>
+      <ul class="text-kmuted dark:text-dkmuted text-sm space-y-2 list-disc list-inside">
+        <li><strong class="text-ktext dark:text-dktext">Google Books API</strong> – für die Buchsuche</li>
+        <li><strong class="text-ktext dark:text-dktext">OMDb API</strong> – für die Film- und Seriensuche</li>
+        <li><strong class="text-ktext dark:text-dktext">IGDB API</strong> – für die Spielesuche</li>
       </ul>
-      <p class="text-kmuted text-sm mt-3 leading-relaxed">
-        Diese Abfragen erfolgen nur auf ausdrücklichen Wunsch des Nutzers (aktive Suche). Dabei werden ausschließlich die eingegebenen Suchbegriffe übermittelt. Es werden keine personenbezogenen Daten weitergegeben.
+      <p class="text-kmuted dark:text-dkmuted text-sm mt-3 leading-relaxed">
+        Diese Abfragen erfolgen nur auf ausdrücklichen Wunsch des Nutzers. Dabei werden ausschließlich die eingegebenen Suchbegriffe übermittelt. Es werden keine personenbezogenen Daten weitergegeben.
       </p>
     </section>
 
-    <section class="bg-ksurf rounded-2xl p-6 mb-6 shadow-sm border border-sage/10">
-      <h2 class="text-xl font-bold mb-3 text-ktext">4. Diese Website (GitHub Pages)</h2>
-      <p class="text-kmuted leading-relaxed">
-        Diese Landing Page wird über GitHub Pages (GitHub, Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA) gehostet. Beim Aufruf dieser Seite werden von GitHub automatisch Server-Logfiles erhoben, die u.a. die IP-Adresse des Besuchers enthalten können. Auf diese Daten haben wir keinen Einfluss. Weitere Informationen findest du in der <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer" class="text-sage hover:underline">Datenschutzerklärung von GitHub</a>.
+    <section class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 mb-6 shadow-sm border border-sage/10 dark:border-sage-l/10">
+      <h2 class="text-xl font-bold mb-3 text-ktext dark:text-dktext">4. Diese Website (GitHub Pages)</h2>
+      <p class="text-kmuted dark:text-dkmuted leading-relaxed">
+        Diese Landing Page wird über GitHub Pages gehostet. Beim Aufruf dieser Seite werden von GitHub automatisch Server-Logfiles erhoben, die u.a. die IP-Adresse des Besuchers enthalten können. Weitere Informationen findest du in der <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer" class="text-sage dark:text-sage-l hover:underline">Datenschutzerklärung von GitHub</a>.
       </p>
-      <p class="text-kmuted leading-relaxed mt-3">
+      <p class="text-kmuted dark:text-dkmuted leading-relaxed mt-3">
         Wir selbst setzen auf dieser Website keine Cookies, kein Tracking und keine Analysetools ein.
       </p>
     </section>
 
-    <section class="bg-ksurf rounded-2xl p-6 mb-6 shadow-sm border border-sage/10">
-      <h2 class="text-xl font-bold mb-3 text-ktext">5. Rechte der betroffenen Personen</h2>
-      <p class="text-kmuted leading-relaxed">
-        Da keine personenbezogenen Daten durch uns erhoben oder verarbeitet werden, bestehen keine gesondert geltend zu machenden Betroffenenrechte gegenüber uns. Bei Fragen wende dich jederzeit an <a href="mailto:peter@hildel.com" class="text-sage hover:underline">peter@hildel.com</a>.
+    <section class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 mb-6 shadow-sm border border-sage/10 dark:border-sage-l/10">
+      <h2 class="text-xl font-bold mb-3 text-ktext dark:text-dktext">5. Rechte der betroffenen Personen</h2>
+      <p class="text-kmuted dark:text-dkmuted leading-relaxed">
+        Da keine personenbezogenen Daten durch uns erhoben oder verarbeitet werden, bestehen keine gesondert geltend zu machenden Betroffenenrechte gegenüber uns. Bei Fragen wende dich an <a href="mailto:peter@hildel.com" class="text-sage dark:text-sage-l hover:underline">peter@hildel.com</a>.
       </p>
     </section>
 
     <div class="text-center mt-8">
-      <a href="index.html" class="inline-block px-8 py-3 rounded-full bg-sage text-white font-bold shadow hover:bg-sage-d transition">Zurück zur Startseite</a>
+      <a href="index.html" class="inline-block px-8 py-3 rounded-full bg-sage dark:bg-sage-d text-white font-bold shadow hover:bg-sage-d transition">Zurück zur Startseite</a>
     </div>
   </main>
 
-  <footer class="bg-ksurf border-t border-sage/20 py-8 mt-4">
+  <footer class="bg-ksurf dark:bg-dksurf border-t border-sage/20 dark:border-sage-l/10 py-8 mt-4">
     <div class="max-w-4xl mx-auto px-6">
       <div class="flex flex-wrap gap-6 text-sm justify-center mb-4">
-        <a href="support.html" class="text-kmuted hover:text-sage transition font-semibold">Support</a>
-        <a href="privacy.html" class="text-kmuted hover:text-sage transition font-semibold">Datenschutz</a>
-        <a href="impressum.html" class="text-kmuted hover:text-sage transition font-semibold">Impressum</a>
-        <a href="privacy-en.html" class="text-sage hover:text-sage-d transition font-semibold">🇺🇸 English</a>
+        <a href="support.html" class="text-kmuted dark:text-dkmuted hover:text-sage dark:hover:text-sage-l transition font-semibold">Support</a>
+        <a href="privacy.html" class="text-kmuted dark:text-dkmuted hover:text-sage dark:hover:text-sage-l transition font-semibold">Datenschutz</a>
+        <a href="impressum.html" class="text-kmuted dark:text-dkmuted hover:text-sage dark:hover:text-sage-l transition font-semibold">Impressum</a>
+        <a href="privacy-en.html" class="text-sage dark:text-sage-l hover:text-sage-d transition font-semibold">🇺🇸 English</a>
       </div>
-      <div class="text-center text-xs text-kmuted/60">&copy; 2025 Peter Hildel. Alle Rechte vorbehalten.</div>
+      <div class="text-center text-xs text-kmuted/60 dark:text-dkmuted/60">&copy; 2025 Peter Hildel. Alle Rechte vorbehalten.</div>
     </div>
   </footer>
 
+  <script>
+    const toggle = document.getElementById('theme-toggle');
+    function updateIcon() { toggle.textContent = document.documentElement.classList.contains('dark') ? '☀️' : '🌙'; }
+    updateIcon();
+    toggle.addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+      updateIcon();
+    });
+  </script>
 </body>
 </html>
