@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support | Kids Bucket List</title>
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sage:    '#6E8F73',
+            'sage-l':'#9CC1A2',
+            'sage-d':'#4C8A63',
+            kbg:     '#F4F6F1',
+            ksurf:   '#FCFEFB',
+            ktext:   '#2D3B33',
+            kmuted:  '#6B7F71',
+          },
+          fontFamily: {
+            nunito: ['Nunito', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-kbg text-ktext font-nunito flex flex-col">
+
+  <nav class="bg-ksurf/90 backdrop-blur-sm border-b border-sage/20 sticky top-0 z-50">
+    <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="index.html" class="text-xl font-black text-sage tracking-tight">Kids Bucket List</a>
+      <a href="support-en.html" class="text-kmuted hover:text-sage font-semibold transition text-sm">🇺🇸 English</a>
+    </div>
+  </nav>
+
+  <main class="max-w-3xl mx-auto px-6 py-12 flex-1">
+    <h1 class="text-4xl font-black text-ktext mb-2">Support</h1>
+    <p class="text-kmuted mb-10">Wir helfen dir gerne weiter.</p>
+
+    <!-- Kontakt -->
+    <section class="bg-ksurf rounded-2xl p-6 mb-6 shadow-sm border border-sage/10">
+      <h2 class="text-xl font-bold mb-3 flex items-center gap-2 text-ktext">📧 Kontakt</h2>
+      <p class="text-kmuted leading-relaxed">
+        Du hast eine Frage, einen Fehler entdeckt oder einen Verbesserungsvorschlag?<br>
+        Schreib uns einfach:
+      </p>
+      <a href="mailto:peter@hildel.com" class="inline-block mt-4 font-bold text-sage hover:text-sage-d underline underline-offset-2 transition">peter@hildel.com</a>
+    </section>
+
+    <!-- FAQ -->
+    <section class="bg-ksurf rounded-2xl p-6 mb-6 shadow-sm border border-sage/10">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 text-ktext">❓ Häufige Fragen</h2>
+
+      <div class="space-y-5">
+        <div>
+          <h3 class="font-bold text-ktext mb-1">Wo werden meine Daten gespeichert?</h3>
+          <p class="text-kmuted text-sm leading-relaxed">Alle Daten werden ausschließlich lokal auf deinem Gerät gespeichert. Es gibt keinen Server, kein Konto und keine Cloud-Synchronisierung. Deine Familie bleibt privat.</p>
+        </div>
+        <div>
+          <h3 class="font-bold text-ktext mb-1">Brauche ich ein Konto?</h3>
+          <p class="text-kmuted text-sm leading-relaxed">Nein. Kids Bucket List funktioniert ohne Registrierung oder Login – einfach installieren und loslegen.</p>
+        </div>
+        <div>
+          <h3 class="font-bold text-ktext mb-1">Wann erscheint die App?</h3>
+          <p class="text-kmuted text-sm leading-relaxed">Die App befindet sich aktuell in der Entwicklung. Der Release im App Store ist für bald geplant. Schreib uns, wenn du als Erster informiert werden möchtest.</p>
+        </div>
+        <div>
+          <h3 class="font-bold text-ktext mb-1">Für welche Geräte ist die App verfügbar?</h3>
+          <p class="text-kmuted text-sm leading-relaxed">Kids Bucket List erscheint für iPhone und iPad mit iOS/iPadOS.</p>
+        </div>
+        <div>
+          <h3 class="font-bold text-ktext mb-1">Kann ich eigene Kategorien erstellen?</h3>
+          <p class="text-kmuted text-sm leading-relaxed">Ja! Neben den 13 vordefinierten Kategorien kannst du jederzeit eigene erstellen und mit Farbe und Icon personalisieren.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="text-center mt-8">
+      <a href="index.html" class="inline-block px-8 py-3 rounded-full bg-sage text-white font-bold shadow hover:bg-sage-d transition">Zurück zur Startseite</a>
+    </div>
+  </main>
+
+  <footer class="bg-ksurf border-t border-sage/20 py-8 mt-4">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="flex flex-wrap gap-6 text-sm justify-center mb-4">
+        <a href="support.html" class="text-kmuted hover:text-sage transition font-semibold">Support</a>
+        <a href="privacy.html" class="text-kmuted hover:text-sage transition font-semibold">Datenschutz</a>
+        <a href="impressum.html" class="text-kmuted hover:text-sage transition font-semibold">Impressum</a>
+        <a href="support-en.html" class="text-sage hover:text-sage-d transition font-semibold">🇺🇸 English</a>
+      </div>
+      <div class="text-center text-xs text-kmuted/60">&copy; 2025 Peter Hildel. Alle Rechte vorbehalten.</div>
+    </div>
+  </footer>
+
+</body>
+</html>

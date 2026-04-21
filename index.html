@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kids Bucket List – Abenteuer für die ganze Familie</title>
+  <meta name="description" content="Kids Bucket List – die iOS-App für Familien. Gemeinsame Aktivitäten planen, tracken und unvergessliche Erinnerungen sammeln. Bald im App Store.">
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sage:    '#6E8F73',
+            'sage-l':'#9CC1A2',
+            'sage-d':'#4C8A63',
+            kbg:     '#F4F6F1',
+            ksurf:   '#FCFEFB',
+            ktext:   '#2D3B33',
+            kmuted:  '#6B7F71',
+          },
+          fontFamily: {
+            nunito: ['Nunito', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-kbg text-ktext font-nunito flex flex-col">
+
+  <!-- Navigation -->
+  <nav class="bg-ksurf/90 backdrop-blur-sm border-b border-sage/20 sticky top-0 z-50">
+    <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+      <span class="text-xl font-black text-sage tracking-tight">Kids Bucket List</span>
+      <a href="index-en.html" class="text-kmuted hover:text-sage font-semibold transition text-sm">🇺🇸 English</a>
+    </div>
+  </nav>
+
+  <main class="flex-1">
+
+    <!-- Hero Section -->
+    <section class="max-w-3xl mx-auto px-6 py-16 text-center">
+      <img src="app-icon.png" alt="Kids Bucket List App Icon" class="w-32 h-32 mx-auto mb-6 rounded-3xl shadow-xl" />
+      <div class="inline-block bg-sage text-white text-sm font-bold px-4 py-1.5 rounded-full mb-6 tracking-wide">
+        ✨ Demnächst im App Store
+      </div>
+      <h1 class="text-4xl md:text-5xl font-black text-ktext leading-tight mb-4">
+        Abenteuer erleben.<br>
+        <span class="text-sage">Erinnerungen sammeln.</span>
+      </h1>
+      <p class="text-lg text-kmuted max-w-xl mx-auto leading-relaxed">
+        Die Familien-App für unvergessliche Momente. Plant gemeinsam Aktivitäten, trackt eure Abenteuer und schaut zurück auf alles, was ihr zusammen erlebt habt.
+      </p>
+    </section>
+
+    <!-- Feature Cards -->
+    <section class="max-w-5xl mx-auto px-6 pb-16">
+      <h2 class="text-2xl font-black text-center mb-10 text-ktext">Was Kids Bucket List kann</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+        <div class="bg-ksurf rounded-2xl p-6 shadow-sm border border-sage/10 hover:shadow-md transition">
+          <div class="text-3xl mb-3">📋</div>
+          <h3 class="text-lg font-bold mb-2 text-ktext">Bucket List</h3>
+          <p class="text-kmuted text-sm leading-relaxed">Erstellt Aktivitäten, die ihr unbedingt zusammen erleben wollt – und hakt sie gemeinsam ab.</p>
+        </div>
+
+        <div class="bg-ksurf rounded-2xl p-6 shadow-sm border border-sage/10 hover:shadow-md transition">
+          <div class="text-3xl mb-3">👨‍👩‍👧‍👦</div>
+          <h3 class="text-lg font-bold mb-2 text-ktext">Mehrere Kinder</h3>
+          <p class="text-kmuted text-sm leading-relaxed">Profile für jedes Kind mit eigener Farbe – behaltet den Überblick für die ganze Familie.</p>
+        </div>
+
+        <div class="bg-ksurf rounded-2xl p-6 shadow-sm border border-sage/10 hover:shadow-md transition">
+          <div class="text-3xl mb-3">🗂️</div>
+          <h3 class="text-lg font-bold mb-2 text-ktext">13+ Kategorien</h3>
+          <p class="text-kmuted text-sm leading-relaxed">Von Filmen über Ausflüge bis Basteln – für jedes Abenteuer die passende Kategorie.</p>
+        </div>
+
+        <div class="bg-ksurf rounded-2xl p-6 shadow-sm border border-sage/10 hover:shadow-md transition">
+          <div class="text-3xl mb-3">📊</div>
+          <h3 class="text-lg font-bold mb-2 text-ktext">Statistiken</h3>
+          <p class="text-kmuted text-sm leading-relaxed">Schaut zurück: wie viele Abenteuer habt ihr erlebt? Charts, Streaks und Top-Kategorien.</p>
+        </div>
+
+        <div class="bg-ksurf rounded-2xl p-6 shadow-sm border border-sage/10 hover:shadow-md transition">
+          <div class="text-3xl mb-3">⭐</div>
+          <h3 class="text-lg font-bold mb-2 text-ktext">Bewertungen</h3>
+          <p class="text-kmuted text-sm leading-relaxed">Wie hat es euch gefallen? Sterne oder Emoji-Wertung – auch für die Kleinsten.</p>
+        </div>
+
+        <div class="bg-ksurf rounded-2xl p-6 shadow-sm border border-sage/10 hover:shadow-md transition">
+          <div class="text-3xl mb-3">🎬</div>
+          <h3 class="text-lg font-bold mb-2 text-ktext">Externe Quellen</h3>
+          <p class="text-kmuted text-sm leading-relaxed">Filme, Bücher und Spiele direkt importieren – nie mehr vergessen, was als nächstes dran ist.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Categories Showcase -->
+    <section class="bg-ksurf border-y border-sage/10 py-14">
+      <div class="max-w-4xl mx-auto px-6">
+        <h2 class="text-2xl font-black text-center mb-3 text-ktext">Für jedes Abenteuer die passende Kategorie</h2>
+        <p class="text-center text-kmuted mb-10 text-sm">13 vorgefertigte Kategorien – plus eigene erstellen</p>
+        <div class="flex flex-wrap gap-3 justify-center">
+          <span class="bg-kbg border border-sage/20 text-ktext font-semibold text-sm px-4 py-2 rounded-full">🎬 Filme &amp; Serien</span>
+          <span class="bg-kbg border border-sage/20 text-ktext font-semibold text-sm px-4 py-2 rounded-full">📚 Bücher &amp; Lesen</span>
+          <span class="bg-kbg border border-sage/20 text-ktext font-semibold text-sm px-4 py-2 rounded-full">🎮 Gaming &amp; Brettspiele</span>
+          <span class="bg-kbg border border-sage/20 text-ktext font-semibold text-sm px-4 py-2 rounded-full">🏃 Ausflüge</span>
+          <span class="bg-kbg border border-sage/20 text-ktext font-semibold text-sm px-4 py-2 rounded-full">🛝 Spielplätze &amp; Abenteuer</span>
+          <span class="bg-kbg border border-sage/20 text-ktext font-semibold text-sm px-4 py-2 rounded-full">🌿 Natur &amp; Tiere</span>
+          <span class="bg-kbg border border-sage/20 text-ktext font-semibold text-sm px-4 py-2 rounded-full">🎨 Kreativ &amp; Basteln</span>
+          <span class="bg-kbg border border-sage/20 text-ktext font-semibold text-sm px-4 py-2 rounded-full">⚽ Sport &amp; Bewegung</span>
+          <span class="bg-kbg border border-sage/20 text-ktext font-semibold text-sm px-4 py-2 rounded-full">🏠 Zuhause erleben</span>
+          <span class="bg-kbg border border-sage/20 text-ktext font-semibold text-sm px-4 py-2 rounded-full">🎉 Feste &amp; Jahreszeiten</span>
+          <span class="bg-kbg border border-sage/20 text-ktext font-semibold text-sm px-4 py-2 rounded-full">👪 Familientraditionen</span>
+          <span class="bg-kbg border border-sage/20 text-ktext font-semibold text-sm px-4 py-2 rounded-full">🔬 Lernen &amp; Entdecken</span>
+          <span class="bg-kbg border border-sage/20 text-ktext font-semibold text-sm px-4 py-2 rounded-full">✈️ Reisen &amp; Orte</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Family Section -->
+    <section class="max-w-4xl mx-auto px-6 py-16">
+      <div class="bg-ksurf rounded-3xl p-10 text-center shadow-sm border border-sage/10">
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="w-10 h-10 rounded-full bg-red-300 inline-block shadow-sm"></span>
+          <span class="w-10 h-10 rounded-full bg-blue-300 inline-block shadow-sm"></span>
+          <span class="w-10 h-10 rounded-full bg-yellow-300 inline-block shadow-sm"></span>
+        </div>
+        <h2 class="text-2xl font-black mb-3 text-ktext">Für die ganze Familie</h2>
+        <p class="text-kmuted max-w-lg mx-auto leading-relaxed">
+          Jedes Kind bekommt sein eigenes Profil mit einer Lieblingsfarbe. Schaut den Fortschritt einzeln oder als Familie – Kids Bucket List wächst mit euch.
+        </p>
+      </div>
+    </section>
+
+    <!-- Stats Feature Highlight -->
+    <section class="bg-sage/5 border-y border-sage/10 py-14">
+      <div class="max-w-4xl mx-auto px-6 text-center">
+        <div class="text-4xl mb-4">📊</div>
+        <h2 class="text-2xl font-black mb-3 text-ktext">Jede Erinnerung zählt</h2>
+        <p class="text-kmuted max-w-xl mx-auto leading-relaxed mb-8">
+          Interaktive Charts zeigen euren Familienfortschritt: Abgeschlossene Aktivitäten, Lieblingskategorien, Bewertungen und Streaks – alles auf einen Blick.
+        </p>
+        <div class="flex flex-wrap justify-center gap-6 text-sm font-semibold text-sage">
+          <span>✓ Aktivitäten über Zeit</span>
+          <span>✓ Top-Kategorien</span>
+          <span>✓ Durchschnittsbewertung</span>
+          <span>✓ Aktuelle Streaks</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Coming Soon Banner -->
+    <section class="max-w-3xl mx-auto px-6 py-16 text-center">
+      <div class="bg-sage rounded-3xl p-10 shadow-lg">
+        <div class="text-5xl mb-4">🍎</div>
+        <h2 class="text-2xl font-black text-white mb-2">Bald im App Store</h2>
+        <p class="text-white/80 text-base">
+          Kids Bucket List erscheint bald für iPhone und iPad.<br>Bleibt gespannt!
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-ksurf border-t border-sage/20 py-8 mt-4">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-4">
+        <span class="font-black text-sage text-lg">Kids Bucket List</span>
+        <div class="flex flex-wrap gap-6 text-sm">
+          <a href="support.html" class="text-kmuted hover:text-sage transition font-semibold">Support</a>
+          <a href="privacy.html" class="text-kmuted hover:text-sage transition font-semibold">Datenschutz</a>
+          <a href="impressum.html" class="text-kmuted hover:text-sage transition font-semibold">Impressum</a>
+          <a href="index-en.html" class="text-sage hover:text-sage-d transition font-semibold">🇺🇸 English</a>
+        </div>
+      </div>
+      <div class="text-center text-xs text-kmuted/60 mt-4">&copy; 2025 Peter Hildel. Alle Rechte vorbehalten.</div>
+    </div>
+  </footer>
+
+</body>
+</html>
