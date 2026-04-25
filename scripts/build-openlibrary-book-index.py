@@ -75,13 +75,15 @@ def key_tail(key: Optional[str]) -> Optional[str]:
     return key.rsplit("/", 1)[-1]
 
 
-def load_authors(path: Optional[Path]) -> dict[str, str]:
+def load_authors(path: Optional[Path], allowed_keys: set[str]) -> dict[str, str]:
     if path is None:
         return {}
 
     authors: dict[str, str] = {}
     for record in iter_dump_json(path):
         key = clean(record.get("key"))
+        if key not in allowed_keys:
+            continue
         name = clean(record.get("name"))
         if key and name:
             authors[key] = name
@@ -98,10 +100,19 @@ def language_codes(record: dict[str, Any]) -> list[str]:
     return values
 
 
-def author_names(record: dict[str, Any], authors: dict[str, str]) -> list[str]:
+def author_keys(record: dict[str, Any]) -> list[str]:
     values = []
     for author in record.get("authors") or []:
         key = author.get("key") if isinstance(author, dict) else None
+        cleaned_key = clean(key)
+        if cleaned_key:
+            values.append(cleaned_key)
+    return values[:4]
+
+
+def author_names(record: dict[str, Any], authors: dict[str, str]) -> list[str]:
+    values = []
+    for key in author_keys(record):
         name = authors.get(key or "")
         if name:
             values.append(name)
@@ -146,7 +157,7 @@ def make_record(record: dict[str, Any], authors: dict[str, str]) -> dict[str, An
         "open_library_key": work_key or edition_key,
         "title": clean(record.get("title")) or "Untitled Book",
         "subtitle": clean(record.get("subtitle")),
-        "authors": ", ".join(author_names(record, authors)),
+        "authors": ", ".join(author_names(record, authors)) or ", ".join(author_keys(record)),
         "published_date": clean(record.get("publish_date")),
         "language_code": next(iter(language_codes(record)), None),
         "subjects": ", ".join(subjects(record)),
@@ -234,9 +245,9 @@ def sha256_file(path: Path) -> str:
 
 
 def build_index(args: argparse.Namespace) -> None:
-    authors = load_authors(args.authors_dump)
     allowed_languages = set(args.languages)
     seen_ids: set[str] = set()
+    needed_author_keys: set[str] = set()
     record_count = 0
 
     args.database_output.parent.mkdir(parents=True, exist_ok=True)
@@ -252,7 +263,9 @@ def build_index(args: argparse.Namespace) -> None:
                 if not looks_family_relevant(dump_record, allowed_languages):
                     continue
 
-                record = make_record(dump_record, authors)
+                keys = author_keys(dump_record)
+                needed_author_keys.update(keys)
+                record = make_record(dump_record, {})
                 record_id = record["id"]
                 if record_id in seen_ids:
                     continue
@@ -263,6 +276,19 @@ def build_index(args: argparse.Namespace) -> None:
 
                 if record_count >= args.limit:
                     break
+
+        authors = load_authors(args.authors_dump, needed_author_keys)
+        if authors:
+            with connection:
+                for book_id, author_value in connection.execute("SELECT id, authors FROM books"):
+                    keys = [value.strip() for value in (author_value or "").split(",") if value.strip()]
+                    names = [authors[key] for key in keys if key in authors]
+                    if names:
+                        connection.execute(
+                            "UPDATE books SET authors = ? WHERE id = ?",
+                            (", ".join(names), book_id),
+                        )
+            connection.execute("INSERT INTO books_fts(books_fts) VALUES ('rebuild');")
 
         connection.execute("INSERT INTO books_fts(books_fts) VALUES ('optimize');")
         connection.commit()
@@ -294,7 +320,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--manifest-output", type=Path, default=Path("data/books/manifest.json"))
     parser.add_argument("--database-url", default="https://v4ulthunt3r.github.io/KidsBucketList/data/books/books.sqlite")
     parser.add_argument("--version", default=datetime.now(timezone.utc).strftime("%Y-%m"))
-    parser.add_argument("--limit", type=int, default=250000)
+    parser.add_argument("--limit", type=int, default=220000)
     parser.add_argument("--languages", nargs="+", default=sorted(DEFAULT_LANGUAGES))
     return parser.parse_args()
 

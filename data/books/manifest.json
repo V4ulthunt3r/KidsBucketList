@@ -1,8 +1,8 @@
 {
   "databaseURL": "https://v4ulthunt3r.github.io/KidsBucketList/data/books/books.sqlite",
-  "generatedAt": "2026-04-25T20:34:24.992011+00:00",
-  "recordCount": 3,
-  "sha256": "0e90b4cf16a9156f9de5329130b6e6574c35cab8f4ee804ca4f9de88f0f41f72",
+  "generatedAt": "2026-04-25T21:28:31.106104+00:00",
+  "recordCount": 220000,
+  "sha256": "a113433a64143d2f1eadc23f96689ba67dc77fb5bdf8561fcb5b6db6e64e380f",
   "source": "OpenLibrary monthly dump",
-  "version": "2026-04"
+  "version": "2026-03-31"
 }

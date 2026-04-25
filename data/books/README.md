@@ -14,7 +14,7 @@ python3 scripts/build-openlibrary-book-index.py \
   --manifest-output data/books/manifest.json \
   --database-url https://v4ulthunt3r.github.io/KidsBucketList/data/books/books.sqlite \
   --version 2026-04 \
-  --limit 250000
+  --limit 220000
 ```
 
 Source dumps: https://openlibrary.org/developers/dumps
