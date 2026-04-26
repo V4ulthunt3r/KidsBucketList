@@ -296,11 +296,15 @@ def build_index(args: argparse.Namespace) -> None:
     finally:
         connection.close()
 
+    database_url = args.database_url
+    if database_url is None:
+        database_url = f"{args.base_url.rstrip('/')}/{args.database_output.name}"
+
     manifest = {
         "version": args.version,
         "generatedAt": datetime.now(timezone.utc).isoformat(),
         "source": "OpenLibrary monthly dump",
-        "databaseURL": args.database_url,
+        "databaseURL": database_url,
         "sha256": sha256_file(args.database_output),
         "recordCount": record_count,
     }
@@ -318,7 +322,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--authors-dump", type=Path)
     parser.add_argument("--database-output", type=Path, default=Path("data/books/books.sqlite"))
     parser.add_argument("--manifest-output", type=Path, default=Path("data/books/manifest.json"))
-    parser.add_argument("--database-url", default="https://v4ulthunt3r.github.io/KidsBucketList/data/books/books.sqlite")
+    parser.add_argument("--base-url", default="https://v4ulthunt3r.github.io/KidsBucketList/data/books")
+    parser.add_argument("--database-url")
     parser.add_argument("--version", default=datetime.now(timezone.utc).strftime("%Y-%m"))
     parser.add_argument("--limit", type=int, default=220000)
     parser.add_argument("--languages", nargs="+", default=sorted(DEFAULT_LANGUAGES))
