@@ -1,8 +1,18 @@
 {
-  "databaseURL": "https://v4ulthunt3r.github.io/KidsBucketList/data/books/books-2026-03-31.sqlite",
-  "generatedAt": "2026-04-25T21:28:31.106104+00:00",
-  "recordCount": 220000,
-  "sha256": "a113433a64143d2f1eadc23f96689ba67dc77fb5bdf8561fcb5b6db6e64e380f",
+  "databaseURL": "https://github.com/V4ulthunt3r/KidsBucketList/releases/download/books-2026-03-31-large/books-2026-03-31-large.sqlite",
+  "familyOnly": false,
+  "fileSize": 463675392,
+  "generatedAt": "2026-04-26T13:58:24.424732+00:00",
+  "languages": [
+    "de",
+    "deu",
+    "en",
+    "eng",
+    "ger"
+  ],
+  "recordCount": 1000000,
+  "scannedRecordCount": 1587950,
+  "sha256": "fcc85425fc0be94c70a1003b1f4105622005db61ef9a292ad4445c26c0ae7272",
   "source": "OpenLibrary monthly dump",
-  "version": "2026-03-31"
+  "version": "2026-03-31-large"
 }

@@ -36,6 +36,19 @@ DEFAULT_SUBJECT_HINTS = (
     "read-aloud",
 )
 
+DEFAULT_QUALITY_SUBJECT_HINTS = DEFAULT_SUBJECT_HINTS + (
+    "fiction",
+    "fantasy",
+    "novel",
+    "romance",
+    "adventure",
+    "mystery",
+    "science fiction",
+    "history",
+    "biography",
+    "classics",
+)
+
 
 def open_text(path: Path):
     if path.suffix == ".gz":
@@ -123,20 +136,59 @@ def subjects(record: dict[str, Any]) -> list[str]:
     return clean_list(record.get("subjects"), limit=8)
 
 
-def looks_family_relevant(record: dict[str, Any], allowed_languages: set[str]) -> bool:
+def is_allowed_language(record: dict[str, Any], allowed_languages: set[str], include_unknown_language: bool) -> bool:
+    codes = language_codes(record)
+    if not codes:
+        return include_unknown_language
+
+    return any(code in allowed_languages for code in codes)
+
+
+def looks_catalog_relevant(
+    record: dict[str, Any],
+    allowed_languages: set[str],
+    include_unknown_language: bool,
+    family_only: bool,
+) -> bool:
     title = clean(record.get("title"))
     if title is None:
         return False
 
-    codes = language_codes(record)
-    if codes and not any(code in allowed_languages for code in codes):
+    if not is_allowed_language(record, allowed_languages, include_unknown_language):
         return False
+
+    if not family_only:
+        return True
 
     subject_text = " ".join(subjects(record)).lower()
     if subject_text:
         return any(hint in subject_text for hint in DEFAULT_SUBJECT_HINTS)
 
     return bool(clean_list(record.get("isbn_10")) or clean_list(record.get("isbn_13")))
+
+
+def quality_score(record: dict[str, Any], allowed_languages: set[str]) -> int:
+    score = 0
+    if is_allowed_language(record, allowed_languages, include_unknown_language=False):
+        score += 8
+    if clean_list(record.get("isbn_13")):
+        score += 6
+    if clean_list(record.get("isbn_10")):
+        score += 4
+    if isinstance(record.get("covers"), list) and record.get("covers"):
+        score += 4
+    if author_keys(record):
+        score += 3
+    if clean(record.get("publish_date")):
+        score += 2
+    if record.get("number_of_pages"):
+        score += 1
+
+    subject_text = " ".join(subjects(record)).lower()
+    if any(hint in subject_text for hint in DEFAULT_QUALITY_SUBJECT_HINTS):
+        score += 3
+
+    return score
 
 
 def make_record(record: dict[str, Any], authors: dict[str, str]) -> dict[str, Any]:
@@ -148,7 +200,7 @@ def make_record(record: dict[str, Any], authors: dict[str, str]) -> dict[str, An
             work_key = clean(first_work.get("key"))
 
     edition_key = clean(record.get("key"))
-    record_id = key_tail(work_key) or key_tail(edition_key) or clean(record.get("title")) or "unknown"
+    record_id = key_tail(edition_key) or key_tail(work_key) or clean(record.get("title")) or "unknown"
     cover_values = record.get("covers")
     cover_id = cover_values[0] if isinstance(cover_values, list) and cover_values else None
 
@@ -246,9 +298,9 @@ def sha256_file(path: Path) -> str:
 
 def build_index(args: argparse.Namespace) -> None:
     allowed_languages = set(args.languages)
-    seen_ids: set[str] = set()
+    records_by_id: dict[str, tuple[int, dict[str, Any]]] = {}
     needed_author_keys: set[str] = set()
-    record_count = 0
+    scanned_count = 0
 
     args.database_output.parent.mkdir(parents=True, exist_ok=True)
     args.manifest_output.parent.mkdir(parents=True, exist_ok=True)
@@ -258,24 +310,36 @@ def build_index(args: argparse.Namespace) -> None:
     connection = sqlite3.connect(args.database_output)
     try:
         create_schema(connection)
+        for dump_record in iter_dump_json(args.editions_dump):
+            scanned_count += 1
+            if not looks_catalog_relevant(
+                dump_record,
+                allowed_languages,
+                args.include_unknown_language,
+                args.family_only,
+            ):
+                continue
+
+            keys = author_keys(dump_record)
+            needed_author_keys.update(keys)
+            record = make_record(dump_record, {})
+            record_id = record["id"]
+            score = quality_score(dump_record, allowed_languages)
+
+            current = records_by_id.get(record_id)
+            if current is None or score > current[0]:
+                records_by_id[record_id] = (score, record)
+
+            if len(records_by_id) >= args.limit:
+                break
+
         with connection:
-            for dump_record in iter_dump_json(args.editions_dump):
-                if not looks_family_relevant(dump_record, allowed_languages):
-                    continue
-
-                keys = author_keys(dump_record)
-                needed_author_keys.update(keys)
-                record = make_record(dump_record, {})
-                record_id = record["id"]
-                if record_id in seen_ids:
-                    continue
-
-                seen_ids.add(record_id)
+            for _, record in sorted(
+                records_by_id.values(),
+                key=lambda item: (item[0], item[1]["title"].casefold()),
+                reverse=True,
+            ):
                 insert_record(connection, record)
-                record_count += 1
-
-                if record_count >= args.limit:
-                    break
 
         authors = load_authors(args.authors_dump, needed_author_keys)
         if authors:
@@ -300,13 +364,19 @@ def build_index(args: argparse.Namespace) -> None:
     if database_url is None:
         database_url = f"{args.base_url.rstrip('/')}/{args.database_output.name}"
 
+    file_size = args.database_output.stat().st_size
+    record_count = len(records_by_id)
     manifest = {
         "version": args.version,
         "generatedAt": datetime.now(timezone.utc).isoformat(),
         "source": "OpenLibrary monthly dump",
         "databaseURL": database_url,
         "sha256": sha256_file(args.database_output),
+        "fileSize": file_size,
         "recordCount": record_count,
+        "scannedRecordCount": scanned_count,
+        "languages": sorted(allowed_languages),
+        "familyOnly": args.family_only,
     }
     args.manifest_output.write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
@@ -325,8 +395,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--base-url", default="https://v4ulthunt3r.github.io/KidsBucketList/data/books")
     parser.add_argument("--database-url")
     parser.add_argument("--version", default=datetime.now(timezone.utc).strftime("%Y-%m"))
-    parser.add_argument("--limit", type=int, default=220000)
+    parser.add_argument("--limit", type=int, default=1000000)
     parser.add_argument("--languages", nargs="+", default=sorted(DEFAULT_LANGUAGES))
+    parser.add_argument("--include-unknown-language", action="store_true")
+    parser.add_argument("--family-only", action="store_true")
     return parser.parse_args()
 
 
