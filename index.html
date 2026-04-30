@@ -3,179 +3,543 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kids Bucket List – Abenteuer für die ganze Familie</title>
-  <meta name="description" content="Kids Bucket List – die iOS-App für Familien. Gemeinsame Aktivitäten planen, tracken und unvergessliche Erinnerungen sammeln. Bald im App Store.">
-  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  <title>Kids Bucket List – Memories we create together</title>
+  <meta name="description" content="Kids Bucket List – die iOS-App für Familien. Gemeinsam Abenteuer planen, Erinnerungen festhalten und unvergessliche Momente tracken. Bald im App Store.">
+  <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
-          colors: {
-            sage:    '#6E8F73',
-            'sage-l':'#9CC1A2',
-            'sage-d':'#4C8A63',
-            kbg:     '#F4F6F1',
-            ksurf:   '#FCFEFB',
-            ktext:   '#2D3B33',
-            kmuted:  '#6B7F71',
-            dkbg:    '#161A17',
-            dksurf:  '#212723',
-            dktext:  '#E8F0EA',
-            dkmuted: '#8AAD91',
-          },
-          fontFamily: {
-            nunito: ['Nunito', 'sans-serif'],
-          },
+          fontFamily: { nunito: ['Nunito', 'sans-serif'] },
+          borderRadius: { app: '18px', 'app-sm': '14px', 'app-lg': '24px' },
+          transitionDuration: { app: '180ms', 'app-slow': '240ms' },
         },
       },
     }
   </script>
+  <style>
+    /* ── App Design Tokens ── */
+    :root {
+      --accent:        #6E8F73;
+      --accent-soft:   #E4EEE4;
+      --surface:       #FCFEFB;
+      --surf-muted:    #EAF0E7;
+      --surf-strong:   #DCE7D9;
+      --bg:            #F4F6F1;
+      --stroke:        #DBE3D9;
+      --text-pri:      #1E241F;
+      --text-sec:      #667066;
+      --text-ter:      #879086;
+      --success:       #4C8A63;
+      --success-soft:  #DFF0E6;
+      --warning:       #C08A41;
+    }
+    .dark {
+      --accent:        #9CC1A2;
+      --accent-soft:   #334238;
+      --surface:       #212723;
+      --surf-muted:    #283029;
+      --surf-strong:   #313A32;
+      --bg:            #161A17;
+      --stroke:        #343D35;
+      --text-pri:      #EEF4EE;
+      --text-sec:      #AAB6AB;
+      --text-ter:      #8C978D;
+      --success:       #86BE97;
+      --success-soft:  #1E3327;
+      --warning:       #E0B271;
+    }
+
+    body { background: var(--bg); color: var(--text-pri); transition: background 200ms, color 200ms; }
+
+    /* ── Core Components ── */
+    .app-card {
+      background: var(--surface);
+      border: 1px solid var(--stroke);
+      border-radius: 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .dark .app-card { box-shadow: 0 4px 12px rgba(0,0,0,0.14); }
+
+    .app-card-muted {
+      background: var(--surf-muted);
+      border: 1px solid var(--stroke);
+      border-radius: 18px;
+    }
+
+    .category-icon {
+      width: 46px; height: 46px;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; flex-shrink: 0;
+    }
+
+    .app-chip {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: var(--surf-muted);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 11px; font-weight: 600;
+      color: var(--text-sec);
+      white-space: nowrap;
+    }
+
+    .stat-tile {
+      background: var(--surface);
+      border: 1px solid var(--stroke);
+      border-radius: 14px;
+      padding: 10px 16px;
+      text-align: center;
+    }
+
+    .section-title { font-size: 1.2rem; font-weight: 700; color: var(--text-pri); }
+    .section-sub   { font-size: 0.875rem; color: var(--text-sec); margin-top: 2px; }
+
+    .divider { height: 0.5px; background: var(--stroke); }
+
+    /* ── Activity Row ── */
+    .activity-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 0;
+    }
+    .check-done {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--success);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .check-open {
+      width: 22px; height: 22px; border-radius: 50%;
+      border: 2px solid var(--stroke);
+      flex-shrink: 0;
+    }
+
+    /* ── Progress Ring ── */
+    .progress-ring-bg { stroke: var(--surf-muted); }
+    .progress-ring-fg { stroke: url(#ringGrad); stroke-linecap: round; transition: stroke-dashoffset 1s ease; }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--accent); color: white;
+      border-radius: 14px; padding: 15px 28px;
+      font-weight: 700; font-size: 1rem;
+      min-height: 52px; border: none; cursor: pointer;
+      transition: transform 180ms, opacity 180ms;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12);
+    }
+    .btn-primary:hover  { opacity: 0.9; }
+    .btn-primary:active { transform: scale(0.985); }
+
+    /* ── Feature icon badge ── */
+    .feature-icon-wrap {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--accent-soft);
+      font-size: 26px; flex-shrink: 0;
+      margin-bottom: 16px;
+    }
+  </style>
   <script>
     (function() {
-      const saved = localStorage.getItem('theme');
-      if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      const s = localStorage.getItem('theme');
+      if (s === 'dark' || (!s && matchMedia('(prefers-color-scheme: dark)').matches))
         document.documentElement.classList.add('dark');
-      }
     })();
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 </head>
-<body class="min-h-screen bg-kbg dark:bg-dkbg text-ktext dark:text-dktext font-nunito flex flex-col transition-colors duration-200">
+<body class="font-nunito flex flex-col min-h-screen">
 
-  <!-- Navigation -->
-  <nav class="bg-ksurf/90 dark:bg-dksurf/90 backdrop-blur-sm border-b border-sage/20 dark:border-sage-l/10 sticky top-0 z-50">
+  <!-- ── Navigation ── -->
+  <nav style="background:var(--surface);border-bottom:1px solid var(--stroke);" class="sticky top-0 z-50 backdrop-blur-sm">
     <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-      <span class="text-xl font-black text-sage tracking-tight">Kids Bucket List</span>
+      <span class="text-xl font-black tracking-tight" style="color:var(--accent)">Kids Bucket List</span>
       <div class="flex items-center gap-4">
-        <button id="theme-toggle" aria-label="Dark Mode umschalten" class="text-kmuted dark:text-dkmuted hover:text-sage dark:hover:text-sage-l transition text-lg">🌙</button>
-        <a href="index-en.html" class="text-kmuted dark:text-dkmuted hover:text-sage dark:hover:text-sage-l font-semibold transition text-sm">🇺🇸 English</a>
+        <button id="theme-toggle" class="text-lg transition-opacity hover:opacity-70" style="color:var(--text-sec)" aria-label="Dark Mode">🌙</button>
+        <a href="index-en.html" class="text-sm font-semibold hover:opacity-70 transition-opacity" style="color:var(--text-sec)">🇺🇸 English</a>
       </div>
     </div>
   </nav>
 
   <main class="flex-1">
 
-    <!-- Hero Section -->
-    <section class="max-w-3xl mx-auto px-6 py-16 text-center">
-      <img src="app-icon.png" alt="Kids Bucket List App Icon" class="w-32 h-32 mx-auto mb-6 rounded-3xl shadow-xl" />
-      <div class="inline-block bg-sage text-white text-sm font-bold px-4 py-1.5 rounded-full mb-6 tracking-wide">
+    <!-- ── Hero ── -->
+    <section class="max-w-3xl mx-auto px-6 pt-16 pb-10 text-center">
+      <!-- Icon with gradient card -->
+      <div class="flex justify-center mb-8">
+        <div style="background:linear-gradient(160deg,var(--accent-soft) 0%,var(--surface) 100%);border:1px solid var(--stroke);border-radius:28px;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,0.06);">
+          <img src="app-icon.png" alt="Kids Bucket List" class="w-24 h-24 rounded-2xl shadow-lg block"/>
+        </div>
+      </div>
+
+      <div class="inline-flex items-center gap-2 mb-5 px-4 py-1.5 rounded-full text-sm font-bold text-white" style="background:var(--accent)">
         ✨ Demnächst im App Store
       </div>
-      <h1 class="text-4xl md:text-5xl font-black text-ktext dark:text-dktext leading-tight mb-4">
-        Abenteuer erleben.<br>
-        <span class="text-sage dark:text-sage-l">Erinnerungen sammeln.</span>
+
+      <h1 class="text-4xl md:text-5xl font-black leading-tight mb-4" style="color:var(--text-pri)">
+        Memories we create<br>
+        <span style="color:var(--accent)">together.</span>
       </h1>
-      <p class="text-lg text-kmuted dark:text-dkmuted max-w-xl mx-auto leading-relaxed">
-        Die Familien-App für unvergessliche Momente. Plant gemeinsam Aktivitäten, trackt eure Abenteuer und schaut zurück auf alles, was ihr zusammen erlebt habt.
+      <p class="text-lg max-w-xl mx-auto leading-relaxed" style="color:var(--text-sec)">
+        Plant gemeinsam Abenteuer, haltet Erinnerungen fest und schaut zurück auf alles, was ihr als Familie erlebt habt.
       </p>
     </section>
 
-    <!-- Feature Cards -->
-    <section class="max-w-5xl mx-auto px-6 pb-16">
-      <h2 class="text-2xl font-black text-center mb-10 text-ktext dark:text-dktext">Was Kids Bucket List kann</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+    <!-- ── App Preview Mockup ── -->
+    <section class="max-w-4xl mx-auto px-6 pb-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 
-        <div class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 shadow-sm border border-sage/10 dark:border-sage-l/10 hover:shadow-md transition">
-          <div class="text-3xl mb-3">📋</div>
-          <h3 class="text-lg font-bold mb-2 text-ktext dark:text-dktext">Bucket List</h3>
-          <p class="text-kmuted dark:text-dkmuted text-sm leading-relaxed">Erstellt Aktivitäten, die ihr unbedingt zusammen erleben wollt – und hakt sie gemeinsam ab.</p>
+        <!-- Home Card Mockup -->
+        <div style="background:linear-gradient(160deg,var(--accent-soft) 0%,var(--surface) 100%);border:1px solid var(--stroke);border-radius:18px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+          <p class="text-xs font-bold uppercase tracking-wider mb-3" style="color:var(--accent)">Familienüberblick</p>
+          <div class="flex items-end justify-between mb-5">
+            <div>
+              <p class="font-black leading-none mb-1" style="font-size:3rem;color:var(--text-pri);font-variant-numeric:tabular-nums">7</p>
+              <p class="text-sm font-semibold" style="color:var(--text-sec)">von 18 Abenteuern</p>
+            </div>
+            <div class="flex gap-2">
+              <div class="stat-tile">
+                <p class="text-xs font-bold uppercase tracking-wide mb-1" style="color:var(--text-ter)">Offen</p>
+                <p class="text-2xl font-black" style="color:var(--warning);font-variant-numeric:tabular-nums">11</p>
+              </div>
+              <div class="stat-tile">
+                <p class="text-xs font-bold uppercase tracking-wide mb-1" style="color:var(--text-ter)">Fertig</p>
+                <p class="text-2xl font-black" style="color:var(--success);font-variant-numeric:tabular-nums">7</p>
+              </div>
+            </div>
+          </div>
+          <!-- Quick Actions -->
+          <div class="grid grid-cols-2 gap-2">
+            <div class="app-card p-3 flex items-center gap-3" style="min-height:56px;">
+              <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm" style="background:var(--accent)">＋</div>
+              <span class="text-sm font-semibold" style="color:var(--text-pri)">Aktivität</span>
+            </div>
+            <div class="app-card p-3 flex items-center gap-3" style="min-height:56px;">
+              <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm" style="background:var(--accent)">👤</div>
+              <span class="text-sm font-semibold" style="color:var(--text-pri)">Kind hinzu</span>
+            </div>
+          </div>
         </div>
 
-        <div class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 shadow-sm border border-sage/10 dark:border-sage-l/10 hover:shadow-md transition">
-          <div class="text-3xl mb-3">👨‍👩‍👧‍👦</div>
-          <h3 class="text-lg font-bold mb-2 text-ktext dark:text-dktext">Mehrere Kinder</h3>
-          <p class="text-kmuted dark:text-dkmuted text-sm leading-relaxed">Profile für jedes Kind mit eigener Farbe – behaltet den Überblick für die ganze Familie.</p>
-        </div>
+        <!-- Activity List Mockup -->
+        <div class="app-card p-4 flex flex-col justify-between">
+          <p class="text-xs font-bold uppercase tracking-wider mb-3" style="color:var(--text-ter)">Bucket List</p>
 
-        <div class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 shadow-sm border border-sage/10 dark:border-sage-l/10 hover:shadow-md transition">
-          <div class="text-3xl mb-3">🗂️</div>
-          <h3 class="text-lg font-bold mb-2 text-ktext dark:text-dktext">13+ Kategorien</h3>
-          <p class="text-kmuted dark:text-dkmuted text-sm leading-relaxed">Von Filmen über Ausflüge bis Basteln – für jedes Abenteuer die passende Kategorie.</p>
-        </div>
+          <!-- Row 1: completed -->
+          <div class="activity-row">
+            <div class="check-done">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-semibold line-through truncate" style="color:var(--text-ter)">Picknick im Park</p>
+              <div class="flex gap-1.5 mt-1 flex-wrap">
+                <span class="app-chip" style="background:rgba(77,143,138,0.15);color:#3D7D78">🌿 Natur</span>
+                <span class="app-chip">Emma</span>
+              </div>
+            </div>
+            <span class="text-sm" style="color:var(--warning)">★★★★★</span>
+          </div>
 
-        <div class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 shadow-sm border border-sage/10 dark:border-sage-l/10 hover:shadow-md transition">
-          <div class="text-3xl mb-3">📊</div>
-          <h3 class="text-lg font-bold mb-2 text-ktext dark:text-dktext">Statistiken</h3>
-          <p class="text-kmuted dark:text-dkmuted text-sm leading-relaxed">Schaut zurück: wie viele Abenteuer habt ihr erlebt? Charts, Streaks und Top-Kategorien.</p>
-        </div>
+          <div class="divider"></div>
 
-        <div class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 shadow-sm border border-sage/10 dark:border-sage-l/10 hover:shadow-md transition">
-          <div class="text-3xl mb-3">⭐</div>
-          <h3 class="text-lg font-bold mb-2 text-ktext dark:text-dktext">Bewertungen</h3>
-          <p class="text-kmuted dark:text-dkmuted text-sm leading-relaxed">Wie hat es euch gefallen? Sterne oder Emoji-Wertung – auch für die Kleinsten.</p>
-        </div>
+          <!-- Row 2: open -->
+          <div class="activity-row">
+            <div class="check-open"></div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-semibold truncate" style="color:var(--text-pri)">Besuch im Zoo</p>
+              <div class="flex gap-1.5 mt-1 flex-wrap">
+                <span class="app-chip" style="background:rgba(77,143,138,0.15);color:#3D7D78">🌿 Natur</span>
+                <span class="app-chip">Luca & Emma</span>
+              </div>
+            </div>
+          </div>
 
-        <div class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 shadow-sm border border-sage/10 dark:border-sage-l/10 hover:shadow-md transition">
-          <div class="text-3xl mb-3">🎬</div>
-          <h3 class="text-lg font-bold mb-2 text-ktext dark:text-dktext">Externe Quellen</h3>
-          <p class="text-kmuted dark:text-dkmuted text-sm leading-relaxed">Filme, Bücher und Spiele direkt importieren – nie mehr vergessen, was als nächstes dran ist.</p>
+          <div class="divider"></div>
+
+          <!-- Row 3: open -->
+          <div class="activity-row">
+            <div class="check-open"></div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-semibold truncate" style="color:var(--text-pri)">Harry Potter lesen</p>
+              <div class="flex gap-1.5 mt-1 flex-wrap">
+                <span class="app-chip" style="background:rgba(94,130,177,0.15);color:#3D6199">📚 Bücher</span>
+                <span class="app-chip">Mia</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- Row 4: completed -->
+          <div class="activity-row">
+            <div class="check-done">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-semibold line-through truncate" style="color:var(--text-ter)">Kino-Abend Zuhause</p>
+              <div class="flex gap-1.5 mt-1 flex-wrap">
+                <span class="app-chip" style="background:rgba(185,119,139,0.15);color:#8B4A61">🍿 Filme</span>
+                <span class="app-chip">Familie</span>
+              </div>
+            </div>
+            <span class="text-sm" style="color:var(--warning)">★★★★☆</span>
+          </div>
         </div>
 
       </div>
     </section>
 
-    <!-- Categories Showcase -->
-    <section class="bg-ksurf dark:bg-dksurf border-y border-sage/10 dark:border-sage-l/10 py-14">
+    <!-- ── Features Grid ── -->
+    <section style="background:var(--surf-muted);border-top:1px solid var(--stroke);border-bottom:1px solid var(--stroke);" class="py-14">
+      <div class="max-w-5xl mx-auto px-6">
+        <div class="text-center mb-10">
+          <h2 class="text-2xl font-black" style="color:var(--text-pri)">Alles, was eure Familie braucht</h2>
+          <p class="text-sm mt-1" style="color:var(--text-sec)">Durchdacht. Persönlich. Für jeden.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+          <div class="app-card p-6">
+            <div class="feature-icon-wrap">📋</div>
+            <h3 class="text-base font-bold mb-1.5" style="color:var(--text-pri)">Familien-Bucket-List</h3>
+            <p class="text-sm leading-relaxed" style="color:var(--text-sec)">Aktivitäten anlegen, Kindern zuweisen und gemeinsam abhaken – von Abenteuern bis Traditionen.</p>
+          </div>
+
+          <div class="app-card p-6">
+            <div class="feature-icon-wrap">💭</div>
+            <h3 class="text-base font-bold mb-1.5" style="color:var(--text-pri)">Erinnerungen festhalten</h3>
+            <p class="text-sm leading-relaxed" style="color:var(--text-sec)">Datum, Notiz und Bewertung beim Abschließen – eine kleine Erinnerung für später.</p>
+          </div>
+
+          <div class="app-card p-6">
+            <div class="feature-icon-wrap">👨‍👩‍👧‍👦</div>
+            <h3 class="text-base font-bold mb-1.5" style="color:var(--text-pri)">Profile für jedes Kind</h3>
+            <p class="text-sm leading-relaxed" style="color:var(--text-sec)">Eigene Profile mit Lieblingsfarbe – Aktivitäten einzeln oder für die ganze Familie tracken.</p>
+          </div>
+
+          <div class="app-card p-6">
+            <div class="feature-icon-wrap">🗂️</div>
+            <h3 class="text-base font-bold mb-1.5" style="color:var(--text-pri)">13 spezialisierte Kategorien</h3>
+            <p class="text-sm leading-relaxed" style="color:var(--text-sec)">Jede Kategorie hat ihre eigene Erfahrung – Bücher direkt suchen, Filme tracken, Ausflüge planen.</p>
+          </div>
+
+          <div class="app-card p-6">
+            <div class="feature-icon-wrap">📍</div>
+            <h3 class="text-base font-bold mb-1.5" style="color:var(--text-pri)">Entdeckt in der Nähe</h3>
+            <p class="text-sm leading-relaxed" style="color:var(--text-sec)">Spielplätze und Ausflugsziele ganz in eurer Nähe finden – für den nächsten spontanen Ausflug.</p>
+          </div>
+
+          <div class="app-card p-6">
+            <div class="feature-icon-wrap">📊</div>
+            <h3 class="text-base font-bold mb-1.5" style="color:var(--text-pri)">Statistiken &amp; Streaks</h3>
+            <p class="text-sm leading-relaxed" style="color:var(--text-sec)">Charts, Streaks, Top-Kategorien und smarte Empfehlungen – Fortschritt auf einen Blick.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Categories ── -->
+    <section class="max-w-5xl mx-auto px-6 py-14">
+      <div class="text-center mb-10">
+        <h2 class="text-2xl font-black" style="color:var(--text-pri)">Für jedes Abenteuer die passende Kategorie</h2>
+        <p class="text-sm mt-1" style="color:var(--text-sec)">13 spezialisierte Kategorien – plus eigene erstellen</p>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+
+        <div class="app-card p-4 flex flex-col items-center justify-center text-center gap-2">
+          <div class="category-icon" style="background:rgba(185,119,139,0.16)">🍿</div>
+          <span class="text-xs font-semibold leading-tight" style="color:var(--text-pri)">Filme &amp; Serien</span>
+        </div>
+        <div class="app-card p-4 flex flex-col items-center justify-center text-center gap-2">
+          <div class="category-icon" style="background:rgba(94,130,177,0.16)">📚</div>
+          <span class="text-xs font-semibold leading-tight" style="color:var(--text-pri)">Bücher &amp; Lesen</span>
+        </div>
+        <div class="app-card p-4 flex flex-col items-center justify-center text-center gap-2">
+          <div class="category-icon" style="background:rgba(109,120,183,0.16)">🎮</div>
+          <span class="text-xs font-semibold leading-tight" style="color:var(--text-pri)">Gaming &amp; Brettspiele</span>
+        </div>
+        <div class="app-card p-4 flex flex-col items-center justify-center text-center gap-2">
+          <div class="category-icon" style="background:rgba(77,143,138,0.16)">🗺️</div>
+          <span class="text-xs font-semibold leading-tight" style="color:var(--text-pri)">Ausflüge</span>
+        </div>
+        <div class="app-card p-4 flex flex-col items-center justify-center text-center gap-2">
+          <div class="category-icon" style="background:rgba(192,113,99,0.16)">🛝</div>
+          <span class="text-xs font-semibold leading-tight" style="color:var(--text-pri)">Spielplätze &amp; Abenteuer</span>
+        </div>
+        <div class="app-card p-4 flex flex-col items-center justify-center text-center gap-2">
+          <div class="category-icon" style="background:rgba(110,143,115,0.16)">🌿</div>
+          <span class="text-xs font-semibold leading-tight" style="color:var(--text-pri)">Natur &amp; Tiere</span>
+        </div>
+        <div class="app-card p-4 flex flex-col items-center justify-center text-center gap-2">
+          <div class="category-icon" style="background:rgba(138,144,80,0.16)">🎨</div>
+          <span class="text-xs font-semibold leading-tight" style="color:var(--text-pri)">Kreativ &amp; Basteln</span>
+        </div>
+        <div class="app-card p-4 flex flex-col items-center justify-center text-center gap-2">
+          <div class="category-icon" style="background:rgba(184,136,69,0.16)">⚽</div>
+          <span class="text-xs font-semibold leading-tight" style="color:var(--text-pri)">Sport &amp; Bewegung</span>
+        </div>
+        <div class="app-card p-4 flex flex-col items-center justify-center text-center gap-2">
+          <div class="category-icon" style="background:rgba(110,143,115,0.16)">🏠</div>
+          <span class="text-xs font-semibold leading-tight" style="color:var(--text-pri)">Zuhause erleben</span>
+        </div>
+        <div class="app-card p-4 flex flex-col items-center justify-center text-center gap-2">
+          <div class="category-icon" style="background:rgba(185,119,139,0.16)">🎉</div>
+          <span class="text-xs font-semibold leading-tight" style="color:var(--text-pri)">Feste &amp; Jahreszeiten</span>
+        </div>
+        <div class="app-card p-4 flex flex-col items-center justify-center text-center gap-2">
+          <div class="category-icon" style="background:rgba(94,130,177,0.16)">👨‍👩‍👧</div>
+          <span class="text-xs font-semibold leading-tight" style="color:var(--text-pri)">Familientraditionen</span>
+        </div>
+        <div class="app-card p-4 flex flex-col items-center justify-center text-center gap-2">
+          <div class="category-icon" style="background:rgba(109,120,183,0.16)">🔍</div>
+          <span class="text-xs font-semibold leading-tight" style="color:var(--text-pri)">Lernen &amp; Entdecken</span>
+        </div>
+        <div class="app-card p-4 flex flex-col items-center justify-center text-center gap-2">
+          <div class="category-icon" style="background:rgba(77,143,138,0.16)">✈️</div>
+          <span class="text-xs font-semibold leading-tight" style="color:var(--text-pri)">Reisen &amp; Orte</span>
+        </div>
+        <!-- Custom -->
+        <div class="app-card-muted p-4 flex flex-col items-center justify-center text-center gap-2" style="border-style:dashed;">
+          <div class="category-icon" style="background:var(--surf-strong)">＋</div>
+          <span class="text-xs font-semibold leading-tight" style="color:var(--text-ter)">Eigene erstellen</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Memory Capture ── -->
+    <section style="background:var(--surf-muted);border-top:1px solid var(--stroke);border-bottom:1px solid var(--stroke);" class="py-14">
       <div class="max-w-4xl mx-auto px-6">
-        <h2 class="text-2xl font-black text-center mb-3 text-ktext dark:text-dktext">Für jedes Abenteuer die passende Kategorie</h2>
-        <p class="text-center text-kmuted dark:text-dkmuted mb-10 text-sm">13 vorgefertigte Kategorien – plus eigene erstellen</p>
-        <div class="flex flex-wrap gap-3 justify-center">
-          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">🎬 Filme &amp; Serien</span>
-          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">📚 Bücher &amp; Lesen</span>
-          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">🎮 Gaming &amp; Brettspiele</span>
-          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">🏃 Ausflüge</span>
-          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">🛝 Spielplätze &amp; Abenteuer</span>
-          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">🌿 Natur &amp; Tiere</span>
-          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">🎨 Kreativ &amp; Basteln</span>
-          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">⚽ Sport &amp; Bewegung</span>
-          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">🏠 Zuhause erleben</span>
-          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">🎉 Feste &amp; Jahreszeiten</span>
-          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">👪 Familientraditionen</span>
-          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">🔬 Lernen &amp; Entdecken</span>
-          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">✈️ Reisen &amp; Orte</span>
+        <div class="app-card p-8 md:p-10 flex flex-col md:flex-row items-center gap-8" style="background:linear-gradient(150deg,var(--accent-soft) 0%,var(--surface) 70%)">
+          <div class="text-5xl shrink-0">💭</div>
+          <div>
+            <p class="text-xs font-bold uppercase tracking-wider mb-1" style="color:var(--accent)">Erinnerungen</p>
+            <h2 class="text-2xl font-black mb-3" style="color:var(--text-pri)">Jeder Moment bleibt erhalten</h2>
+            <p class="text-sm leading-relaxed mb-5" style="color:var(--text-sec)">
+              Wenn ihr eine Aktivität abschließt, könnt ihr genau festhalten wann es war, wie es euch gefallen hat – und eine kleine Notiz hinterlassen, die ihr später wieder lesen könnt.
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span class="app-chip" style="background:var(--accent-soft);color:var(--accent)">📅 Datum erfassen</span>
+              <span class="app-chip" style="background:var(--accent-soft);color:var(--accent)">✍️ Notiz hinterlassen</span>
+              <span class="app-chip" style="background:var(--accent-soft);color:var(--accent)">⭐ Bewerten</span>
+              <span class="app-chip" style="background:var(--accent-soft);color:var(--accent)">🤩 Oder per Emoji</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Family Section -->
-    <section class="max-w-4xl mx-auto px-6 py-16">
-      <div class="bg-ksurf dark:bg-dksurf rounded-3xl p-10 text-center shadow-sm border border-sage/10 dark:border-sage-l/10">
-        <div class="flex justify-center gap-3 mb-6">
-          <span class="w-10 h-10 rounded-full bg-red-300 dark:bg-red-400/70 inline-block shadow-sm"></span>
-          <span class="w-10 h-10 rounded-full bg-blue-300 dark:bg-blue-400/70 inline-block shadow-sm"></span>
-          <span class="w-10 h-10 rounded-full bg-yellow-300 dark:bg-yellow-400/70 inline-block shadow-sm"></span>
+    <!-- ── Stats Preview ── -->
+    <section class="max-w-5xl mx-auto px-6 py-14">
+      <div class="text-center mb-10">
+        <h2 class="text-2xl font-black" style="color:var(--text-pri)">Jede Erinnerung zählt</h2>
+        <p class="text-sm mt-1" style="color:var(--text-sec)">Fortschritt, Streaks und Empfehlungen – alles auf einen Blick</p>
+      </div>
+
+      <div class="app-card p-6 md:p-8">
+        <div class="flex flex-col md:flex-row items-center gap-8">
+
+          <!-- Circular Progress -->
+          <div class="flex flex-col items-center gap-4 shrink-0">
+            <div class="relative">
+              <svg width="140" height="140" viewBox="0 0 140 140" style="transform:rotate(-90deg)">
+                <defs>
+                  <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%"   stop-color="#4C8A63"/>
+                    <stop offset="40%"  stop-color="#6E8F73"/>
+                    <stop offset="80%"  stop-color="#C08A41"/>
+                    <stop offset="100%" stop-color="#4C8A63"/>
+                  </linearGradient>
+                </defs>
+                <!-- Background ring -->
+                <circle cx="70" cy="70" r="56" fill="none" class="progress-ring-bg" stroke-width="14"/>
+                <!-- Progress arc: 75% = dashoffset 352*(1-0.75)=88 -->
+                <circle cx="70" cy="70" r="56" fill="none" class="progress-ring-fg" stroke-width="14"
+                  stroke-dasharray="351.86" stroke-dashoffset="88"/>
+              </svg>
+              <!-- Center label -->
+              <div class="absolute inset-0 flex flex-col items-center justify-center" style="transform:rotate(90deg)">
+                <span class="text-2xl font-black" style="color:var(--text-pri);font-variant-numeric:tabular-nums">75%</span>
+                <span class="text-xs font-semibold" style="color:var(--text-sec)">Abgeschlossen</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stat tiles grid -->
+          <div class="flex-1 w-full">
+            <div class="grid grid-cols-2 gap-3 mb-4">
+              <div class="stat-tile">
+                <p class="text-xs font-bold uppercase tracking-wide mb-1" style="color:var(--text-ter)">Abgeschlossen</p>
+                <p class="text-3xl font-black" style="color:var(--success);font-variant-numeric:tabular-nums">24</p>
+              </div>
+              <div class="stat-tile">
+                <p class="text-xs font-bold uppercase tracking-wide mb-1" style="color:var(--text-ter)">Offen</p>
+                <p class="text-3xl font-black" style="color:var(--warning);font-variant-numeric:tabular-nums">8</p>
+              </div>
+              <div class="stat-tile">
+                <p class="text-xs font-bold uppercase tracking-wide mb-1" style="color:var(--text-ter)">Ø Bewertung</p>
+                <p class="text-3xl font-black" style="color:var(--accent);font-variant-numeric:tabular-nums">4.3</p>
+              </div>
+              <div class="stat-tile">
+                <p class="text-xs font-bold uppercase tracking-wide mb-1" style="color:var(--text-ter)">Streak</p>
+                <p class="text-3xl font-black" style="color:var(--text-pri);font-variant-numeric:tabular-nums">🔥 6</p>
+              </div>
+            </div>
+            <!-- Feature list -->
+            <div class="flex flex-wrap gap-2">
+              <span class="app-chip" style="background:var(--success-soft);color:var(--success)">✓ Aktivitäten über Zeit</span>
+              <span class="app-chip" style="background:var(--success-soft);color:var(--success)">✓ Top-Kategorien</span>
+              <span class="app-chip" style="background:var(--success-soft);color:var(--success)">✓ Smarte Empfehlungen</span>
+            </div>
+          </div>
+
         </div>
-        <h2 class="text-2xl font-black mb-3 text-ktext dark:text-dktext">Für die ganze Familie</h2>
-        <p class="text-kmuted dark:text-dkmuted max-w-lg mx-auto leading-relaxed">
-          Jedes Kind bekommt sein eigenes Profil mit einer Lieblingsfarbe. Schaut den Fortschritt einzeln oder als Familie – Kids Bucket List wächst mit euch.
-        </p>
       </div>
     </section>
 
-    <!-- Stats Feature Highlight -->
-    <section class="bg-sage/5 dark:bg-sage-l/5 border-y border-sage/10 dark:border-sage-l/10 py-14">
-      <div class="max-w-4xl mx-auto px-6 text-center">
-        <div class="text-4xl mb-4">📊</div>
-        <h2 class="text-2xl font-black mb-3 text-ktext dark:text-dktext">Jede Erinnerung zählt</h2>
-        <p class="text-kmuted dark:text-dkmuted max-w-xl mx-auto leading-relaxed mb-8">
-          Interaktive Charts zeigen euren Familienfortschritt: Abgeschlossene Aktivitäten, Lieblingskategorien, Bewertungen und Streaks – alles auf einen Blick.
-        </p>
-        <div class="flex flex-wrap justify-center gap-6 text-sm font-semibold text-sage dark:text-sage-l">
-          <span>✓ Aktivitäten über Zeit</span>
-          <span>✓ Top-Kategorien</span>
-          <span>✓ Durchschnittsbewertung</span>
-          <span>✓ Aktuelle Streaks</span>
+    <!-- ── Family + Themes ── -->
+    <section style="background:var(--surf-muted);border-top:1px solid var(--stroke);border-bottom:1px solid var(--stroke);" class="py-14">
+      <div class="max-w-4xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+          <!-- Family -->
+          <div class="app-card p-6">
+            <div class="flex gap-2.5 mb-5">
+              <span class="w-9 h-9 rounded-full inline-block shadow-sm" style="background:#E97B7B"></span>
+              <span class="w-9 h-9 rounded-full inline-block shadow-sm" style="background:#6DA4CC"></span>
+              <span class="w-9 h-9 rounded-full inline-block shadow-sm" style="background:#E4C06A"></span>
+              <span class="w-9 h-9 rounded-full inline-block shadow-sm" style="background:#9E7FCC"></span>
+            </div>
+            <p class="text-xs font-bold uppercase tracking-wider mb-1" style="color:var(--accent)">Familie</p>
+            <h3 class="text-lg font-black mb-2" style="color:var(--text-pri)">Für die ganze Familie</h3>
+            <p class="text-sm leading-relaxed" style="color:var(--text-sec)">Jedes Kind bekommt ein eigenes Profil mit Lieblingsfarbe. Zwischen Familienübersicht und Einzelansicht wechseln – ein Blick, alles klar.</p>
+          </div>
+
+          <!-- Themes -->
+          <div class="app-card p-6">
+            <div class="flex gap-2.5 mb-5">
+              <span class="w-9 h-9 rounded-full inline-block shadow-sm" style="background:#6E8F73" title="Sage"></span>
+              <span class="w-9 h-9 rounded-full inline-block shadow-sm" style="background:#5B83B7" title="Sky"></span>
+              <span class="w-9 h-9 rounded-full inline-block shadow-sm" style="background:#B97186" title="Rose"></span>
+              <span class="w-9 h-9 rounded-full inline-block shadow-sm" style="background:#6C7A94" title="Graphite"></span>
+            </div>
+            <p class="text-xs font-bold uppercase tracking-wider mb-1" style="color:var(--accent)">Design</p>
+            <h3 class="text-lg font-black mb-2" style="color:var(--text-pri)">4 Farbthemen</h3>
+            <p class="text-sm leading-relaxed" style="color:var(--text-sec)">Sage, Sky, Rose oder Graphite – passt die App an euren Geschmack an. Hell- und Dunkel-Modus inklusive.</p>
+          </div>
+
         </div>
       </div>
     </section>
 
-    <!-- Coming Soon Banner -->
+    <!-- ── Coming Soon ── -->
     <section class="max-w-3xl mx-auto px-6 py-16 text-center">
-      <div class="bg-sage dark:bg-sage-d rounded-3xl p-10 shadow-lg">
+      <div class="rounded-3xl p-10 shadow-lg text-white" style="background:var(--accent)">
         <div class="text-5xl mb-4">🍎</div>
-        <h2 class="text-2xl font-black text-white mb-2">Bald im App Store</h2>
-        <p class="text-white/80 text-base">
+        <h2 class="text-2xl font-black mb-2">Bald im App Store</h2>
+        <p style="color:rgba(255,255,255,0.8)" class="text-base">
           Kids Bucket List erscheint bald für iPhone und iPad.<br>Bleibt gespannt!
         </p>
       </div>
@@ -183,27 +547,25 @@
 
   </main>
 
-  <!-- Footer -->
-  <footer class="bg-ksurf dark:bg-dksurf border-t border-sage/20 dark:border-sage-l/10 py-8 mt-4">
+  <!-- ── Footer ── -->
+  <footer style="background:var(--surface);border-top:1px solid var(--stroke);" class="py-8">
     <div class="max-w-4xl mx-auto px-6">
       <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-4">
-        <span class="font-black text-sage dark:text-sage-l text-lg">Kids Bucket List</span>
+        <span class="font-black text-lg" style="color:var(--accent)">Kids Bucket List</span>
         <div class="flex flex-wrap gap-6 text-sm">
-          <a href="support.html" class="text-kmuted dark:text-dkmuted hover:text-sage dark:hover:text-sage-l transition font-semibold">Support</a>
-          <a href="privacy.html" class="text-kmuted dark:text-dkmuted hover:text-sage dark:hover:text-sage-l transition font-semibold">Datenschutz</a>
-          <a href="impressum.html" class="text-kmuted dark:text-dkmuted hover:text-sage dark:hover:text-sage-l transition font-semibold">Impressum</a>
-          <a href="index-en.html" class="text-sage dark:text-sage-l hover:text-sage-d transition font-semibold">🇺🇸 English</a>
+          <a href="support.html"   class="font-semibold hover:opacity-70 transition-opacity" style="color:var(--text-sec)">Support</a>
+          <a href="privacy.html"   class="font-semibold hover:opacity-70 transition-opacity" style="color:var(--text-sec)">Datenschutz</a>
+          <a href="impressum.html" class="font-semibold hover:opacity-70 transition-opacity" style="color:var(--text-sec)">Impressum</a>
+          <a href="index-en.html"  class="font-semibold hover:opacity-70 transition-opacity" style="color:var(--accent)">🇺🇸 English</a>
         </div>
       </div>
-      <div class="text-center text-xs text-kmuted/60 dark:text-dkmuted/60 mt-4">&copy; 2025 Peter Hildel. Alle Rechte vorbehalten.</div>
+      <p class="text-center text-xs" style="color:var(--text-ter)">&copy; 2026 Peter Hildel. Alle Rechte vorbehalten.</p>
     </div>
   </footer>
 
   <script>
     const toggle = document.getElementById('theme-toggle');
-    function updateIcon() {
-      toggle.textContent = document.documentElement.classList.contains('dark') ? '☀️' : '🌙';
-    }
+    function updateIcon() { toggle.textContent = document.documentElement.classList.contains('dark') ? '☀️' : '🌙'; }
     updateIcon();
     toggle.addEventListener('click', () => {
       document.documentElement.classList.toggle('dark');

@@ -3,179 +3,496 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kids Bucket List – Adventures for the Whole Family</title>
-  <meta name="description" content="Kids Bucket List – the iOS app for families. Plan activities together, track your adventures and collect unforgettable memories. Coming soon to the App Store.">
-  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  <title>Kids Bucket List – Memories we create together</title>
+  <meta name="description" content="Kids Bucket List – the iOS app for families. Plan adventures together, capture memories and track unforgettable moments. Coming soon to the App Store.">
+  <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
-          colors: {
-            sage:    '#6E8F73',
-            'sage-l':'#9CC1A2',
-            'sage-d':'#4C8A63',
-            kbg:     '#F4F6F1',
-            ksurf:   '#FCFEFB',
-            ktext:   '#2D3B33',
-            kmuted:  '#6B7F71',
-            dkbg:    '#161A17',
-            dksurf:  '#212723',
-            dktext:  '#E8F0EA',
-            dkmuted: '#8AAD91',
-          },
-          fontFamily: {
-            nunito: ['Nunito', 'sans-serif'],
-          },
+          fontFamily: { nunito: ['Nunito', 'sans-serif'] },
         },
       },
     }
   </script>
+  <style>
+    :root {
+      --accent:        #6E8F73;
+      --accent-soft:   #E4EEE4;
+      --surface:       #FCFEFB;
+      --surf-muted:    #EAF0E7;
+      --surf-strong:   #DCE7D9;
+      --bg:            #F4F6F1;
+      --stroke:        #DBE3D9;
+      --text-pri:      #1E241F;
+      --text-sec:      #667066;
+      --text-ter:      #879086;
+      --success:       #4C8A63;
+      --success-soft:  #DFF0E6;
+      --warning:       #C08A41;
+    }
+    .dark {
+      --accent:        #9CC1A2;
+      --accent-soft:   #334238;
+      --surface:       #212723;
+      --surf-muted:    #283029;
+      --surf-strong:   #313A32;
+      --bg:            #161A17;
+      --stroke:        #343D35;
+      --text-pri:      #EEF4EE;
+      --text-sec:      #AAB6AB;
+      --text-ter:      #8C978D;
+      --success:       #86BE97;
+      --success-soft:  #1E3327;
+      --warning:       #E0B271;
+    }
+
+    body { background: var(--bg); color: var(--text-pri); transition: background 200ms, color 200ms; }
+
+    .app-card {
+      background: var(--surface);
+      border: 1px solid var(--stroke);
+      border-radius: 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .dark .app-card { box-shadow: 0 4px 12px rgba(0,0,0,0.14); }
+
+    .app-card-muted {
+      background: var(--surf-muted);
+      border: 1px solid var(--stroke);
+      border-radius: 18px;
+    }
+
+    .category-icon {
+      width: 46px; height: 46px;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; flex-shrink: 0;
+    }
+
+    .app-chip {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: var(--surf-muted);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 11px; font-weight: 600;
+      color: var(--text-sec);
+      white-space: nowrap;
+    }
+
+    .stat-tile {
+      background: var(--surface);
+      border: 1px solid var(--stroke);
+      border-radius: 14px;
+      padding: 10px 16px;
+      text-align: center;
+    }
+
+    .divider { height: 0.5px; background: var(--stroke); }
+
+    .activity-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 0;
+    }
+    .check-done {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--success);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .check-open {
+      width: 22px; height: 22px; border-radius: 50%;
+      border: 2px solid var(--stroke);
+      flex-shrink: 0;
+    }
+
+    .progress-ring-bg { stroke: var(--surf-muted); }
+    .progress-ring-fg { stroke: url(#ringGrad); stroke-linecap: round; }
+
+    .feature-icon-wrap {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--accent-soft);
+      font-size: 26px; flex-shrink: 0;
+      margin-bottom: 16px;
+    }
+  </style>
   <script>
     (function() {
-      const saved = localStorage.getItem('theme');
-      if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      const s = localStorage.getItem('theme');
+      if (s === 'dark' || (!s && matchMedia('(prefers-color-scheme: dark)').matches))
         document.documentElement.classList.add('dark');
-      }
     })();
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 </head>
-<body class="min-h-screen bg-kbg dark:bg-dkbg text-ktext dark:text-dktext font-nunito flex flex-col transition-colors duration-200">
+<body class="font-nunito flex flex-col min-h-screen">
 
-  <!-- Navigation -->
-  <nav class="bg-ksurf/90 dark:bg-dksurf/90 backdrop-blur-sm border-b border-sage/20 dark:border-sage-l/10 sticky top-0 z-50">
+  <!-- ── Navigation ── -->
+  <nav style="background:var(--surface);border-bottom:1px solid var(--stroke);" class="sticky top-0 z-50 backdrop-blur-sm">
     <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-      <span class="text-xl font-black text-sage dark:text-sage-l tracking-tight">Kids Bucket List</span>
+      <span class="text-xl font-black tracking-tight" style="color:var(--accent)">Kids Bucket List</span>
       <div class="flex items-center gap-4">
-        <button id="theme-toggle" aria-label="Toggle dark mode" class="text-kmuted dark:text-dkmuted hover:text-sage dark:hover:text-sage-l transition text-lg">🌙</button>
-        <a href="index.html" class="text-kmuted dark:text-dkmuted hover:text-sage dark:hover:text-sage-l font-semibold transition text-sm">🇩🇪 Deutsch</a>
+        <button id="theme-toggle" class="text-lg transition-opacity hover:opacity-70" style="color:var(--text-sec)" aria-label="Dark mode">🌙</button>
+        <a href="index.html" class="text-sm font-semibold hover:opacity-70 transition-opacity" style="color:var(--text-sec)">🇩🇪 Deutsch</a>
       </div>
     </div>
   </nav>
 
   <main class="flex-1">
 
-    <!-- Hero Section -->
-    <section class="max-w-3xl mx-auto px-6 py-16 text-center">
-      <img src="app-icon.png" alt="Kids Bucket List App Icon" class="w-32 h-32 mx-auto mb-6 rounded-3xl shadow-xl" />
-      <div class="inline-block bg-sage text-white text-sm font-bold px-4 py-1.5 rounded-full mb-6 tracking-wide">
+    <!-- ── Hero ── -->
+    <section class="max-w-3xl mx-auto px-6 pt-16 pb-10 text-center">
+      <div class="flex justify-center mb-8">
+        <div style="background:linear-gradient(160deg,var(--accent-soft) 0%,var(--surface) 100%);border:1px solid var(--stroke);border-radius:28px;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,0.06);">
+          <img src="app-icon.png" alt="Kids Bucket List" class="w-24 h-24 rounded-2xl shadow-lg block"/>
+        </div>
+      </div>
+
+      <div class="inline-flex items-center gap-2 mb-5 px-4 py-1.5 rounded-full text-sm font-bold text-white" style="background:var(--accent)">
         ✨ Coming Soon to the App Store
       </div>
-      <h1 class="text-4xl md:text-5xl font-black text-ktext dark:text-dktext leading-tight mb-4">
-        Live adventures.<br>
-        <span class="text-sage dark:text-sage-l">Collect memories.</span>
+
+      <h1 class="text-4xl md:text-5xl font-black leading-tight mb-4" style="color:var(--text-pri)">
+        Memories we create<br>
+        <span style="color:var(--accent)">together.</span>
       </h1>
-      <p class="text-lg text-kmuted dark:text-dkmuted max-w-xl mx-auto leading-relaxed">
-        The family app for unforgettable moments. Plan activities together, track your adventures and look back on everything you've experienced as a family.
+      <p class="text-lg max-w-xl mx-auto leading-relaxed" style="color:var(--text-sec)">
+        Plan adventures together, capture memories and look back on everything you've experienced as a family.
       </p>
     </section>
 
-    <!-- Feature Cards -->
-    <section class="max-w-5xl mx-auto px-6 pb-16">
-      <h2 class="text-2xl font-black text-center mb-10 text-ktext dark:text-dktext">What Kids Bucket List can do</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+    <!-- ── App Preview Mockup ── -->
+    <section class="max-w-4xl mx-auto px-6 pb-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 
-        <div class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 shadow-sm border border-sage/10 dark:border-sage-l/10 hover:shadow-md transition">
-          <div class="text-3xl mb-3">📋</div>
-          <h3 class="text-lg font-bold mb-2 text-ktext dark:text-dktext">Bucket List</h3>
-          <p class="text-kmuted dark:text-dkmuted text-sm leading-relaxed">Create activities you absolutely want to experience together – and check them off as a family.</p>
+        <!-- Home Card Mockup -->
+        <div style="background:linear-gradient(160deg,var(--accent-soft) 0%,var(--surface) 100%);border:1px solid var(--stroke);border-radius:18px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+          <p class="text-xs font-bold uppercase tracking-wider mb-3" style="color:var(--accent)">Family overview</p>
+          <div class="flex items-end justify-between mb-5">
+            <div>
+              <p class="font-black leading-none mb-1" style="font-size:3rem;color:var(--text-pri);font-variant-numeric:tabular-nums">7</p>
+              <p class="text-sm font-semibold" style="color:var(--text-sec)">of 18 adventures</p>
+            </div>
+            <div class="flex gap-2">
+              <div class="stat-tile">
+                <p class="text-xs font-bold uppercase tracking-wide mb-1" style="color:var(--text-ter)">Open</p>
+                <p class="text-2xl font-black" style="color:var(--warning);font-variant-numeric:tabular-nums">11</p>
+              </div>
+              <div class="stat-tile">
+                <p class="text-xs font-bold uppercase tracking-wide mb-1" style="color:var(--text-ter)">Done</p>
+                <p class="text-2xl font-black" style="color:var(--success);font-variant-numeric:tabular-nums">7</p>
+              </div>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div class="app-card p-3 flex items-center gap-3" style="min-height:56px;">
+              <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm" style="background:var(--accent)">＋</div>
+              <span class="text-sm font-semibold" style="color:var(--text-pri)">Activity</span>
+            </div>
+            <div class="app-card p-3 flex items-center gap-3" style="min-height:56px;">
+              <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm" style="background:var(--accent)">👤</div>
+              <span class="text-sm font-semibold" style="color:var(--text-pri)">Add child</span>
+            </div>
+          </div>
         </div>
 
-        <div class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 shadow-sm border border-sage/10 dark:border-sage-l/10 hover:shadow-md transition">
-          <div class="text-3xl mb-3">👨‍👩‍👧‍👦</div>
-          <h3 class="text-lg font-bold mb-2 text-ktext dark:text-dktext">Multiple Children</h3>
-          <p class="text-kmuted dark:text-dkmuted text-sm leading-relaxed">Individual profiles for each child with their own colour – stay on top of things for the whole family.</p>
-        </div>
+        <!-- Activity List Mockup -->
+        <div class="app-card p-4 flex flex-col justify-between">
+          <p class="text-xs font-bold uppercase tracking-wider mb-3" style="color:var(--text-ter)">Bucket List</p>
 
-        <div class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 shadow-sm border border-sage/10 dark:border-sage-l/10 hover:shadow-md transition">
-          <div class="text-3xl mb-3">🗂️</div>
-          <h3 class="text-lg font-bold mb-2 text-ktext dark:text-dktext">13+ Categories</h3>
-          <p class="text-kmuted dark:text-dkmuted text-sm leading-relaxed">From movies to day trips to crafting – the right category for every adventure.</p>
-        </div>
+          <div class="activity-row">
+            <div class="check-done">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-semibold line-through truncate" style="color:var(--text-ter)">Picnic in the park</p>
+              <div class="flex gap-1.5 mt-1 flex-wrap">
+                <span class="app-chip" style="background:rgba(77,143,138,0.15);color:#3D7D78">🌿 Nature</span>
+                <span class="app-chip">Emma</span>
+              </div>
+            </div>
+            <span class="text-sm" style="color:var(--warning)">★★★★★</span>
+          </div>
 
-        <div class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 shadow-sm border border-sage/10 dark:border-sage-l/10 hover:shadow-md transition">
-          <div class="text-3xl mb-3">📊</div>
-          <h3 class="text-lg font-bold mb-2 text-ktext dark:text-dktext">Statistics</h3>
-          <p class="text-kmuted dark:text-dkmuted text-sm leading-relaxed">Look back: how many adventures have you completed? Charts, streaks and top categories at a glance.</p>
-        </div>
+          <div class="divider"></div>
 
-        <div class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 shadow-sm border border-sage/10 dark:border-sage-l/10 hover:shadow-md transition">
-          <div class="text-3xl mb-3">⭐</div>
-          <h3 class="text-lg font-bold mb-2 text-ktext dark:text-dktext">Ratings</h3>
-          <p class="text-kmuted dark:text-dkmuted text-sm leading-relaxed">How did you like it? Star or emoji ratings – even the little ones can join in.</p>
-        </div>
+          <div class="activity-row">
+            <div class="check-open"></div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-semibold truncate" style="color:var(--text-pri)">Visit the zoo</p>
+              <div class="flex gap-1.5 mt-1 flex-wrap">
+                <span class="app-chip" style="background:rgba(77,143,138,0.15);color:#3D7D78">🌿 Nature</span>
+                <span class="app-chip">Luca & Emma</span>
+              </div>
+            </div>
+          </div>
 
-        <div class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 shadow-sm border border-sage/10 dark:border-sage-l/10 hover:shadow-md transition">
-          <div class="text-3xl mb-3">🎬</div>
-          <h3 class="text-lg font-bold mb-2 text-ktext dark:text-dktext">External Sources</h3>
-          <p class="text-kmuted dark:text-dkmuted text-sm leading-relaxed">Import movies, books and games directly – never forget what's up next on your list.</p>
+          <div class="divider"></div>
+
+          <div class="activity-row">
+            <div class="check-open"></div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-semibold truncate" style="color:var(--text-pri)">Read Harry Potter</p>
+              <div class="flex gap-1.5 mt-1 flex-wrap">
+                <span class="app-chip" style="background:rgba(94,130,177,0.15);color:#3D6199">📚 Books</span>
+                <span class="app-chip">Mia</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="activity-row">
+            <div class="check-done">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-semibold line-through truncate" style="color:var(--text-ter)">Movie night at home</p>
+              <div class="flex gap-1.5 mt-1 flex-wrap">
+                <span class="app-chip" style="background:rgba(185,119,139,0.15);color:#8B4A61">🍿 Movies</span>
+                <span class="app-chip">Family</span>
+              </div>
+            </div>
+            <span class="text-sm" style="color:var(--warning)">★★★★☆</span>
+          </div>
         </div>
 
       </div>
     </section>
 
-    <!-- Categories Showcase -->
-    <section class="bg-ksurf dark:bg-dksurf border-y border-sage/10 dark:border-sage-l/10 py-14">
+    <!-- ── Features Grid ── -->
+    <section style="background:var(--surf-muted);border-top:1px solid var(--stroke);border-bottom:1px solid var(--stroke);" class="py-14">
+      <div class="max-w-5xl mx-auto px-6">
+        <div class="text-center mb-10">
+          <h2 class="text-2xl font-black" style="color:var(--text-pri)">Everything your family needs</h2>
+          <p class="text-sm mt-1" style="color:var(--text-sec)">Thoughtful. Personal. For everyone.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+          <div class="app-card p-6">
+            <div class="feature-icon-wrap">📋</div>
+            <h3 class="text-base font-bold mb-1.5" style="color:var(--text-pri)">Family Bucket List</h3>
+            <p class="text-sm leading-relaxed" style="color:var(--text-sec)">Create activities, assign them to children and check them off together – from adventures to traditions.</p>
+          </div>
+
+          <div class="app-card p-6">
+            <div class="feature-icon-wrap">💭</div>
+            <h3 class="text-base font-bold mb-1.5" style="color:var(--text-pri)">Capture Memories</h3>
+            <p class="text-sm leading-relaxed" style="color:var(--text-sec)">Add a date, note and rating when you complete an activity – keep a small reminder for later.</p>
+          </div>
+
+          <div class="app-card p-6">
+            <div class="feature-icon-wrap">👨‍👩‍👧‍👦</div>
+            <h3 class="text-base font-bold mb-1.5" style="color:var(--text-pri)">Profiles for Every Child</h3>
+            <p class="text-sm leading-relaxed" style="color:var(--text-sec)">Individual profiles with favourite colours – track activities per child or as a whole family.</p>
+          </div>
+
+          <div class="app-card p-6">
+            <div class="feature-icon-wrap">🗂️</div>
+            <h3 class="text-base font-bold mb-1.5" style="color:var(--text-pri)">13 Specialised Categories</h3>
+            <p class="text-sm leading-relaxed" style="color:var(--text-sec)">Each category has its own experience – search books directly, track films, plan outings.</p>
+          </div>
+
+          <div class="app-card p-6">
+            <div class="feature-icon-wrap">📍</div>
+            <h3 class="text-base font-bold mb-1.5" style="color:var(--text-pri)">Discover Nearby</h3>
+            <p class="text-sm leading-relaxed" style="color:var(--text-sec)">Find playgrounds and day-trip destinations right near you – perfect for the next spontaneous outing.</p>
+          </div>
+
+          <div class="app-card p-6">
+            <div class="feature-icon-wrap">📊</div>
+            <h3 class="text-base font-bold mb-1.5" style="color:var(--text-pri)">Statistics &amp; Streaks</h3>
+            <p class="text-sm leading-relaxed" style="color:var(--text-sec)">Charts, streaks, top categories and personalised recommendations – your progress at a glance.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Categories ── -->
+    <section class="max-w-5xl mx-auto px-6 py-14">
+      <div class="text-center mb-10">
+        <h2 class="text-2xl font-black" style="color:var(--text-pri)">The right category for every adventure</h2>
+        <p class="text-sm mt-1" style="color:var(--text-sec)">13 specialised categories – plus create your own</p>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+        <div class="app-card p-4 flex flex-col items-center justify-center text-center gap-2">
+          <div class="category-icon" style="background:rgba(185,119,139,0.16)">🍿</div>
+          <span class="text-xs font-semibold leading-tight" style="color:var(--text-pri)">Movies &amp; Series</span>
+        </div>
+        <div class="app-card p-4 flex flex-col items-center justify-center text-center gap-2">
+          <div class="category-icon" style="background:rgba(94,130,177,0.16)">📚</div>
+          <span class="text-xs font-semibold leading-tight" style="color:var(--text-pri)">Books &amp; Reading</span>
+        </div>
+        <div class="app-card p-4 flex flex-col items-center justify-center text-center gap-2">
+          <div class="category-icon" style="background:rgba(109,120,183,0.16)">🎮</div>
+          <span class="text-xs font-semibold leading-tight" style="color:var(--text-pri)">Gaming &amp; Board Games</span>
+        </div>
+        <div class="app-card p-4 flex flex-col items-center justify-center text-center gap-2">
+          <div class="category-icon" style="background:rgba(77,143,138,0.16)">🗺️</div>
+          <span class="text-xs font-semibold leading-tight" style="color:var(--text-pri)">Excursions</span>
+        </div>
+        <div class="app-card p-4 flex flex-col items-center justify-center text-center gap-2">
+          <div class="category-icon" style="background:rgba(192,113,99,0.16)">🛝</div>
+          <span class="text-xs font-semibold leading-tight" style="color:var(--text-pri)">Playgrounds &amp; Adventures</span>
+        </div>
+        <div class="app-card p-4 flex flex-col items-center justify-center text-center gap-2">
+          <div class="category-icon" style="background:rgba(110,143,115,0.16)">🌿</div>
+          <span class="text-xs font-semibold leading-tight" style="color:var(--text-pri)">Nature &amp; Animals</span>
+        </div>
+        <div class="app-card p-4 flex flex-col items-center justify-center text-center gap-2">
+          <div class="category-icon" style="background:rgba(138,144,80,0.16)">🎨</div>
+          <span class="text-xs font-semibold leading-tight" style="color:var(--text-pri)">Creative &amp; Crafts</span>
+        </div>
+        <div class="app-card p-4 flex flex-col items-center justify-center text-center gap-2">
+          <div class="category-icon" style="background:rgba(184,136,69,0.16)">⚽</div>
+          <span class="text-xs font-semibold leading-tight" style="color:var(--text-pri)">Sport &amp; Movement</span>
+        </div>
+        <div class="app-card p-4 flex flex-col items-center justify-center text-center gap-2">
+          <div class="category-icon" style="background:rgba(110,143,115,0.16)">🏠</div>
+          <span class="text-xs font-semibold leading-tight" style="color:var(--text-pri)">Home Experiences</span>
+        </div>
+        <div class="app-card p-4 flex flex-col items-center justify-center text-center gap-2">
+          <div class="category-icon" style="background:rgba(185,119,139,0.16)">🎉</div>
+          <span class="text-xs font-semibold leading-tight" style="color:var(--text-pri)">Celebrations &amp; Seasons</span>
+        </div>
+        <div class="app-card p-4 flex flex-col items-center justify-center text-center gap-2">
+          <div class="category-icon" style="background:rgba(94,130,177,0.16)">👨‍👩‍👧</div>
+          <span class="text-xs font-semibold leading-tight" style="color:var(--text-pri)">Family Traditions</span>
+        </div>
+        <div class="app-card p-4 flex flex-col items-center justify-center text-center gap-2">
+          <div class="category-icon" style="background:rgba(109,120,183,0.16)">🔍</div>
+          <span class="text-xs font-semibold leading-tight" style="color:var(--text-pri)">Learning &amp; Discovery</span>
+        </div>
+        <div class="app-card p-4 flex flex-col items-center justify-center text-center gap-2">
+          <div class="category-icon" style="background:rgba(77,143,138,0.16)">✈️</div>
+          <span class="text-xs font-semibold leading-tight" style="color:var(--text-pri)">Travel &amp; Places</span>
+        </div>
+        <div class="app-card-muted p-4 flex flex-col items-center justify-center text-center gap-2" style="border-style:dashed;">
+          <div class="category-icon" style="background:var(--surf-strong)">＋</div>
+          <span class="text-xs font-semibold leading-tight" style="color:var(--text-ter)">Create your own</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Memory Capture ── -->
+    <section style="background:var(--surf-muted);border-top:1px solid var(--stroke);border-bottom:1px solid var(--stroke);" class="py-14">
       <div class="max-w-4xl mx-auto px-6">
-        <h2 class="text-2xl font-black text-center mb-3 text-ktext dark:text-dktext">The right category for every adventure</h2>
-        <p class="text-center text-kmuted dark:text-dkmuted mb-10 text-sm">13 built-in categories – plus create your own</p>
-        <div class="flex flex-wrap gap-3 justify-center">
-          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">🎬 Movies &amp; Series</span>
-          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">📚 Books &amp; Reading</span>
-          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">🎮 Gaming &amp; Board Games</span>
-          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">🏃 Excursions</span>
-          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">🛝 Playgrounds &amp; Adventures</span>
-          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">🌿 Nature &amp; Animals</span>
-          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">🎨 Creative &amp; Crafts</span>
-          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">⚽ Sport &amp; Movement</span>
-          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">🏠 Home Experiences</span>
-          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">🎉 Celebrations &amp; Seasons</span>
-          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">👪 Family Traditions</span>
-          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">🔬 Learning &amp; Discovery</span>
-          <span class="bg-kbg dark:bg-dkbg border border-sage/20 dark:border-sage-l/20 text-ktext dark:text-dktext font-semibold text-sm px-4 py-2 rounded-full">✈️ Travel &amp; Places</span>
+        <div class="app-card p-8 md:p-10 flex flex-col md:flex-row items-center gap-8" style="background:linear-gradient(150deg,var(--accent-soft) 0%,var(--surface) 70%)">
+          <div class="text-5xl shrink-0">💭</div>
+          <div>
+            <p class="text-xs font-bold uppercase tracking-wider mb-1" style="color:var(--accent)">Memories</p>
+            <h2 class="text-2xl font-black mb-3" style="color:var(--text-pri)">Every moment stays with you</h2>
+            <p class="text-sm leading-relaxed mb-5" style="color:var(--text-sec)">
+              When you complete an activity, you can record exactly when it happened, how much you enjoyed it – and leave a little note to read again later.
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span class="app-chip" style="background:var(--accent-soft);color:var(--accent)">📅 Record the date</span>
+              <span class="app-chip" style="background:var(--accent-soft);color:var(--accent)">✍️ Leave a note</span>
+              <span class="app-chip" style="background:var(--accent-soft);color:var(--accent)">⭐ Rate it</span>
+              <span class="app-chip" style="background:var(--accent-soft);color:var(--accent)">🤩 Or with emoji</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Family Section -->
-    <section class="max-w-4xl mx-auto px-6 py-16">
-      <div class="bg-ksurf dark:bg-dksurf rounded-3xl p-10 text-center shadow-sm border border-sage/10 dark:border-sage-l/10">
-        <div class="flex justify-center gap-3 mb-6">
-          <span class="w-10 h-10 rounded-full bg-red-300 dark:bg-red-400/70 inline-block shadow-sm"></span>
-          <span class="w-10 h-10 rounded-full bg-blue-300 dark:bg-blue-400/70 inline-block shadow-sm"></span>
-          <span class="w-10 h-10 rounded-full bg-yellow-300 dark:bg-yellow-400/70 inline-block shadow-sm"></span>
+    <!-- ── Stats Preview ── -->
+    <section class="max-w-5xl mx-auto px-6 py-14">
+      <div class="text-center mb-10">
+        <h2 class="text-2xl font-black" style="color:var(--text-pri)">Every memory counts</h2>
+        <p class="text-sm mt-1" style="color:var(--text-sec)">Progress, streaks and recommendations – all at a glance</p>
+      </div>
+      <div class="app-card p-6 md:p-8">
+        <div class="flex flex-col md:flex-row items-center gap-8">
+          <div class="flex flex-col items-center gap-4 shrink-0">
+            <div class="relative">
+              <svg width="140" height="140" viewBox="0 0 140 140" style="transform:rotate(-90deg)">
+                <defs>
+                  <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%"   stop-color="#4C8A63"/>
+                    <stop offset="40%"  stop-color="#6E8F73"/>
+                    <stop offset="80%"  stop-color="#C08A41"/>
+                    <stop offset="100%" stop-color="#4C8A63"/>
+                  </linearGradient>
+                </defs>
+                <circle cx="70" cy="70" r="56" fill="none" class="progress-ring-bg" stroke-width="14"/>
+                <circle cx="70" cy="70" r="56" fill="none" class="progress-ring-fg" stroke-width="14"
+                  stroke-dasharray="351.86" stroke-dashoffset="88"/>
+              </svg>
+              <div class="absolute inset-0 flex flex-col items-center justify-center" style="transform:rotate(90deg)">
+                <span class="text-2xl font-black" style="color:var(--text-pri);font-variant-numeric:tabular-nums">75%</span>
+                <span class="text-xs font-semibold" style="color:var(--text-sec)">Completed</span>
+              </div>
+            </div>
+          </div>
+          <div class="flex-1 w-full">
+            <div class="grid grid-cols-2 gap-3 mb-4">
+              <div class="stat-tile">
+                <p class="text-xs font-bold uppercase tracking-wide mb-1" style="color:var(--text-ter)">Completed</p>
+                <p class="text-3xl font-black" style="color:var(--success);font-variant-numeric:tabular-nums">24</p>
+              </div>
+              <div class="stat-tile">
+                <p class="text-xs font-bold uppercase tracking-wide mb-1" style="color:var(--text-ter)">Open</p>
+                <p class="text-3xl font-black" style="color:var(--warning);font-variant-numeric:tabular-nums">8</p>
+              </div>
+              <div class="stat-tile">
+                <p class="text-xs font-bold uppercase tracking-wide mb-1" style="color:var(--text-ter)">Avg Rating</p>
+                <p class="text-3xl font-black" style="color:var(--accent);font-variant-numeric:tabular-nums">4.3</p>
+              </div>
+              <div class="stat-tile">
+                <p class="text-xs font-bold uppercase tracking-wide mb-1" style="color:var(--text-ter)">Streak</p>
+                <p class="text-3xl font-black" style="color:var(--text-pri);font-variant-numeric:tabular-nums">🔥 6</p>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <span class="app-chip" style="background:var(--success-soft);color:var(--success)">✓ Activities over time</span>
+              <span class="app-chip" style="background:var(--success-soft);color:var(--success)">✓ Top categories</span>
+              <span class="app-chip" style="background:var(--success-soft);color:var(--success)">✓ Smart recommendations</span>
+            </div>
+          </div>
         </div>
-        <h2 class="text-2xl font-black mb-3 text-ktext dark:text-dktext">Built for the whole family</h2>
-        <p class="text-kmuted dark:text-dkmuted max-w-lg mx-auto leading-relaxed">
-          Every child gets their own profile with a favourite colour. Track progress individually or as a family – Kids Bucket List grows with you.
-        </p>
       </div>
     </section>
 
-    <!-- Stats Feature Highlight -->
-    <section class="bg-sage/5 dark:bg-sage-l/5 border-y border-sage/10 dark:border-sage-l/10 py-14">
-      <div class="max-w-4xl mx-auto px-6 text-center">
-        <div class="text-4xl mb-4">📊</div>
-        <h2 class="text-2xl font-black mb-3 text-ktext dark:text-dktext">Every memory counts</h2>
-        <p class="text-kmuted dark:text-dkmuted max-w-xl mx-auto leading-relaxed mb-8">
-          Interactive charts show your family's progress: completed activities, favourite categories, ratings and streaks – all at a glance.
-        </p>
-        <div class="flex flex-wrap justify-center gap-6 text-sm font-semibold text-sage dark:text-sage-l">
-          <span>✓ Activities over time</span>
-          <span>✓ Top categories</span>
-          <span>✓ Average rating</span>
-          <span>✓ Current streaks</span>
+    <!-- ── Family + Themes ── -->
+    <section style="background:var(--surf-muted);border-top:1px solid var(--stroke);border-bottom:1px solid var(--stroke);" class="py-14">
+      <div class="max-w-4xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div class="app-card p-6">
+            <div class="flex gap-2.5 mb-5">
+              <span class="w-9 h-9 rounded-full inline-block shadow-sm" style="background:#E97B7B"></span>
+              <span class="w-9 h-9 rounded-full inline-block shadow-sm" style="background:#6DA4CC"></span>
+              <span class="w-9 h-9 rounded-full inline-block shadow-sm" style="background:#E4C06A"></span>
+              <span class="w-9 h-9 rounded-full inline-block shadow-sm" style="background:#9E7FCC"></span>
+            </div>
+            <p class="text-xs font-bold uppercase tracking-wider mb-1" style="color:var(--accent)">Family</p>
+            <h3 class="text-lg font-black mb-2" style="color:var(--text-pri)">Built for the whole family</h3>
+            <p class="text-sm leading-relaxed" style="color:var(--text-sec)">Every child gets their own profile with a favourite colour. Switch between family overview and individual views – one glance, everything clear.</p>
+          </div>
+          <div class="app-card p-6">
+            <div class="flex gap-2.5 mb-5">
+              <span class="w-9 h-9 rounded-full inline-block shadow-sm" style="background:#6E8F73"></span>
+              <span class="w-9 h-9 rounded-full inline-block shadow-sm" style="background:#5B83B7"></span>
+              <span class="w-9 h-9 rounded-full inline-block shadow-sm" style="background:#B97186"></span>
+              <span class="w-9 h-9 rounded-full inline-block shadow-sm" style="background:#6C7A94"></span>
+            </div>
+            <p class="text-xs font-bold uppercase tracking-wider mb-1" style="color:var(--accent)">Design</p>
+            <h3 class="text-lg font-black mb-2" style="color:var(--text-pri)">4 Colour Themes</h3>
+            <p class="text-sm leading-relaxed" style="color:var(--text-sec)">Sage, Sky, Rose or Graphite – customise the app to your taste. Light and dark mode included.</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Coming Soon Banner -->
+    <!-- ── Coming Soon ── -->
     <section class="max-w-3xl mx-auto px-6 py-16 text-center">
-      <div class="bg-sage dark:bg-sage-d rounded-3xl p-10 shadow-lg">
+      <div class="rounded-3xl p-10 shadow-lg text-white" style="background:var(--accent)">
         <div class="text-5xl mb-4">🍎</div>
-        <h2 class="text-2xl font-black text-white mb-2">Coming Soon to the App Store</h2>
-        <p class="text-white/80 text-base">
+        <h2 class="text-2xl font-black mb-2">Coming Soon to the App Store</h2>
+        <p style="color:rgba(255,255,255,0.8)" class="text-base">
           Kids Bucket List is coming soon for iPhone and iPad.<br>Stay tuned!
         </p>
       </div>
@@ -183,27 +500,25 @@
 
   </main>
 
-  <!-- Footer -->
-  <footer class="bg-ksurf dark:bg-dksurf border-t border-sage/20 dark:border-sage-l/10 py-8 mt-4">
+  <!-- ── Footer ── -->
+  <footer style="background:var(--surface);border-top:1px solid var(--stroke);" class="py-8">
     <div class="max-w-4xl mx-auto px-6">
       <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-4">
-        <span class="font-black text-sage dark:text-sage-l text-lg">Kids Bucket List</span>
+        <span class="font-black text-lg" style="color:var(--accent)">Kids Bucket List</span>
         <div class="flex flex-wrap gap-6 text-sm">
-          <a href="support-en.html" class="text-kmuted dark:text-dkmuted hover:text-sage dark:hover:text-sage-l transition font-semibold">Support</a>
-          <a href="privacy-en.html" class="text-kmuted dark:text-dkmuted hover:text-sage dark:hover:text-sage-l transition font-semibold">Privacy Policy</a>
-          <a href="impressum-en.html" class="text-kmuted dark:text-dkmuted hover:text-sage dark:hover:text-sage-l transition font-semibold">Legal Notice</a>
-          <a href="index.html" class="text-sage dark:text-sage-l hover:text-sage-d transition font-semibold">🇩🇪 Deutsch</a>
+          <a href="support-en.html"   class="font-semibold hover:opacity-70 transition-opacity" style="color:var(--text-sec)">Support</a>
+          <a href="privacy-en.html"   class="font-semibold hover:opacity-70 transition-opacity" style="color:var(--text-sec)">Privacy Policy</a>
+          <a href="impressum-en.html" class="font-semibold hover:opacity-70 transition-opacity" style="color:var(--text-sec)">Legal Notice</a>
+          <a href="index.html"        class="font-semibold hover:opacity-70 transition-opacity" style="color:var(--accent)">🇩🇪 Deutsch</a>
         </div>
       </div>
-      <div class="text-center text-xs text-kmuted/60 dark:text-dkmuted/60 mt-4">&copy; 2025 Peter Hildel. All rights reserved.</div>
+      <p class="text-center text-xs" style="color:var(--text-ter)">&copy; 2026 Peter Hildel. All rights reserved.</p>
     </div>
   </footer>
 
   <script>
     const toggle = document.getElementById('theme-toggle');
-    function updateIcon() {
-      toggle.textContent = document.documentElement.classList.contains('dark') ? '☀️' : '🌙';
-    }
+    function updateIcon() { toggle.textContent = document.documentElement.classList.contains('dark') ? '☀️' : '🌙'; }
     updateIcon();
     toggle.addEventListener('click', () => {
       document.documentElement.classList.toggle('dark');
