@@ -8,6 +8,50 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script>tailwind.config={darkMode:'class',theme:{extend:{fontFamily:{nunito:['Nunito','sans-serif']}}}}</script>
   <style>
+    /* ── ICON SYSTEM ──
+       One sprite, stroked with currentColor so icons inherit the colour of
+       whatever they sit in. Matches the line-icon language of the app itself. */
+    .kbl-icons { position:absolute; width:0; height:0; overflow:hidden; }
+    .ico {
+      width:1em; height:1em; flex:none;
+      fill:none; stroke:currentColor;
+      stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round;
+      vertical-align:-0.14em;
+    }
+    .chip .ico, .pbadge .ico, .sum-pill .ico, .dev-label .ico,
+    .btn-primary .ico, .btn-solid .ico, .btn-ghost .ico, .btn-nav .ico { width:1.15em; height:1.15em; }
+    .ico-eyebrow { width:14px; height:14px; stroke-width:1.9; color:var(--accent); }
+    .eyebrow { white-space:nowrap; }
+    .ico-feat   { width:26px; height:26px; stroke-width:1.55; }
+    .ico-cat    { width:23px; height:23px; stroke-width:1.6; }
+    .ico-beacon { width:21px; height:21px; color:var(--accent); }
+    .ico-cta    { width:30px; height:30px; stroke-width:1.55; }
+    .cta-glyph {
+      width:66px; height:66px; margin:0 auto 22px; border-radius:21px;
+      display:flex; align-items:center; justify-content:center; color:#fff;
+      background:rgba(255,255,255,.17); border:1px solid rgba(255,255,255,.26);
+    }
+    .icon-btn {
+      display:inline-flex; align-items:center; justify-content:center;
+      width:34px; height:34px; border-radius:999px; color:var(--text-sec);
+      transition:background .2s ease, color .2s ease;
+    }
+    .icon-btn:hover { background:var(--surf-muted); color:var(--text-pri); }
+    .icon-btn .ico { width:18px; height:18px; }
+
+    /* ── POLISH ── */
+    ::selection { background:var(--accent-soft); color:var(--text-pri); }
+    :focus-visible { outline:2px solid var(--accent); outline-offset:3px; border-radius:8px; }
+    .display, .headline, h1, h2, h3 { text-wrap:balance; }
+    .body-lg, p { text-wrap:pretty; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration:.01ms !important; animation-iteration-count:1 !important;
+        transition-duration:.01ms !important; scroll-behavior:auto !important;
+      }
+      .reveal { opacity:1 !important; transform:none !important; }
+    }
+
     /* ── TOKENS ── */
     :root {
       --accent:#6E8F73; --accent-soft:#E4EEE4;
@@ -61,11 +105,11 @@
     /* ── CARDS ── */
     .card {
       background:var(--surface); border:1px solid var(--stroke);
-      border-radius:20px; box-shadow:0 2px 12px rgba(0,0,0,.04);
+      border-radius:20px; box-shadow:0 1px 2px rgba(16,24,18,.04), 0 5px 18px rgba(16,24,18,.05);
       transition:transform .25s ease, box-shadow .25s ease;
     }
     .dark .card { box-shadow:0 4px 20px rgba(0,0,0,.2); }
-    .card:hover { transform:translateY(-3px); box-shadow:0 10px 30px rgba(0,0,0,.07); }
+    .card:hover { transform:translateY(-3px); box-shadow:0 2px 4px rgba(16,24,18,.05), 0 14px 34px rgba(16,24,18,.09); }
     .dark .card:hover { box-shadow:0 10px 32px rgba(0,0,0,.32); }
     .card-muted { background:var(--surf-muted); border:1px solid var(--stroke); border-radius:20px; }
 
@@ -330,6 +374,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body class="font-nunito flex flex-col min-h-screen">
+  <svg class="kbl-icons" aria-hidden="true"><defs><symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol><symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol><symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9Z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8Z"/></symbol><symbol id="i-smartphone" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2.5"/><path d="M12 18.5h.01"/></symbol><symbol id="i-tablet" viewBox="0 0 24 24"><rect x="3.5" y="2" width="17" height="20" rx="2.5"/><path d="M12 18.5h.01"/></symbol><symbol id="i-laptop" viewBox="0 0 24 24"><path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9"/><path d="M2.5 16h19l1 3a1 1 0 0 1-1 1.3H2.5A1 1 0 0 1 1.5 19Z"/></symbol><symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5 6.2 20.6l1.1-6.5L2.6 9.5l6.5-1Z"/></symbol><symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 5.1a5.4 5.4 0 0 0-7.7 0L12 6.2l-1.1-1.1a5.4 5.4 0 1 0-7.7 7.7l8.8 8.7 8.8-8.7a5.4 5.4 0 0 0 0-7.7Z"/></symbol><symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9"/><path d="M16 3.1a4 4 0 0 1 0 7.8"/></symbol><symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="7.5" rx="1.8"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.8"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.8"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.8"/></symbol><symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7.5"/><path d="m21 21-4.7-4.7"/></symbol><symbol id="i-chart" viewBox="0 0 24 24"><path d="M12 20V9M18 20V4M6 20v-6"/></symbol><symbol id="i-cloud" viewBox="0 0 24 24"><path d="M17.5 19.5a4.75 4.75 0 0 0 .3-9.5A7 7 0 1 0 5.5 16"/><path d="M6 19.5h11.5"/></symbol><symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="17" rx="2.5"/><path d="M8 2.5v4M16 2.5v4M3 10h18"/></symbol><symbol id="i-pen" viewBox="0 0 24 24"><path d="M16.9 3.2a2.6 2.6 0 0 1 3.7 3.7L7.4 20.1 2.5 21.5l1.4-4.9Z"/><path d="m15.2 4.9 3.7 3.7"/></symbol><symbol id="i-smile" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M8.2 14.2a4.6 4.6 0 0 0 7.6 0"/><path d="M9 9.3h.01M15 9.3h.01"/></symbol><symbol id="i-lock" viewBox="0 0 24 24"><rect x="3.5" y="10.5" width="17" height="11" rx="2.5"/><path d="M7.5 10.5V7a4.5 4.5 0 0 1 9 0v3.5"/></symbol><symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2.5 3.8 13.6a.6.6 0 0 0 .5 1H11l-1 7 9.2-11.1a.6.6 0 0 0-.5-1H12Z"/></symbol><symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M2.6 12h18.8"/><path d="M12 2.5a14.5 14.5 0 0 1 0 19 14.5 14.5 0 0 1 0-19Z"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3.5 6.5 8.5 6 8.5-6"/></symbol><symbol id="i-list" viewBox="0 0 24 24"><path d="M10.5 6.5h10M10.5 12h10M10.5 17.5h10"/><path d="m3 6.3 1.4 1.4L7 5.2M3 11.8l1.4 1.4L7 10.7M3 17.3l1.4 1.4L7 16.2"/></symbol><symbol id="i-code" viewBox="0 0 24 24"><path d="m17 16.5 4.5-4.5L17 7.5"/><path d="M7 7.5 2.5 12 7 16.5"/><path d="m14.2 4-4.4 16"/></symbol><symbol id="i-film" viewBox="0 0 24 24"><rect x="2.5" y="3.5" width="19" height="17" rx="2.5"/><path d="M7.5 3.5v17M16.5 3.5v17M2.5 12h19M2.5 7.8h5M16.5 7.8h5M2.5 16.2h5M16.5 16.2h5"/></symbol><symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.2A2.5 2.5 0 0 1 6.5 16.7H20"/><path d="M6.5 2.5H20v19H6.5A2.5 2.5 0 0 1 4 19V5a2.5 2.5 0 0 1 2.5-2.5Z"/></symbol><symbol id="i-gamepad" viewBox="0 0 24 24"><path d="M6.5 11.5h3.5M8.25 9.75v3.5M15.5 12.2h.01M18 10.2h.01"/><path d="M17.3 5.5H6.7A4.7 4.7 0 0 0 2 10.2v3.6a3.9 3.9 0 0 0 6.5 2.9l.7-.6h5.6l.7.6a3.9 3.9 0 0 0 6.5-2.9v-3.6a4.7 4.7 0 0 0-4.7-4.7Z"/></symbol><symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 21.5a9.5 9.5 0 1 1 9.5-9.5c0 2-1.6 3.2-3.2 3.2h-1.9a2.1 2.1 0 0 0-1.5 3.6 1.9 1.9 0 0 1-1.4 2.7 9.7 9.7 0 0 1-1.5.1Z"/><path d="M7.5 11h.01M10 7.2h.01M14.5 7.2h.01"/></symbol><symbol id="i-leaf" viewBox="0 0 24 24"><path d="M11 20.2A7 7 0 0 1 9.8 6.4C15.4 5.3 17 4.8 19 2.4c1 2 2 4.2 2 7.9a7 7 0 0 1-10 9.9Z"/><path d="M2.5 21.5c0-3 1.9-5.6 4.5-6.8"/></symbol><symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10.2 9-7.2 9 7.2V20a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M9.2 22v-8h5.6v8"/></symbol><symbol id="i-activity" viewBox="0 0 24 24"><path d="M21.5 12h-4l-3 8.5-5-17-3 8.5h-4"/></symbol><symbol id="i-map" viewBox="0 0 24 24"><path d="m14.6 4.3-5.2-2L3 4.6v16.9l6.4-2.3 5.2 2 6.4-2.3V2l-6.4 2.3Z"/><path d="M9.4 2.3v16.9M14.6 4.3v16.9"/></symbol><symbol id="i-plane" viewBox="0 0 24 24"><path d="M17.6 19.4 15.9 11l3.6-3.6a2.1 2.1 0 0 0-3-3L12.9 8 4.6 6.2a.5.5 0 0 0-.5.8l3.9 4.3-2.1 2.1-1.7-.4a.5.5 0 0 0-.5.8L5.9 16l1.9 2.5a.5.5 0 0 0 .8-.4l-.4-1.7 2.1-2.1 4.4 3.9a.5.5 0 0 0 .9-.5Z"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5.5v13M5.5 12h13"/></symbol></defs></svg>
 
   <svg class="kbl-defs" aria-hidden="true"><defs><linearGradient id="kblBand" x1="0" y1="0" x2="258" y2="526.53" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f4f6f8"/><stop offset=".14" stop-color="#c2c7cd"/><stop offset=".34" stop-color="#8e959d"/><stop offset=".56" stop-color="#40454c"/><stop offset=".78" stop-color="#8e959d"/><stop offset=".92" stop-color="#c2c7cd"/><stop offset="1" stop-color="#8e959d"/></linearGradient><linearGradient id="kblBtn" x1="0" y1="0" x2="258" y2="526.53" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f4f6f8"/><stop offset=".4" stop-color="#8e959d"/><stop offset=".75" stop-color="#40454c"/><stop offset="1" stop-color="#8e959d"/></linearGradient><linearGradient id="kblEdge" x1="0" y1="0" x2="258" y2="526.53" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="rgba(255,255,255,.65)"/><stop offset=".18" stop-color="rgba(255,255,255,.16)"/><stop offset=".55" stop-color="rgba(255,255,255,.04)"/><stop offset=".86" stop-color="rgba(255,255,255,.22)"/><stop offset="1" stop-color="rgba(255,255,255,.36)"/></linearGradient><linearGradient id="kblBezel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1b1d22"/><stop offset=".32" stop-color="#020305"/><stop offset=".76" stop-color="#090a0d"/><stop offset="1" stop-color="#2b2d32"/></linearGradient><linearGradient id="kblIsland" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d0e11"/><stop offset=".35" stop-color="#010102"/><stop offset="1" stop-color="#07080a"/></linearGradient><radialGradient id="kblLens" cx=".38" cy=".34" r=".85"><stop offset="0" stop-color="#12233a"/><stop offset=".45" stop-color="#081019"/><stop offset="1" stop-color="#03060a"/></radialGradient></defs></svg>
 
@@ -338,8 +383,8 @@
     <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
       <span class="text-lg font-black tracking-tight" style="color:var(--accent)">Kids Bucket List</span>
       <div class="flex items-center gap-4">
-        <a href="https://testflight.apple.com/join/A3JBhGkD" target="_blank" rel="noopener noreferrer" class="btn-nav" aria-label="Try the beta on TestFlight">🚀 Beta</a>
-        <button id="theme-toggle" class="text-lg hover:opacity-70 transition-opacity" style="color:var(--text-sec)" aria-label="Dark Mode">🌙</button>
+        <a href="https://testflight.apple.com/join/A3JBhGkD" target="_blank" rel="noopener noreferrer" class="btn-nav" aria-label="Try the beta on TestFlight"><svg class="ico" aria-hidden="true"><use href="#i-send"/></svg> Beta</a>
+        <button id="theme-toggle" class="icon-btn" aria-label="Dark Mode"><svg class="ico" aria-hidden="true"><use href="#i-moon"/></svg></button>
         <a href="index.html" class="text-sm font-bold hover:opacity-70 transition-opacity" style="color:var(--text-sec)">🇩🇪 Deutsch</a>
       </div>
     </div>
@@ -356,7 +401,7 @@
           <!-- Left: text -->
           <div class="flex-1 text-center lg:text-left reveal">
             <div class="inline-flex items-center gap-2 mb-6 px-3.5 py-1.5 rounded-full" style="background:var(--accent-soft);border:1px solid var(--stroke)">
-              <span class="eyebrow">✨ Coming soon to the App Store</span>
+              <svg class="ico ico-eyebrow" aria-hidden="true"><use href="#i-sparkle"/></svg><span class="eyebrow">Coming soon to the App Store</span>
             </div>
             <h1 class="display mb-6">
               Everything you<br>
@@ -372,13 +417,13 @@
               Today. Later. Or when they're all grown up.
             </p>
             <div class="flex flex-col items-center lg:items-start gap-3 mb-8">
-              <a href="https://testflight.apple.com/join/A3JBhGkD" target="_blank" rel="noopener noreferrer" class="btn-primary">🚀 Try the beta</a>
+              <a href="https://testflight.apple.com/join/A3JBhGkD" target="_blank" rel="noopener noreferrer" class="btn-primary"><svg class="ico" aria-hidden="true"><use href="#i-send"/></svg> Try the beta</a>
               <span class="text-xs font-semibold" style="color:var(--text-ter)">Free via TestFlight · iPhone, iPad &amp; Mac</span>
             </div>
             <div class="flex flex-wrap gap-2.5 justify-center lg:justify-start">
-              <span class="pbadge">📱 iPhone</span>
-              <span class="pbadge">⬜ iPad</span>
-              <span class="pbadge">💻 Mac</span>
+              <span class="pbadge"><svg class="ico" aria-hidden="true"><use href="#i-smartphone"/></svg> iPhone</span>
+              <span class="pbadge"><svg class="ico" aria-hidden="true"><use href="#i-tablet"/></svg> iPad</span>
+              <span class="pbadge"><svg class="ico" aria-hidden="true"><use href="#i-laptop"/></svg> Mac</span>
             </div>
           </div>
 
@@ -450,44 +495,44 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
 
           <div class="card p-7 reveal d1">
-            <div class="feat-icon mb-5">⭐</div>
+            <div class="feat-icon mb-5"><svg class="ico ico-feat" aria-hidden="true"><use href="#i-star"/></svg></div>
             <h3 class="text-base font-black mb-2" style="color:var(--text-pri)">A bucket list for life</h3>
             <p class="text-sm leading-relaxed" style="color:var(--text-sec)">Capture what you want to experience together someday – and assign each goal to the right child.</p>
           </div>
 
           <div class="card p-7 reveal d2">
-            <div class="feat-icon mb-5">💭</div>
+            <div class="feat-icon mb-5"><svg class="ico ico-feat" aria-hidden="true"><use href="#i-heart"/></svg></div>
             <h3 class="text-base font-black mb-2" style="color:var(--text-pri)">Capture memories</h3>
             <p class="text-sm leading-relaxed" style="color:var(--text-sec)">When you check something off: date, a personal note and a rating with stars or emojis. To read back years later.</p>
           </div>
 
           <div class="card p-7 reveal d3">
-            <div class="feat-icon mb-5">👨‍👩‍👧‍👦</div>
+            <div class="feat-icon mb-5"><svg class="ico ico-feat" aria-hidden="true"><use href="#i-users"/></svg></div>
             <h3 class="text-base font-black mb-2" style="color:var(--text-pri)">A profile for each child</h3>
             <p class="text-sm leading-relaxed" style="color:var(--text-sec)">Individual profiles with avatar and favourite colour – family overview and single view at a tap.</p>
           </div>
 
           <div class="card p-7 reveal d4">
-            <div class="feat-icon mb-5">🗂️</div>
+            <div class="feat-icon mb-5"><svg class="ico ico-feat" aria-hidden="true"><use href="#i-grid"/></svg></div>
             <h3 class="text-base font-black mb-2" style="color:var(--text-pri)">Interest worlds, not ages</h3>
             <p class="text-sm leading-relaxed" style="color:var(--text-sec)">Films, books, games, nature, travel – every category has its own view with real data.</p>
           </div>
 
           <div class="card p-7 reveal d5">
-            <div class="feat-icon mb-5">🔎</div>
+            <div class="feat-icon mb-5"><svg class="ico ico-feat" aria-hidden="true"><use href="#i-search"/></svg></div>
             <h3 class="text-base font-black mb-2" style="color:var(--text-pri)">Real data &amp; templates</h3>
             <p class="text-sm leading-relaxed" style="color:var(--text-sec)">Search books, find films, discover craft ideas – and add them to your list with a single tap.</p>
           </div>
 
           <div class="card p-7 reveal d6">
-            <div class="feat-icon mb-5">📊</div>
+            <div class="feat-icon mb-5"><svg class="ico ico-feat" aria-hidden="true"><use href="#i-chart"/></svg></div>
             <h3 class="text-base font-black mb-2" style="color:var(--text-pri)">Statistics &amp; highlights</h3>
             <p class="text-sm leading-relaxed" style="color:var(--text-sec)">Progress per child, favourite categories and your loveliest moments at a glance.</p>
           </div>
 
           <!-- iCloud – full width -->
           <div class="card p-7 lg:col-span-3 flex flex-col sm:flex-row items-start sm:items-center gap-5 reveal">
-            <div class="feat-icon shrink-0" style="background:rgba(90,130,210,.12)">☁️</div>
+            <div class="feat-icon shrink-0" style="background:rgba(90,130,210,.12);color:#5A82D2"><svg class="ico ico-feat" aria-hidden="true"><use href="#i-cloud"/></svg></div>
             <div>
               <h3 class="text-base font-black mb-2" style="color:var(--text-pri)">Optional iCloud Sync</h3>
               <p class="text-sm leading-relaxed" style="color:var(--text-sec)">Enable iCloud Sync and access your bucket list across all your Apple devices – seamlessly between iPhone, iPad and Mac. Your data stays private in your own iCloud.</p>
@@ -507,18 +552,18 @@
           <p class="body-lg mt-3 max-w-lg mx-auto">Your favourite topics as specialised views – plus create your own categories.</p>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-          <div class="card p-4 flex flex-col items-center justify-center text-center gap-2.5 reveal d1"><div class="cat-icon" style="background:rgba(185,119,139,.16)">🍿</div><span class="text-xs font-bold" style="color:var(--text-pri)">Movies &amp; TV</span></div>
-          <div class="card p-4 flex flex-col items-center justify-center text-center gap-2.5 reveal d2"><div class="cat-icon" style="background:rgba(94,130,177,.16)">📚</div><span class="text-xs font-bold" style="color:var(--text-pri)">Books &amp; read-alouds</span></div>
-          <div class="card p-4 flex flex-col items-center justify-center text-center gap-2.5 reveal d3"><div class="cat-icon" style="background:rgba(109,120,183,.16)">🎮</div><span class="text-xs font-bold" style="color:var(--text-pri)">Gaming &amp; tabletop</span></div>
-          <div class="card p-4 flex flex-col items-center justify-center text-center gap-2.5 reveal d4"><div class="cat-icon" style="background:rgba(138,144,80,.16)">🎨</div><span class="text-xs font-bold" style="color:var(--text-pri)">Creative &amp; crafts</span></div>
-          <div class="card p-4 flex flex-col items-center justify-center text-center gap-2.5 reveal d5"><div class="cat-icon" style="background:rgba(110,143,115,.16)">🌿</div><span class="text-xs font-bold" style="color:var(--text-pri)">Nature &amp; animals</span></div>
-          <div class="card p-4 flex flex-col items-center justify-center text-center gap-2.5 reveal d1"><div class="cat-icon" style="background:rgba(110,143,115,.16)">🏠</div><span class="text-xs font-bold" style="color:var(--text-pri)">Home experiences</span></div>
-          <div class="card p-4 flex flex-col items-center justify-center text-center gap-2.5 reveal d2"><div class="cat-icon" style="background:rgba(184,136,69,.16)">⚽</div><span class="text-xs font-bold" style="color:var(--text-pri)">Sport &amp; movement</span></div>
-          <div class="card p-4 flex flex-col items-center justify-center text-center gap-2.5 reveal d3"><div class="cat-icon" style="background:rgba(109,120,183,.16)">🔍</div><span class="text-xs font-bold" style="color:var(--text-pri)">Learning &amp; discovery</span></div>
-          <div class="card p-4 flex flex-col items-center justify-center text-center gap-2.5 reveal d4"><div class="cat-icon" style="background:rgba(77,143,138,.16)">🗺️</div><span class="text-xs font-bold" style="color:var(--text-pri)">Outings</span></div>
-          <div class="card p-4 flex flex-col items-center justify-center text-center gap-2.5 reveal d5"><div class="cat-icon" style="background:rgba(185,119,139,.16)">🎉</div><span class="text-xs font-bold" style="color:var(--text-pri)">Seasons &amp; celebrations</span></div>
-          <div class="card p-4 flex flex-col items-center justify-center text-center gap-2.5 reveal d1"><div class="cat-icon" style="background:rgba(77,143,138,.16)">✈️</div><span class="text-xs font-bold" style="color:var(--text-pri)">Travel &amp; places</span></div>
-          <div class="card-muted p-4 flex flex-col items-center justify-center text-center gap-2.5 reveal d2" style="border-style:dashed"><div class="cat-icon" style="background:var(--surf-strong)">＋</div><span class="text-xs font-bold" style="color:var(--text-ter)">Create your own</span></div>
+          <div class="card p-4 flex flex-col items-center justify-center text-center gap-2.5 reveal d1"><div class="cat-icon" style="background:rgba(185,119,139,.16);color:#B4647F"><svg class="ico ico-cat" aria-hidden="true"><use href="#i-film"/></svg></div><span class="text-xs font-bold" style="color:var(--text-pri)">Movies &amp; TV</span></div>
+          <div class="card p-4 flex flex-col items-center justify-center text-center gap-2.5 reveal d2"><div class="cat-icon" style="background:rgba(94,130,177,.16);color:#5B83B7"><svg class="ico ico-cat" aria-hidden="true"><use href="#i-book"/></svg></div><span class="text-xs font-bold" style="color:var(--text-pri)">Books &amp; read-alouds</span></div>
+          <div class="card p-4 flex flex-col items-center justify-center text-center gap-2.5 reveal d3"><div class="cat-icon" style="background:rgba(109,120,183,.16);color:#6D78B7"><svg class="ico ico-cat" aria-hidden="true"><use href="#i-gamepad"/></svg></div><span class="text-xs font-bold" style="color:var(--text-pri)">Gaming &amp; tabletop</span></div>
+          <div class="card p-4 flex flex-col items-center justify-center text-center gap-2.5 reveal d4"><div class="cat-icon" style="background:rgba(138,144,80,.16);color:#8A9050"><svg class="ico ico-cat" aria-hidden="true"><use href="#i-palette"/></svg></div><span class="text-xs font-bold" style="color:var(--text-pri)">Creative &amp; crafts</span></div>
+          <div class="card p-4 flex flex-col items-center justify-center text-center gap-2.5 reveal d5"><div class="cat-icon" style="background:rgba(110,143,115,.16);color:#5E8A67"><svg class="ico ico-cat" aria-hidden="true"><use href="#i-leaf"/></svg></div><span class="text-xs font-bold" style="color:var(--text-pri)">Nature &amp; animals</span></div>
+          <div class="card p-4 flex flex-col items-center justify-center text-center gap-2.5 reveal d1"><div class="cat-icon" style="background:rgba(110,143,115,.16);color:#5E8A67"><svg class="ico ico-cat" aria-hidden="true"><use href="#i-home"/></svg></div><span class="text-xs font-bold" style="color:var(--text-pri)">Home experiences</span></div>
+          <div class="card p-4 flex flex-col items-center justify-center text-center gap-2.5 reveal d2"><div class="cat-icon" style="background:rgba(184,136,69,.16);color:#B08245"><svg class="ico ico-cat" aria-hidden="true"><use href="#i-activity"/></svg></div><span class="text-xs font-bold" style="color:var(--text-pri)">Sport &amp; movement</span></div>
+          <div class="card p-4 flex flex-col items-center justify-center text-center gap-2.5 reveal d3"><div class="cat-icon" style="background:rgba(109,120,183,.16);color:#6D78B7"><svg class="ico ico-cat" aria-hidden="true"><use href="#i-search"/></svg></div><span class="text-xs font-bold" style="color:var(--text-pri)">Learning &amp; discovery</span></div>
+          <div class="card p-4 flex flex-col items-center justify-center text-center gap-2.5 reveal d4"><div class="cat-icon" style="background:rgba(77,143,138,.16);color:#4D8F8A"><svg class="ico ico-cat" aria-hidden="true"><use href="#i-map"/></svg></div><span class="text-xs font-bold" style="color:var(--text-pri)">Outings</span></div>
+          <div class="card p-4 flex flex-col items-center justify-center text-center gap-2.5 reveal d5"><div class="cat-icon" style="background:rgba(185,119,139,.16);color:#B4647F"><svg class="ico ico-cat" aria-hidden="true"><use href="#i-sparkle"/></svg></div><span class="text-xs font-bold" style="color:var(--text-pri)">Seasons &amp; celebrations</span></div>
+          <div class="card p-4 flex flex-col items-center justify-center text-center gap-2.5 reveal d1"><div class="cat-icon" style="background:rgba(77,143,138,.16);color:#4D8F8A"><svg class="ico ico-cat" aria-hidden="true"><use href="#i-plane"/></svg></div><span class="text-xs font-bold" style="color:var(--text-pri)">Travel &amp; places</span></div>
+          <div class="card-muted p-4 flex flex-col items-center justify-center text-center gap-2.5 reveal d2" style="border-style:dashed"><div class="cat-icon" style="background:var(--surf-strong);color:#879086"><svg class="ico ico-cat" aria-hidden="true"><use href="#i-plus"/></svg></div><span class="text-xs font-bold" style="color:var(--text-ter)">Create your own</span></div>
         </div>
         <div class="mt-14 flex justify-center reveal" style="perspective:2200px">
           <figure style="max-width:840px;width:100%">
@@ -545,10 +590,10 @@
               <p class="text-sm leading-relaxed mb-6" style="color:var(--text-sec)">When you complete a goal, you capture when it happened, how much you loved it – and leave a note you can read again years from now.</p>
             </div>
             <div class="flex flex-wrap gap-2">
-              <span class="chip" style="background:var(--accent-soft);color:var(--accent)">📅 Date</span>
-              <span class="chip" style="background:var(--accent-soft);color:var(--accent)">✍️ Note</span>
-              <span class="chip" style="background:var(--accent-soft);color:var(--accent)">⭐ Stars</span>
-              <span class="chip" style="background:var(--accent-soft);color:var(--accent)">🤩 Emojis</span>
+              <span class="chip" style="background:var(--accent-soft);color:var(--accent)"><svg class="ico" aria-hidden="true"><use href="#i-calendar"/></svg> Date</span>
+              <span class="chip" style="background:var(--accent-soft);color:var(--accent)"><svg class="ico" aria-hidden="true"><use href="#i-pen"/></svg> Note</span>
+              <span class="chip" style="background:var(--accent-soft);color:var(--accent)"><svg class="ico" aria-hidden="true"><use href="#i-star"/></svg> Stars</span>
+              <span class="chip" style="background:var(--accent-soft);color:var(--accent)"><svg class="ico" aria-hidden="true"><use href="#i-smile"/></svg> Emojis</span>
             </div>
           </div>
 
@@ -653,7 +698,7 @@
               <div class="dev-screen"><img class="dev-shot" src="assets/screens/iphone-home.png" alt="Kids Bucket List home screen with family overview for Katy and Tim" loading="lazy" width="230" height="500"></div>
               <svg class="dev-front" viewBox="0 0 258 526.53" preserveAspectRatio="none" aria-hidden="true"><rect x="12.52" y="12.52" width="232.96" height="501.49" rx="20.55" fill="none" stroke="url(#kblBezel)" stroke-width="0.93"/><rect x="13.71" y="13.71" width="230.59" height="499.12" rx="19.82" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="0.77"/><rect x="96.1" y="19.36" width="65.79" height="17.54" rx="8.77" fill="url(#kblIsland)" stroke="rgba(255,255,255,.055)" stroke-width="0.5"/><circle cx="147.42" cy="28.13" r="3.51" fill="url(#kblLens)" stroke="rgba(255,255,255,.09)" stroke-width="0.35"/><circle cx="147.42" cy="28.13" r="1.96" fill="#0a1624"/><circle cx="146.65" cy="27.21" r="0.77" fill="rgba(103,166,214,.5)"/><circle cx="148.4" cy="28.97" r="0.35" fill="rgba(255,255,255,.2)"/><circle cx="111.89" cy="28.13" r="1.4" fill="rgba(10,14,20,.9)" stroke="rgba(255,255,255,.03)" stroke-width="0.28"/></svg>
             </div>
-            <p class="dev-label">📱 iPhone</p>
+            <p class="dev-label"><svg class="ico" aria-hidden="true"><use href="#i-smartphone"/></svg> iPhone</p>
           </div>
 
           <!-- Bridge 1 with cloud hub -->
@@ -661,7 +706,7 @@
             <div style="position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);height:2px;background:linear-gradient(to right,var(--stroke),rgba(110,143,115,.4),var(--stroke));border-radius:1px">
               <div class="sp"></div><div class="sp d2"></div>
             </div>
-            <div class="cloud-beacon" style="position:absolute;left:50%;transform:translateX(-50%)">☁️</div>
+            <div class="cloud-beacon" style="position:absolute;left:50%;transform:translateX(-50%)"><svg class="ico ico-beacon" aria-hidden="true"><use href="#i-cloud"/></svg></div>
           </div>
 
           <!-- iPad landscape -->
@@ -670,7 +715,7 @@
               <img class="ipad-shot" src="assets/screens/ipad-home.png" alt="Kids Bucket List on iPad with sidebar and family overview" loading="lazy" width="1200" height="827">
               <div style="position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:56px;height:3px;background:rgba(255,255,255,.22);border-radius:2px"></div>
             </div>
-            <p class="dev-label">⬜ iPad</p>
+            <p class="dev-label"><svg class="ico" aria-hidden="true"><use href="#i-tablet"/></svg> iPad</p>
           </div>
 
           <!-- Bridge 2 -->
@@ -683,7 +728,7 @@
           <!-- Mac -->
           <div class="flex flex-col items-center eco-glow g3" style="flex-shrink:0">
             <img class="mac-shot" src="assets/screens/mac-bucketlist.png" alt="Kids Bucket List as a native Mac app with sidebar and detail view" loading="lazy" width="1300" height="855">
-            <p class="dev-label" style="margin-top:-12px">💻 Mac</p>
+            <p class="dev-label" style="margin-top:-12px"><svg class="ico" aria-hidden="true"><use href="#i-laptop"/></svg> Mac</p>
           </div>
 
         </div>
@@ -698,19 +743,19 @@
             </div>
           </div>
           <div class="flex flex-wrap gap-3 justify-center">
-            <span class="pbadge">📱 iPhone</span>
-            <span class="pbadge">⬜ iPad</span>
-            <span class="pbadge">💻 Mac</span>
+            <span class="pbadge"><svg class="ico" aria-hidden="true"><use href="#i-smartphone"/></svg> iPhone</span>
+            <span class="pbadge"><svg class="ico" aria-hidden="true"><use href="#i-tablet"/></svg> iPad</span>
+            <span class="pbadge"><svg class="ico" aria-hidden="true"><use href="#i-laptop"/></svg> Mac</span>
           </div>
           <p class="body-lg text-center max-w-sm">Your bucket list on all your Apple devices – thanks to optional iCloud Sync.</p>
         </div>
 
         <!-- Bottom chips -->
         <div class="flex flex-wrap gap-3 justify-center mt-14 reveal">
-          <span class="chip" style="background:var(--accent-soft);color:var(--accent)">☁️ iCloud Sync</span>
-          <span class="chip" style="background:var(--accent-soft);color:var(--accent)">🔒 Private &amp; secure</span>
-          <span class="chip" style="background:var(--accent-soft);color:var(--accent)">⚡ Automatic</span>
-          <span class="chip" style="background:var(--accent-soft);color:var(--accent)">🌐 Available everywhere</span>
+          <span class="chip" style="background:var(--accent-soft);color:var(--accent)"><svg class="ico" aria-hidden="true"><use href="#i-cloud"/></svg> iCloud Sync</span>
+          <span class="chip" style="background:var(--accent-soft);color:var(--accent)"><svg class="ico" aria-hidden="true"><use href="#i-lock"/></svg> Private &amp; secure</span>
+          <span class="chip" style="background:var(--accent-soft);color:var(--accent)"><svg class="ico" aria-hidden="true"><use href="#i-zap"/></svg> Automatic</span>
+          <span class="chip" style="background:var(--accent-soft);color:var(--accent)"><svg class="ico" aria-hidden="true"><use href="#i-globe"/></svg> Available everywhere</span>
         </div>
 
       </div>
@@ -721,10 +766,10 @@
       <div class="max-w-4xl mx-auto px-6 text-center reveal">
         <p class="eyebrow mb-6">In short</p>
         <div class="flex flex-wrap gap-3 justify-center">
-          <span class="sum-pill">📝 Wishlist</span>
-          <span class="sum-pill">💭 Memory keeper</span>
-          <span class="sum-pill">❤️ Shared interests</span>
-          <span class="sum-pill">✨ A legacy of future experiences</span>
+          <span class="sum-pill"><svg class="ico" aria-hidden="true"><use href="#i-list"/></svg> Wishlist</span>
+          <span class="sum-pill"><svg class="ico" aria-hidden="true"><use href="#i-heart"/></svg> Memory keeper</span>
+          <span class="sum-pill"><svg class="ico" aria-hidden="true"><use href="#i-heart"/></svg> Shared interests</span>
+          <span class="sum-pill"><svg class="ico" aria-hidden="true"><use href="#i-sparkle"/></svg> A legacy of future experiences</span>
         </div>
       </div>
     </section>
@@ -748,14 +793,14 @@
       <div class="max-w-4xl mx-auto px-6 text-center reveal">
         <p class="eyebrow mb-6">Technology</p>
         <div class="flex flex-wrap gap-3 justify-center">
-          <span class="pbadge">🍎 Native SwiftUI</span>
-          <span class="pbadge">☁️ iCloud Sync</span>
-          <span class="pbadge">🔒 Privacy-First</span>
-          <span class="pbadge">📱 iPhone</span>
-          <span class="pbadge">⬜ iPad</span>
-          <span class="pbadge">💻 macOS</span>
-          <span class="pbadge">🌙 Dark Mode</span>
-          <span class="pbadge">🌍 DE &amp; EN</span>
+          <span class="pbadge"><svg class="ico" aria-hidden="true"><use href="#i-code"/></svg> Native SwiftUI</span>
+          <span class="pbadge"><svg class="ico" aria-hidden="true"><use href="#i-cloud"/></svg> iCloud Sync</span>
+          <span class="pbadge"><svg class="ico" aria-hidden="true"><use href="#i-lock"/></svg> Privacy-First</span>
+          <span class="pbadge"><svg class="ico" aria-hidden="true"><use href="#i-smartphone"/></svg> iPhone</span>
+          <span class="pbadge"><svg class="ico" aria-hidden="true"><use href="#i-tablet"/></svg> iPad</span>
+          <span class="pbadge"><svg class="ico" aria-hidden="true"><use href="#i-laptop"/></svg> macOS</span>
+          <span class="pbadge"><svg class="ico" aria-hidden="true"><use href="#i-moon"/></svg> Dark Mode</span>
+          <span class="pbadge"><svg class="ico" aria-hidden="true"><use href="#i-globe"/></svg> DE &amp; EN</span>
         </div>
       </div>
     </section>
@@ -765,12 +810,12 @@
       <div class="max-w-3xl mx-auto px-6 text-center reveal">
         <div class="rounded-3xl p-12 md:p-16 text-white relative overflow-hidden" style="background:var(--accent)">
           <div style="position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.12) 0%,transparent 55%);pointer-events:none" aria-hidden="true"></div>
-          <div class="text-5xl mb-5">🍎</div>
+          <div class="cta-glyph"><svg class="ico ico-cta" aria-hidden="true"><use href="#i-send"/></svg></div>
           <h2 class="text-2xl md:text-3xl font-black mb-3" style="letter-spacing:-.03em">Try the beta now.</h2>
           <p class="mb-8" style="color:rgba(255,255,255,.8);max-width:24rem;margin-left:auto;margin-right:auto">Kids Bucket List is coming to the App Store soon – until then you can try the beta for free via TestFlight.</p>
           <div class="flex flex-wrap gap-3 justify-center">
-            <a href="https://testflight.apple.com/join/A3JBhGkD" target="_blank" rel="noopener noreferrer" class="btn-solid">🚀 Get it on TestFlight</a>
-            <a href="support-en.html" class="btn-ghost">✉️ Get in touch</a>
+            <a href="https://testflight.apple.com/join/A3JBhGkD" target="_blank" rel="noopener noreferrer" class="btn-solid"><svg class="ico" aria-hidden="true"><use href="#i-send"/></svg> Get it on TestFlight</a>
+            <a href="support-en.html" class="btn-ghost"><svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg> Get in touch</a>
           </div>
         </div>
       </div>
@@ -796,7 +841,12 @@
 
   <script>
     const toggle = document.getElementById('theme-toggle');
-    function updateIcon(){ toggle.textContent = document.documentElement.classList.contains('dark') ? '☀️' : '🌙'; }
+    const toggleUse = toggle.querySelector('use');
+    function updateIcon(){
+      const dark = document.documentElement.classList.contains('dark');
+      toggleUse.setAttribute('href', dark ? '#i-sun' : '#i-moon');
+      toggle.setAttribute('aria-label', dark ? 'Light mode' : 'Dark mode');
+    }
     updateIcon();
     toggle.addEventListener('click', () => {
       document.documentElement.classList.toggle('dark');
