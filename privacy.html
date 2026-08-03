@@ -51,8 +51,8 @@
   </nav>
 
   <main class="max-w-3xl mx-auto px-6 py-12 flex-1">
-    <h1 class="text-4xl font-black text-ktext dark:text-dktext mb-2">Datenschutzerklärung</h1>
-    <p class="text-kmuted dark:text-dkmuted text-sm mb-10">Stand: April 2025</p>
+    <h1 class="text-4xl font-black text-ktext dark:text-dktext mb-2 break-words" style="hyphens:auto;-webkit-hyphens:auto">Datenschutzerkl&auml;rung</h1>
+    <p class="text-kmuted dark:text-dkmuted text-sm mb-10">Stand: Juli 2026</p>
 
     <section class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 mb-6 shadow-sm border border-sage/10 dark:border-sage-l/10">
       <h2 class="text-xl font-bold mb-3 text-ktext dark:text-dktext">1. Verantwortlicher</h2>
@@ -63,53 +63,222 @@
     </section>
 
     <section class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 mb-6 shadow-sm border border-sage/10 dark:border-sage-l/10">
-      <h2 class="text-xl font-bold mb-3 text-ktext dark:text-dktext">2. Daten in der App</h2>
+      <h2 class="text-xl font-bold mb-3 text-ktext dark:text-dktext">2. &Uuml;berblick</h2>
       <p class="text-kmuted dark:text-dkmuted leading-relaxed mb-3">
-        Die App Kids Bucket List speichert alle eingegebenen Daten ausschließlich lokal auf dem Gerät des Nutzers mittels SwiftData.
+        Kids Bucket List ist so gebaut, dass deine Inhalte &ndash; Aktivit&auml;ten, Notizen, Bewertungen und die
+        Profile deiner Kinder &ndash; auf deinem Ger&auml;t bleiben. Einzelne Funktionen ben&ouml;tigen jedoch externe
+        Dienste. Diese Erkl&auml;rung beschreibt, welche das sind, welche Daten dabei verarbeitet werden und wie du
+        das steuern kannst.
       </p>
       <ul class="text-kmuted dark:text-dkmuted text-sm space-y-2 list-disc list-inside">
-        <li>Es werden keine Daten an externe Server übermittelt.</li>
-        <li>Es wird kein Benutzerkonto benötigt.</li>
-        <li>Es findet keine Cloud-Synchronisierung statt.</li>
-        <li>Die App nutzt keine Analyse- oder Tracking-Dienste.</li>
-        <li>Es werden keine Werbedaten erhoben.</li>
+        <li>F&uuml;r die Nutzung der App ist kein Benutzerkonto bei uns erforderlich.</li>
+        <li>Deine Inhalte werden lokal gespeichert und nur dann synchronisiert, wenn du iCloud aktivierst.</li>
+        <li>F&uuml;r Abonnements setzen wir RevenueCat und Apple ein, f&uuml;r die Verbesserung der App TelemetryDeck.</li>
+        <li>Die Nutzungsanalyse kannst du jederzeit in den App-Einstellungen deaktivieren.</li>
       </ul>
     </section>
 
     <section class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 mb-6 shadow-sm border border-sage/10 dark:border-sage-l/10">
-      <h2 class="text-xl font-bold mb-3 text-ktext dark:text-dktext">3. Externe APIs</h2>
+      <h2 class="text-xl font-bold mb-3 text-ktext dark:text-dktext">3. Daten in der App</h2>
       <p class="text-kmuted dark:text-dkmuted leading-relaxed mb-3">
-        Für den optionalen Import von Aktivitäten können folgende externe Dienste abgefragt werden:
+        Die App speichert die von dir eingegebenen Daten mittels SwiftData lokal auf deinem Ger&auml;t. Dazu
+        geh&ouml;ren insbesondere Bucket-List-Eintr&auml;ge und Aktivit&auml;ten, Kategorien, Notizen, Bewertungen
+        sowie die von dir angelegten Kinderprofile (z.&nbsp;B. Vorname, Farbe, Avatar).
+      </p>
+      <p class="text-kmuted dark:text-dkmuted leading-relaxed">
+        Auf diese Inhalte haben wir als Anbieter keinen Zugriff, solange du sie uns nicht selbst &uuml;bermittelst,
+        etwa in einer Support-E-Mail. Aktivierst du die iCloud-Synchronisierung, werden sie zus&auml;tzlich in deiner
+        pers&ouml;nlichen iCloud gespeichert (siehe Abschnitt&nbsp;4).
+      </p>
+      <p class="text-kmuted dark:text-dkmuted text-sm mt-3 leading-relaxed"><strong class="text-ktext dark:text-dktext">Rechtsgrundlage:</strong> Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;b DSGVO &ndash; die Verarbeitung
+        dient der Bereitstellung der von dir gew&uuml;nschten App-Funktionen.</p>
+      <p class="text-kmuted dark:text-dkmuted text-sm mt-3 leading-relaxed"><strong class="text-ktext dark:text-dktext">Speicherdauer:</strong> Lokale Daten bleiben gespeichert, bis du sie in der App
+        l&ouml;schst oder die App vom Ger&auml;t entfernst.</p>
+    </section>
+
+    <section class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 mb-6 shadow-sm border border-sage/10 dark:border-sage-l/10">
+      <h2 class="text-xl font-bold mb-3 text-ktext dark:text-dktext">4. iCloud-Synchronisierung (Apple CloudKit)</h2>
+      <p class="text-kmuted dark:text-dkmuted leading-relaxed mb-3">
+        Du kannst in der App eine Synchronisierung &uuml;ber iCloud aktivieren. Ist sie aktiv, werden deine Inhalte
+        &uuml;ber Apples CloudKit-Dienst in deinem pers&ouml;nlichen iCloud-Speicher abgelegt und zwischen deinen
+        Apple-Ger&auml;ten abgeglichen. Den iCloud-Dienst betreibt Apple; wir haben keinen Zugriff auf die dort
+        gespeicherten Inhalte.
+      </p>
+      <p class="text-kmuted dark:text-dkmuted text-sm mt-3 leading-relaxed"><strong class="text-ktext dark:text-dktext">Rechtsgrundlage:</strong> Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;a DSGVO &ndash; die
+        Synchronisierung findet nur statt, wenn du sie aktivierst. Du kannst sie jederzeit in der App wieder
+        deaktivieren; die Verarbeitung bis zum Widerruf bleibt davon unber&uuml;hrt.</p>
+      <p class="text-kmuted dark:text-dkmuted text-sm mt-3 leading-relaxed"><strong class="text-ktext dark:text-dktext">Speicherdauer:</strong> bestimmt sich nach deinen iCloud-Einstellungen und den Vorgaben
+        von Apple.</p>
+      <p class="text-kmuted dark:text-dkmuted text-sm mt-3 leading-relaxed">Weitere Informationen:
+        <a href="https://www.apple.com/de/legal/privacy/" target="_blank" rel="noopener noreferrer" class="text-sage dark:text-sage-l hover:underline">Apple Datenschutzrichtlinie</a>
+      </p>
+    </section>
+
+    <section class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 mb-6 shadow-sm border border-sage/10 dark:border-sage-l/10">
+      <h2 class="text-xl font-bold mb-3 text-ktext dark:text-dktext">5. Abonnements und K&auml;ufe (RevenueCat, Apple)</h2>
+      <p class="text-kmuted dark:text-dkmuted leading-relaxed mb-3">
+        F&uuml;r die Verwaltung und Pr&uuml;fung automatisch verl&auml;ngerbarer Abonnements setzen wir RevenueCat
+        ein (RevenueCat,&nbsp;Inc., USA).
       </p>
       <ul class="text-kmuted dark:text-dkmuted text-sm space-y-2 list-disc list-inside">
-        <li><strong class="text-ktext dark:text-dktext">Open Library Datenkatalog</strong> – für die Buchsuche über eine statische, auf GitHub Pages gehostete Katalogdatei</li>
-        <li><strong class="text-ktext dark:text-dktext">OMDb API</strong> – für die Film- und Seriensuche</li>
-        <li><strong class="text-ktext dark:text-dktext">IGDB API</strong> – für die Spielesuche</li>
+        <li><strong class="text-ktext dark:text-dktext">Verarbeitete Daten:</strong> eine zuf&auml;llig erzeugte App-User-ID, die Kaufhistorie und der
+          Status deiner Berechtigungen sowie technische Angaben zu App und Ger&auml;t, die f&uuml;r die
+          Kaufabwicklung erforderlich sind.</li>
+        <li><strong class="text-ktext dark:text-dktext">Zwecke:</strong> Bereitstellung der gebuchten Funktionen, Pr&uuml;fung von Berechtigungen,
+          Betrugspr&auml;vention sowie Analyse von Abonnement-Kennzahlen.</li>
+        <li><strong class="text-ktext dark:text-dktext">Zahlungsdaten:</strong> Kreditkartennummern oder vergleichbare Zahlungsdaten erhalten weder
+          wir noch RevenueCat. Die Zahlungsabwicklung erfolgt ausschlie&szlig;lich &uuml;ber Apple.</li>
+        <li><strong class="text-ktext dark:text-dktext">Identit&auml;tsbezug:</strong> In der aktuell verwendeten Konfiguration &uuml;bermitteln wir
+          keine Identit&auml;tsmerkmale wie Name oder E-Mail-Adresse an RevenueCat. Die Zuordnung erfolgt allein
+          &uuml;ber die zuf&auml;llig erzeugte App-User-ID, sodass die Daten von unserer Seite aus nicht direkt mit
+          deiner Identit&auml;t verkn&uuml;pft werden.</li>
+        <li><strong class="text-ktext dark:text-dktext">Kein Werbetracking:</strong> Die Daten werden nicht f&uuml;r ger&auml;te&uuml;bergreifendes
+          Tracking oder personalisierte Werbung verwendet.</li>
       </ul>
       <p class="text-kmuted dark:text-dkmuted text-sm mt-3 leading-relaxed">
-        Diese Abfragen erfolgen nur auf ausdrücklichen Wunsch des Nutzers. Dabei werden ausschließlich die eingegebenen Suchbegriffe übermittelt. Es werden keine personenbezogenen Daten weitergegeben.
+        Der Kauf selbst wird &uuml;ber Apples StoreKit beziehungsweise den App&nbsp;Store abgewickelt. Apple
+        verarbeitet die zu deinem Apple-Konto geh&ouml;renden Kauf- und Zahlungsdaten als eigener Verantwortlicher.
+      </p>
+      <p class="text-kmuted dark:text-dkmuted text-sm mt-3 leading-relaxed"><strong class="text-ktext dark:text-dktext">Rechtsgrundlage:</strong> Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;b DSGVO f&uuml;r die
+        Erf&uuml;llung des Abonnementvertrags sowie Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;f DSGVO f&uuml;r unser
+        berechtigtes Interesse an Betrugspr&auml;vention und an der Auswertung von Abonnement-Kennzahlen.</p>
+      <p class="text-kmuted dark:text-dkmuted text-sm mt-3 leading-relaxed"><strong class="text-ktext dark:text-dktext">Speicherdauer:</strong> richtet sich nach den Vorgaben von RevenueCat und Apple; N&auml;heres
+        ergibt sich aus deren Datenschutzerkl&auml;rungen.</p>
+      <p class="text-kmuted dark:text-dkmuted text-sm mt-3 leading-relaxed">
+        <a href="https://www.revenuecat.com/privacy" target="_blank" rel="noopener noreferrer" class="text-sage dark:text-sage-l hover:underline">Datenschutzerkl&auml;rung von RevenueCat</a> &middot;
+        <a href="https://www.apple.com/de/legal/privacy/" target="_blank" rel="noopener noreferrer" class="text-sage dark:text-sage-l hover:underline">Apple Datenschutzrichtlinie</a>
       </p>
     </section>
 
     <section class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 mb-6 shadow-sm border border-sage/10 dark:border-sage-l/10">
-      <h2 class="text-xl font-bold mb-3 text-ktext dark:text-dktext">4. Diese Website (GitHub Pages)</h2>
+      <h2 class="text-xl font-bold mb-3 text-ktext dark:text-dktext">6. Nutzungsanalyse (TelemetryDeck)</h2>
+      <p class="text-kmuted dark:text-dkmuted leading-relaxed mb-3">
+        Um Fehler zu erkennen und die App weiterzuentwickeln, verwenden wir TelemetryDeck, einen auf
+        Datensparsamkeit ausgelegten Analysedienst.
+      </p>
+      <ul class="text-kmuted dark:text-dkmuted text-sm space-y-2 list-disc list-inside">
+        <li><strong class="text-ktext dark:text-dktext">Verarbeitete Daten:</strong> eine pseudonyme Ger&auml;te- beziehungsweise Installations-ID,
+          Informationen zu App und Ger&auml;t (etwa App-Version, Betriebssystemversion, Ger&auml;tetyp, Sprache und
+          Region) sowie Produktinteraktionen und Ereignisse, zum Beispiel welche Ansichten ge&ouml;ffnet werden.</li>
+        <li><strong class="text-ktext dark:text-dktext">Nicht &uuml;bermittelt:</strong> Klarnamen und E-Mail-Adressen. Auch die Inhalte deiner Bucket
+          List &ndash; etwa Titel von Aktivit&auml;ten, Notizen oder die Namen deiner Kinder &ndash; werden nicht an
+          TelemetryDeck &uuml;bermittelt.</li>
+        <li><strong class="text-ktext dark:text-dktext">Zweck:</strong> Analyse der Nutzung zur Verbesserung und Stabilisierung der App.</li>
+        <li><strong class="text-ktext dark:text-dktext">Kein Werbetracking:</strong> keine Weitergabe f&uuml;r personalisierte Werbung und kein
+          ger&auml;te&uuml;bergreifendes Tracking.</li>
+      </ul>
+      <p class="text-kmuted dark:text-dkmuted text-sm mt-3 leading-relaxed"><strong class="text-ktext dark:text-dktext">Widerspruch und Opt-out:</strong> Du kannst die Nutzungsanalyse jederzeit in den
+        Einstellungen der App deaktivieren. Danach werden keine weiteren Analyseereignisse mehr gesendet.</p>
+      <p class="text-kmuted dark:text-dkmuted text-sm mt-3 leading-relaxed"><strong class="text-ktext dark:text-dktext">Rechtsgrundlage:</strong> Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;f DSGVO &ndash; unser
+        berechtigtes Interesse an der Verbesserung und Stabilit&auml;t der App.</p>
+      <p class="text-kmuted dark:text-dkmuted text-sm mt-3 leading-relaxed"><strong class="text-ktext dark:text-dktext">Speicherdauer:</strong> richtet sich nach den Vorgaben von TelemetryDeck; N&auml;heres
+        ergibt sich aus deren Datenschutzerkl&auml;rung.</p>
+      <p class="text-kmuted dark:text-dkmuted text-sm mt-3 leading-relaxed">
+        <a href="https://telemetrydeck.com/privacy" target="_blank" rel="noopener noreferrer" class="text-sage dark:text-sage-l hover:underline">Datenschutzerkl&auml;rung von TelemetryDeck</a>
+      </p>
+    </section>
+
+    <section class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 mb-6 shadow-sm border border-sage/10 dark:border-sage-l/10">
+      <h2 class="text-xl font-bold mb-3 text-ktext dark:text-dktext">7. Externe Such- und Inhaltsdienste</h2>
+      <p class="text-kmuted dark:text-dkmuted leading-relaxed mb-3">
+        F&uuml;r den optionalen Import von Aktivit&auml;ten k&ouml;nnen folgende externe Dienste abgefragt werden:
+      </p>
+      <ul class="text-kmuted dark:text-dkmuted text-sm space-y-2 list-disc list-inside">
+        <li><strong class="text-ktext dark:text-dktext">Open Library Datenkatalog</strong> &ndash; f&uuml;r die Buchsuche &uuml;ber eine statische,
+          auf GitHub Pages gehostete Katalogdatei</li>
+        <li><strong class="text-ktext dark:text-dktext">OMDb API</strong> &ndash; f&uuml;r die Film- und Seriensuche</li>
+        <li><strong class="text-ktext dark:text-dktext">IGDB API</strong> &ndash; f&uuml;r die Spielesuche</li>
+      </ul>
+      <p class="text-kmuted dark:text-dkmuted text-sm mt-3 leading-relaxed">
+        Diese Abfragen erfolgen nur, wenn du eine Suche ausdr&uuml;cklich startest. Dabei wird der von dir
+        eingegebene Suchbegriff &uuml;bermittelt. Technisch bedingt erh&auml;lt der jeweilige Dienst
+        zus&auml;tzlich Verbindungsdaten wie deine IP-Adresse. Inhalte deiner Bucket List oder die Namen deiner
+        Kinder werden dabei nicht &uuml;bermittelt.
+      </p>
+      <p class="text-kmuted dark:text-dkmuted text-sm mt-3 leading-relaxed"><strong class="text-ktext dark:text-dktext">Rechtsgrundlage:</strong> Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;b DSGVO &ndash; die Abfrage
+        erfolgt auf deine ausdr&uuml;ckliche Veranlassung zur Bereitstellung der Suchfunktion.</p>
+    </section>
+
+    <section class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 mb-6 shadow-sm border border-sage/10 dark:border-sage-l/10">
+      <h2 class="text-xl font-bold mb-3 text-ktext dark:text-dktext">8. Diese Website (GitHub Pages)</h2>
       <p class="text-kmuted dark:text-dkmuted leading-relaxed">
-        Diese Landing Page wird über GitHub Pages gehostet. Beim Aufruf dieser Seite werden von GitHub automatisch Server-Logfiles erhoben, die u.a. die IP-Adresse des Besuchers enthalten können. Weitere Informationen findest du in der <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer" class="text-sage dark:text-sage-l hover:underline">Datenschutzerklärung von GitHub</a>.
+        Diese Landing Page wird &uuml;ber GitHub Pages gehostet. Beim Aufruf dieser Seite werden von GitHub
+        automatisch Server-Logfiles erhoben, die unter anderem die IP-Adresse des Besuchers enthalten k&ouml;nnen.
+        Weitere Informationen findest du in der
+        <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer" class="text-sage dark:text-sage-l hover:underline">Datenschutzerkl&auml;rung von GitHub</a>.
       </p>
       <p class="text-kmuted dark:text-dkmuted leading-relaxed mt-3">
-        Wir selbst setzen auf dieser Website keine Cookies, kein Tracking und keine Analysetools ein.
+        Diese Website bindet Schriftarten von Google&nbsp;Fonts sowie das Tailwind-CSS-CDN ein. Beim Laden dieser
+        Ressourcen wird deine IP-Adresse an die jeweiligen Anbieter &uuml;bermittelt. N&auml;heres zur Verarbeitung
+        durch Google findest du in der
+        <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="text-sage dark:text-sage-l hover:underline">Datenschutzerkl&auml;rung von Google</a>.
+      </p>
+      <p class="text-kmuted dark:text-dkmuted leading-relaxed mt-3">
+        Wir selbst setzen auf dieser Website keine Cookies, kein Tracking und keine Analysetools ein. Deine Auswahl
+        f&uuml;r den hellen oder dunklen Modus wird ausschlie&szlig;lich lokal in deinem Browser gespeichert
+        (localStorage) und nicht an uns &uuml;bertragen.
+      </p>
+      <p class="text-kmuted dark:text-dkmuted text-sm mt-3 leading-relaxed"><strong class="text-ktext dark:text-dktext">Rechtsgrundlage:</strong> Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;f DSGVO &ndash; berechtigtes
+        Interesse am sicheren und technisch einwandfreien Betrieb der Website.</p>
+    </section>
+
+    <section class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 mb-6 shadow-sm border border-sage/10 dark:border-sage-l/10">
+      <h2 class="text-xl font-bold mb-3 text-ktext dark:text-dktext">9. Empf&auml;nger und Drittlandsbezug</h2>
+      <p class="text-kmuted dark:text-dkmuted leading-relaxed mb-3">
+        Neben den oben genannten Diensten geben wir deine Daten nicht an Dritte weiter. Eine &Uuml;bersicht der
+        eingesetzten Anbieter:
+      </p>
+      <ul class="text-kmuted dark:text-dkmuted text-sm space-y-2 list-disc list-inside">
+        <li><strong class="text-ktext dark:text-dktext">RevenueCat</strong> &ndash; Abonnementverwaltung; Kaufhistorie, App-User-ID</li>
+        <li><strong class="text-ktext dark:text-dktext">TelemetryDeck</strong> &ndash; Nutzungsanalyse; Ger&auml;te-/Installations-ID,
+          Produktinteraktionen</li>
+        <li><strong class="text-ktext dark:text-dktext">Apple</strong> &ndash; App&nbsp;Store und StoreKit f&uuml;r K&auml;ufe, iCloud/CloudKit
+          f&uuml;r die optionale Synchronisierung</li>
+        <li><strong class="text-ktext dark:text-dktext">GitHub</strong> &ndash; Hosting dieser Website und der statischen Buchkatalogdatei</li>
+        <li><strong class="text-ktext dark:text-dktext">OMDb und IGDB</strong> &ndash; nur bei ausdr&uuml;cklich gestarteter Suche</li>
+      </ul>
+      <p class="text-kmuted dark:text-dkmuted text-sm mt-3 leading-relaxed">
+        Einzelne dieser Anbieter k&ouml;nnen Daten au&szlig;erhalb der Europ&auml;ischen Union beziehungsweise des
+        EWR verarbeiten, insbesondere in den USA. Angaben zu den daf&uuml;r vorgesehenen Garantien findest du in den
+        oben verlinkten Datenschutzerkl&auml;rungen der jeweiligen Anbieter.
       </p>
     </section>
 
     <section class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 mb-6 shadow-sm border border-sage/10 dark:border-sage-l/10">
-      <h2 class="text-xl font-bold mb-3 text-ktext dark:text-dktext">5. Rechte der betroffenen Personen</h2>
+      <h2 class="text-xl font-bold mb-3 text-ktext dark:text-dktext">10. Rechte der betroffenen Personen</h2>
+      <p class="text-kmuted dark:text-dkmuted leading-relaxed mb-3">
+        Soweit wir personenbezogene Daten verarbeiten, stehen dir die folgenden Rechte zu:
+      </p>
+      <ul class="text-kmuted dark:text-dkmuted text-sm space-y-2 list-disc list-inside">
+        <li>Auskunft &uuml;ber die verarbeiteten Daten (Art.&nbsp;15 DSGVO)</li>
+        <li>Berichtigung unrichtiger Daten (Art.&nbsp;16 DSGVO)</li>
+        <li>L&ouml;schung (Art.&nbsp;17 DSGVO)</li>
+        <li>Einschr&auml;nkung der Verarbeitung (Art.&nbsp;18 DSGVO)</li>
+        <li>Daten&uuml;bertragbarkeit (Art.&nbsp;20 DSGVO)</li>
+        <li>Widerspruch gegen Verarbeitungen auf Grundlage berechtigter Interessen (Art.&nbsp;21 DSGVO)</li>
+        <li>Widerruf einer erteilten Einwilligung mit Wirkung f&uuml;r die Zukunft (Art.&nbsp;7 Abs.&nbsp;3 DSGVO)</li>
+        <li>Beschwerde bei einer Datenschutz-Aufsichtsbeh&ouml;rde (Art.&nbsp;77 DSGVO)</li>
+      </ul>
+      <p class="text-kmuted dark:text-dkmuted text-sm mt-3 leading-relaxed">
+        Daten, die ausschlie&szlig;lich lokal auf deinem Ger&auml;t liegen, kannst du jederzeit selbst in der App
+        oder durch Deinstallation l&ouml;schen. F&uuml;r Anliegen zu den oben genannten Rechten wende dich an
+        <a href="mailto:peter@hildel.com" class="text-sage dark:text-sage-l hover:underline">peter@hildel.com</a>. Da wir dich in der App bewusst nicht
+        identifizieren, ben&ouml;tigen wir f&uuml;r eine Auskunft gegebenenfalls zus&auml;tzliche Angaben, um deine
+        Daten zuordnen zu k&ouml;nnen.
+      </p>
+    </section>
+
+    <section class="bg-ksurf dark:bg-dksurf rounded-2xl p-6 mb-6 shadow-sm border border-sage/10 dark:border-sage-l/10">
+      <h2 class="text-xl font-bold mb-3 text-ktext dark:text-dktext">11. &Auml;nderungen dieser Datenschutzerkl&auml;rung</h2>
       <p class="text-kmuted dark:text-dkmuted leading-relaxed">
-        Da keine personenbezogenen Daten durch uns erhoben oder verarbeitet werden, bestehen keine gesondert geltend zu machenden Betroffenenrechte gegenüber uns. Bei Fragen wende dich an <a href="mailto:peter@hildel.com" class="text-sage dark:text-sage-l hover:underline">peter@hildel.com</a>.
+        Wir passen diese Datenschutzerkl&auml;rung an, wenn sich die App, die eingesetzten Dienste oder die
+        rechtlichen Rahmenbedingungen &auml;ndern. Es gilt jeweils die hier ver&ouml;ffentlichte Fassung mit dem oben
+        genannten Stand.
       </p>
     </section>
 
     <div class="text-center mt-8">
-      <a href="index.html" class="inline-block px-8 py-3 rounded-full bg-sage dark:bg-sage-d text-white font-bold shadow hover:bg-sage-d transition">Zurück zur Startseite</a>
+      <a href="index.html" class="inline-block px-8 py-3 rounded-full bg-sage dark:bg-sage-d text-white font-bold shadow hover:bg-sage-d transition">Zur&uuml;ck zur Startseite</a>
     </div>
   </main>
 
