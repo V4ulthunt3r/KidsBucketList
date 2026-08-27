@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kids Bucket List – Eure gemeinsame Bucket List fürs Leben.</title>
   <meta name="description" content="Kids Bucket List – halte fest, was du irgendwann mit deinem Kind erleben möchtest. Lieblingsfilme, Bücher, Games, Reisen und Abenteuer. Heute, später oder wenn es erwachsen ist. Jetzt im App Store für iPhone, iPad und Mac.">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>tailwind.config={darkMode:'class',theme:{extend:{fontFamily:{nunito:['Nunito','sans-serif']}}}}</script>
+  <link rel="icon" type="image/png" href="app-icon.png">
+  <link rel="apple-touch-icon" href="app-icon.png">
+  <link rel="stylesheet" href="assets/site.css">
   <style>
     /* ── ICON SYSTEM ──
        One sprite, stroked with currentColor so icons inherit the colour of
@@ -33,8 +34,9 @@
     }
     .icon-btn {
       display:inline-flex; align-items:center; justify-content:center;
-      width:34px; height:34px; border-radius:999px; color:var(--text-sec);
+      width:44px; height:44px; flex:0 0 44px; border-radius:999px; color:var(--text-sec);
       transition:background .2s ease, color .2s ease;
+      touch-action:manipulation;
     }
     .icon-btn:hover { background:var(--surf-muted); color:var(--text-pri); }
     .icon-btn .ico { width:18px; height:18px; }
@@ -44,17 +46,10 @@
     :focus-visible { outline:2px solid var(--accent); outline-offset:3px; border-radius:8px; }
     .display, .headline, h1, h2, h3 { text-wrap:balance; }
     .body-lg, p { text-wrap:pretty; }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration:.01ms !important; animation-iteration-count:1 !important;
-        transition-duration:.01ms !important; scroll-behavior:auto !important;
-      }
-      .reveal { opacity:1 !important; transform:none !important; }
-    }
-
     /* ── TOKENS ── */
     :root {
       --accent:#6E8F73; --accent-soft:#E4EEE4;
+      --on-accent:#0F1711;
       --surface:#FCFEFB; --surf-muted:#EAF0E7; --surf-strong:#DCE7D9;
       --bg:#F4F6F1; --stroke:#DBE3D9;
       --text-pri:#1E241F; --text-sec:#667066; --text-ter:#879086;
@@ -62,6 +57,7 @@
     }
     .dark {
       --accent:#9CC1A2; --accent-soft:#334238;
+      --on-accent:#0F1711;
       --surface:#212723; --surf-muted:#283029; --surf-strong:#313A32;
       --bg:#161A17; --stroke:#343D35;
       --text-pri:#EEF4EE; --text-sec:#AAB6AB; --text-ter:#8C978D;
@@ -69,9 +65,17 @@
     }
 
     html { scroll-behavior:smooth; }
-    body { background:var(--bg); color:var(--text-pri); transition:background 250ms,color 250ms; }
+    body {
+      background:var(--bg); color:var(--text-pri);
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      transition:background 250ms ease,color 250ms ease;
+    }
 
     /* ── TYPOGRAPHY ── */
+    .display, .headline, h1, h2, h3, .brand-name {
+      font-family:"Nunito",system-ui,sans-serif;
+      font-optical-sizing:auto;
+    }
     .display {
       font-size:clamp(2.6rem,6vw,4.75rem);
       font-weight:900; letter-spacing:-0.04em; line-height:1.02;
@@ -81,8 +85,8 @@
       font-weight:900; letter-spacing:-0.03em; line-height:1.1;
     }
     .eyebrow {
-      font-size:0.675rem; font-weight:700;
-      letter-spacing:0.13em; text-transform:uppercase; color:var(--accent);
+      font-size:0.75rem; font-weight:750;
+      letter-spacing:0.09em; text-transform:uppercase; color:var(--accent);
     }
     .body-lg { font-size:clamp(1rem,1.4vw,1.1rem); line-height:1.75; color:var(--text-sec); }
 
@@ -98,19 +102,30 @@
       background:rgba(244,246,241,.88);
       backdrop-filter:blur(24px) saturate(1.8);
       -webkit-backdrop-filter:blur(24px) saturate(1.8);
-      border-bottom:1px solid var(--stroke);
+      position:sticky;
     }
     .dark .nav-blur { background:rgba(22,26,23,.88); }
+    .nav-blur::after {
+      content:""; position:absolute; left:0; right:0; bottom:-12px; height:12px;
+      background:linear-gradient(to bottom,rgba(20,28,22,.08),transparent);
+      pointer-events:none;
+    }
+    .nav-inner { min-height:64px; }
+    .brand-name { white-space:nowrap; line-height:1; }
+    .nav-actions { min-width:0; }
+    .nav-label-short, .language-short { display:none; }
+    .language-link {
+      min-height:44px; display:inline-flex; align-items:center; justify-content:center;
+      white-space:nowrap; touch-action:manipulation;
+    }
 
     /* ── CARDS ── */
     .card {
       background:var(--surface); border:1px solid var(--stroke);
       border-radius:20px; box-shadow:0 1px 2px rgba(16,24,18,.04), 0 5px 18px rgba(16,24,18,.05);
-      transition:transform .25s ease, box-shadow .25s ease;
+      transition:box-shadow .25s ease;
     }
     .dark .card { box-shadow:0 4px 20px rgba(0,0,0,.2); }
-    .card:hover { transform:translateY(-3px); box-shadow:0 2px 4px rgba(16,24,18,.05), 0 14px 34px rgba(16,24,18,.09); }
-    .dark .card:hover { box-shadow:0 10px 32px rgba(0,0,0,.32); }
     .card-muted { background:var(--surf-muted); border:1px solid var(--stroke); border-radius:20px; }
 
     /* ── FEATURE ICON ── */
@@ -157,11 +172,7 @@
     .hero-phone-3d:hover { transform:rotateY(-7deg) rotateX(2deg) rotateZ(.5deg); }
     @media (max-width:1023px){ .hero-phone-3d{ transform:none; } }
 
-    .hero-float { animation:float-phone 6.5s ease-in-out infinite; }
-    @keyframes float-phone {
-      0%,100% { transform:translateY(0); }
-      50%      { transform:translateY(-15px); }
-    }
+    .hero-float { transform:translateY(0); }
 
     /* ═══ DEVICE FRAMES ═══
        Geometry ported from ShotForge (lib/deviceFrames.ts + IPhoneFrame.tsx):
@@ -171,6 +182,17 @@
     .device-phone {
       position:relative; aspect-ratio:1470/3000;
       filter:drop-shadow(0 34px 44px rgba(0,0,0,.34)) drop-shadow(0 10px 14px rgba(0,0,0,.26));
+    }
+    .dark .hero-stage::after {
+      content:""; position:absolute; z-index:0; pointer-events:none;
+      width:380px; height:560px; left:50%; top:50%;
+      transform:translate(-50%,-50%);
+      background:radial-gradient(ellipse,rgba(156,193,162,.18) 0%,rgba(156,193,162,.07) 42%,transparent 72%);
+    }
+    .dark .hero-stage .device-phone {
+      filter:drop-shadow(0 0 1px rgba(238,244,238,.75))
+             drop-shadow(0 30px 48px rgba(0,0,0,.58))
+             drop-shadow(0 0 38px rgba(156,193,162,.28));
     }
     .dev-back, .dev-front {
       position:absolute; inset:0; width:100%; height:100%;
@@ -192,13 +214,9 @@
       position:absolute; width:720px; height:720px;
       background:radial-gradient(circle,rgba(110,143,115,.14) 0%,transparent 65%);
       top:-200px; right:-80px; pointer-events:none;
-      animation:glow-breathe 7s ease-in-out infinite;
+      opacity:.9;
     }
     .dark .hero-glow { background:radial-gradient(circle,rgba(156,193,162,.08) 0%,transparent 65%); }
-    @keyframes glow-breathe {
-      0%,100% { opacity:.7; transform:scale(1); }
-      50%      { opacity:1; transform:scale(1.07); }
-    }
 
     /* ── SECTION SPACING ── */
     .section    { padding:clamp(4.5rem,9vw,7.5rem) 0; }
@@ -214,30 +232,27 @@
       padding:9px 16px; border-radius:999px;
       border:1px solid var(--stroke); background:var(--surface);
       font-size:.8rem; font-weight:700; color:var(--text-sec);
-      transition:transform .2s ease;
     }
-    .pbadge:hover { transform:translateY(-1px); }
 
     /* ── PRIMARY CTA (App Store) ── */
     .btn-primary {
       display:inline-flex; align-items:center; gap:9px;
       padding:14px 26px; border-radius:999px;
-      background:var(--accent); color:#fff;
+      background:var(--accent); color:var(--on-accent);
       font-size:.95rem; font-weight:800; letter-spacing:-.01em;
       box-shadow:0 8px 22px rgba(110,143,115,.32);
       transition:transform .2s ease, box-shadow .2s ease, filter .2s ease;
     }
     .btn-primary:hover { transform:translateY(-2px); box-shadow:0 14px 30px rgba(110,143,115,.42); filter:brightness(1.05); }
-    .dark .btn-primary { color:#121a14; box-shadow:0 8px 22px rgba(0,0,0,.42); }
+    .dark .btn-primary { box-shadow:0 8px 22px rgba(0,0,0,.42); }
     .btn-nav {
       display:inline-flex; align-items:center; gap:5px;
       padding:7px 14px; border-radius:999px;
-      background:var(--accent); color:#fff;
+      min-height:44px; background:var(--accent); color:var(--on-accent);
       font-size:.78rem; font-weight:800;
       transition:transform .2s ease, filter .2s ease;
     }
     .btn-nav:hover { transform:translateY(-1px); filter:brightness(1.06); }
-    .dark .btn-nav { color:#121a14; }
     .btn-ghost {
       display:inline-flex; align-items:center; gap:8px;
       padding:14px 24px; border-radius:999px;
@@ -255,6 +270,10 @@
       transition:transform .2s ease, box-shadow .2s ease;
     }
     .btn-solid:hover { transform:translateY(-2px); box-shadow:0 14px 30px rgba(0,0,0,.22); }
+    .btn-primary:active, .btn-nav:active, .btn-solid:active,
+    .btn-ghost:active, .icon-btn:active, .language-link:active {
+      transform:scale(.97); transition-duration:100ms;
+    }
 
     /* ── PROGRESS RING ── */
     .ring-bg { stroke:var(--surf-muted); }
@@ -264,10 +283,8 @@
     .tl-card {
       background:var(--surface); border:1px solid var(--stroke);
       border-radius:20px; padding:26px 24px; position:relative; overflow:hidden;
-      transition:transform .25s ease, box-shadow .25s ease;
+      transition:box-shadow .25s ease;
     }
-    .tl-card:hover { transform:translateY(-3px); box-shadow:0 12px 30px rgba(0,0,0,.07); }
-    .dark .tl-card:hover { box-shadow:0 12px 32px rgba(0,0,0,.32); }
     .tl-badge {
       display:inline-flex; align-items:center; gap:6px;
       padding:5px 12px; border-radius:999px; font-size:11px; font-weight:800;
@@ -318,7 +335,7 @@
       background:var(--accent);
       box-shadow:0 0 10px 2px rgba(110,143,115,.75);
       top:50%; margin-top:-4px;
-      animation:sp-fwd 2.8s ease-in-out infinite;
+      animation:sp-fwd 2.8s ease-in-out 3;
     }
     .sp.r  { animation-name:sp-rev; }
     .sp.d2 { animation-delay:.93s; }
@@ -344,12 +361,12 @@
       display:flex; align-items:center; justify-content:center;
       color:var(--accent); flex-shrink:0; position:relative; z-index:2;
       box-shadow:0 6px 20px rgba(110,143,115,.22);
-      animation:cb-pulse 3s ease-in-out infinite;
+      animation:cb-pulse 3s ease-in-out 2;
     }
     .cloud-beacon::after {
       content:''; position:absolute; inset:-7px; border-radius:50%;
       border:1.5px solid var(--accent);
-      animation:cb-ring 3s ease-out infinite;
+      animation:cb-ring 3s ease-out 2;
     }
     @keyframes cb-pulse {
       0%,100% { box-shadow:0 6px 18px rgba(110,143,115,.20); }
@@ -372,7 +389,7 @@
     }
 
     /* Per-device sync glow — staggered */
-    .eco-glow { animation:eco-dev-glow 3s ease-in-out infinite; }
+    .eco-glow { animation:eco-dev-glow 3s ease-in-out 1; }
     .eco-glow.g1 { animation-delay:0s; }
     .eco-glow.g2 { animation-delay:1s; }
     .eco-glow.g3 { animation-delay:2s; }
@@ -391,6 +408,69 @@
     .shot-dark { display:none; }
     .dark .shot-dark { display:block; }
     .dark .shot-light { display:none; }
+
+    /* ── ACCENT PANEL ── */
+    .accent-panel { background:var(--accent); color:var(--on-accent); }
+    .accent-panel .cta-glyph {
+      color:var(--on-accent); background:rgba(15,23,17,.08); border-color:rgba(15,23,17,.16);
+    }
+    .accent-panel .accent-copy { color:rgba(15,23,17,.76); }
+    .accent-panel .accent-meta { color:rgba(15,23,17,.64); }
+    .accent-panel .accent-link { color:var(--on-accent); }
+    .accent-panel .btn-ghost {
+      color:var(--on-accent); background:rgba(15,23,17,.08); border-color:rgba(15,23,17,.18);
+    }
+    .accent-panel .btn-ghost:hover { background:rgba(15,23,17,.14); }
+
+    @media (max-width:639px) {
+      .section { padding:4rem 0; }
+      .section-sm { padding:2.75rem 0; }
+      .nav-inner { padding:.625rem 1rem; gap:.5rem; }
+      .nav-actions { gap:.5rem; }
+      .brand-name { font-size:.92rem; }
+      .btn-nav { padding:7px 12px; }
+      .nav-label-long, .language-long { display:none; }
+      .nav-label-short, .language-short { display:inline; }
+      .language-link { min-width:44px; font-size:.82rem; }
+      .hero-section { padding:3rem 0 4rem; }
+      .hero-layout { gap:2rem; }
+      .hero-kicker { margin-bottom:1rem; }
+      .hero-copy .display {
+        margin-bottom:1.1rem; font-size:clamp(2.35rem,11.5vw,3rem); line-height:1.02;
+      }
+      .hero-copy .hero-lede { margin-bottom:1rem; font-size:1rem; line-height:1.58; }
+      .hero-copy .hero-tagline { margin-bottom:1.4rem; font-size:1rem !important; }
+      .hero-copy .hero-cta { margin-bottom:0; }
+      .hero-platforms { display:none; }
+      .hero-stage .device-phone { width:min(226px,58vw) !important; }
+      .hero-glow { width:460px; height:460px; top:-120px; right:-220px; }
+    }
+    @media (max-width:359px) {
+      .brand-long { display:none; }
+      .brand-short { display:inline; }
+      .hero-section { padding:2.25rem 0 3.5rem; }
+      .hero-layout { gap:1.25rem; }
+      .hero-kicker { margin-bottom:.75rem; }
+      .hero-copy .display { margin-bottom:.9rem; }
+      .hero-copy .hero-lede { margin-bottom:.8rem; line-height:1.5; }
+      .hero-copy .hero-tagline { margin-bottom:1.1rem; }
+    }
+    @media (min-width:360px) {
+      .brand-short { display:none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior:auto; }
+      *, *::before, *::after { animation:none !important; }
+      .reveal { opacity:1 !important; transform:none !important; transition:opacity 180ms ease !important; }
+      .hero-phone-3d, .btn-primary, .btn-nav, .btn-solid, .btn-ghost, .icon-btn { transform:none !important; }
+    }
+    @media (prefers-reduced-transparency: reduce) {
+      .nav-blur { background:var(--bg); backdrop-filter:none; -webkit-backdrop-filter:none; }
+    }
+    @media (prefers-contrast: more) {
+      .nav-blur { background:var(--bg); }
+      .card, .card-muted, .tl-card, .pbadge, .sum-pill { border-color:var(--text-sec); }
+    }
   </style>
   <script>
     (function(){
@@ -399,21 +479,23 @@
         document.documentElement.classList.add('dark');
     })();
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet">
 </head>
-<body class="font-nunito flex flex-col min-h-screen">
+<body class="flex flex-col min-h-screen">
   <svg class="kbl-icons" aria-hidden="true"><defs><symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol><symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol><symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9Z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8Z"/></symbol><symbol id="i-smartphone" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2.5"/><path d="M12 18.5h.01"/></symbol><symbol id="i-tablet" viewBox="0 0 24 24"><rect x="3.5" y="2" width="17" height="20" rx="2.5"/><path d="M12 18.5h.01"/></symbol><symbol id="i-laptop" viewBox="0 0 24 24"><path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9"/><path d="M2.5 16h19l1 3a1 1 0 0 1-1 1.3H2.5A1 1 0 0 1 1.5 19Z"/></symbol><symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.6l2.9 5.9 6.5 1-4.7 4.6 1.1 6.5L12 17.5 6.2 20.6l1.1-6.5L2.6 9.5l6.5-1Z"/></symbol><symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 5.1a5.4 5.4 0 0 0-7.7 0L12 6.2l-1.1-1.1a5.4 5.4 0 1 0-7.7 7.7l8.8 8.7 8.8-8.7a5.4 5.4 0 0 0 0-7.7Z"/></symbol><symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9"/><path d="M16 3.1a4 4 0 0 1 0 7.8"/></symbol><symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="7.5" rx="1.8"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.8"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.8"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.8"/></symbol><symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7.5"/><path d="m21 21-4.7-4.7"/></symbol><symbol id="i-chart" viewBox="0 0 24 24"><path d="M12 20V9M18 20V4M6 20v-6"/></symbol><symbol id="i-cloud" viewBox="0 0 24 24"><path d="M17.5 19.5a4.75 4.75 0 0 0 .3-9.5A7 7 0 1 0 5.5 16"/><path d="M6 19.5h11.5"/></symbol><symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="17" rx="2.5"/><path d="M8 2.5v4M16 2.5v4M3 10h18"/></symbol><symbol id="i-pen" viewBox="0 0 24 24"><path d="M16.9 3.2a2.6 2.6 0 0 1 3.7 3.7L7.4 20.1 2.5 21.5l1.4-4.9Z"/><path d="m15.2 4.9 3.7 3.7"/></symbol><symbol id="i-smile" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M8.2 14.2a4.6 4.6 0 0 0 7.6 0"/><path d="M9 9.3h.01M15 9.3h.01"/></symbol><symbol id="i-lock" viewBox="0 0 24 24"><rect x="3.5" y="10.5" width="17" height="11" rx="2.5"/><path d="M7.5 10.5V7a4.5 4.5 0 0 1 9 0v3.5"/></symbol><symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2.5 3.8 13.6a.6.6 0 0 0 .5 1H11l-1 7 9.2-11.1a.6.6 0 0 0-.5-1H12Z"/></symbol><symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M2.6 12h18.8"/><path d="M12 2.5a14.5 14.5 0 0 1 0 19 14.5 14.5 0 0 1 0-19Z"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3.5 6.5 8.5 6 8.5-6"/></symbol><symbol id="i-list" viewBox="0 0 24 24"><path d="M10.5 6.5h10M10.5 12h10M10.5 17.5h10"/><path d="m3 6.3 1.4 1.4L7 5.2M3 11.8l1.4 1.4L7 10.7M3 17.3l1.4 1.4L7 16.2"/></symbol><symbol id="i-code" viewBox="0 0 24 24"><path d="m17 16.5 4.5-4.5L17 7.5"/><path d="M7 7.5 2.5 12 7 16.5"/><path d="m14.2 4-4.4 16"/></symbol><symbol id="i-film" viewBox="0 0 24 24"><rect x="2.5" y="3.5" width="19" height="17" rx="2.5"/><path d="M7.5 3.5v17M16.5 3.5v17M2.5 12h19M2.5 7.8h5M16.5 7.8h5M2.5 16.2h5M16.5 16.2h5"/></symbol><symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.2A2.5 2.5 0 0 1 6.5 16.7H20"/><path d="M6.5 2.5H20v19H6.5A2.5 2.5 0 0 1 4 19V5a2.5 2.5 0 0 1 2.5-2.5Z"/></symbol><symbol id="i-gamepad" viewBox="0 0 24 24"><path d="M6.5 11.5h3.5M8.25 9.75v3.5M15.5 12.2h.01M18 10.2h.01"/><path d="M17.3 5.5H6.7A4.7 4.7 0 0 0 2 10.2v3.6a3.9 3.9 0 0 0 6.5 2.9l.7-.6h5.6l.7.6a3.9 3.9 0 0 0 6.5-2.9v-3.6a4.7 4.7 0 0 0-4.7-4.7Z"/></symbol><symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 21.5a9.5 9.5 0 1 1 9.5-9.5c0 2-1.6 3.2-3.2 3.2h-1.9a2.1 2.1 0 0 0-1.5 3.6 1.9 1.9 0 0 1-1.4 2.7 9.7 9.7 0 0 1-1.5.1Z"/><path d="M7.5 11h.01M10 7.2h.01M14.5 7.2h.01"/></symbol><symbol id="i-leaf" viewBox="0 0 24 24"><path d="M11 20.2A7 7 0 0 1 9.8 6.4C15.4 5.3 17 4.8 19 2.4c1 2 2 4.2 2 7.9a7 7 0 0 1-10 9.9Z"/><path d="M2.5 21.5c0-3 1.9-5.6 4.5-6.8"/></symbol><symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10.2 9-7.2 9 7.2V20a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M9.2 22v-8h5.6v8"/></symbol><symbol id="i-activity" viewBox="0 0 24 24"><path d="M21.5 12h-4l-3 8.5-5-17-3 8.5h-4"/></symbol><symbol id="i-map" viewBox="0 0 24 24"><path d="m14.6 4.3-5.2-2L3 4.6v16.9l6.4-2.3 5.2 2 6.4-2.3V2l-6.4 2.3Z"/><path d="M9.4 2.3v16.9M14.6 4.3v16.9"/></symbol><symbol id="i-plane" viewBox="0 0 24 24"><path d="M17.6 19.4 15.9 11l3.6-3.6a2.1 2.1 0 0 0-3-3L12.9 8 4.6 6.2a.5.5 0 0 0-.5.8l3.9 4.3-2.1 2.1-1.7-.4a.5.5 0 0 0-.5.8L5.9 16l1.9 2.5a.5.5 0 0 0 .8-.4l-.4-1.7 2.1-2.1 4.4 3.9a.5.5 0 0 0 .9-.5Z"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5.5v13M5.5 12h13"/></symbol></defs></svg>
 
   <svg class="kbl-defs" aria-hidden="true"><defs><linearGradient id="kblBand" x1="0" y1="0" x2="258" y2="526.53" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f4f6f8"/><stop offset=".14" stop-color="#c2c7cd"/><stop offset=".34" stop-color="#8e959d"/><stop offset=".56" stop-color="#40454c"/><stop offset=".78" stop-color="#8e959d"/><stop offset=".92" stop-color="#c2c7cd"/><stop offset="1" stop-color="#8e959d"/></linearGradient><linearGradient id="kblBtn" x1="0" y1="0" x2="258" y2="526.53" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f4f6f8"/><stop offset=".4" stop-color="#8e959d"/><stop offset=".75" stop-color="#40454c"/><stop offset="1" stop-color="#8e959d"/></linearGradient><linearGradient id="kblEdge" x1="0" y1="0" x2="258" y2="526.53" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="rgba(255,255,255,.65)"/><stop offset=".18" stop-color="rgba(255,255,255,.16)"/><stop offset=".55" stop-color="rgba(255,255,255,.04)"/><stop offset=".86" stop-color="rgba(255,255,255,.22)"/><stop offset="1" stop-color="rgba(255,255,255,.36)"/></linearGradient><linearGradient id="kblBezel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1b1d22"/><stop offset=".32" stop-color="#020305"/><stop offset=".76" stop-color="#090a0d"/><stop offset="1" stop-color="#2b2d32"/></linearGradient><linearGradient id="kblIsland" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d0e11"/><stop offset=".35" stop-color="#010102"/><stop offset="1" stop-color="#07080a"/></linearGradient><radialGradient id="kblLens" cx=".38" cy=".34" r=".85"><stop offset="0" stop-color="#12233a"/><stop offset=".45" stop-color="#081019"/><stop offset="1" stop-color="#03060a"/></radialGradient></defs></svg>
 
   <!-- NAV -->
   <nav class="nav-blur sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-      <span class="text-lg font-black tracking-tight" style="color:var(--accent)">Kids Bucket List</span>
-      <div class="flex items-center gap-4">
-        <a href="https://apps.apple.com/de/app/kids-bucket-list/id6762488504" target="_blank" rel="noopener noreferrer" class="btn-nav" aria-label="Kids Bucket List im App Store öffnen"><svg class="ico" aria-hidden="true"><use href="#i-download"/></svg> App Store</a>
+    <div class="nav-inner max-w-6xl mx-auto px-6 flex items-center justify-between">
+      <span class="brand-name text-lg font-black tracking-tight" style="color:var(--accent)"><span class="brand-long">Kids Bucket List</span><span class="brand-short">Kids</span></span>
+      <div class="nav-actions flex items-center gap-4">
+        <a href="https://apps.apple.com/de/app/kids-bucket-list/id6762488504" target="_blank" rel="noopener noreferrer" class="btn-nav" aria-label="Kids Bucket List im App Store öffnen"><svg class="ico" aria-hidden="true"><use href="#i-download"/></svg><span class="nav-label-long">App Store</span><span class="nav-label-short">Laden</span></a>
         <button id="theme-toggle" class="icon-btn" aria-label="Dark Mode"><svg class="ico" aria-hidden="true"><use href="#i-moon"/></svg></button>
-        <a href="index-en.html" class="text-sm font-bold hover:opacity-70 transition-opacity" style="color:var(--text-sec)">🇺🇸 English</a>
+        <a href="index-en.html" class="language-link text-sm font-bold hover:opacity-70 transition-opacity" style="color:var(--text-sec)"><span aria-hidden="true">🇺🇸</span><span class="language-long">&nbsp;English</span><span class="language-short">EN</span></a>
       </div>
     </div>
   </nav>
@@ -421,14 +503,14 @@
   <main class="flex-1">
 
     <!-- ═══ §1 HERO ═══ -->
-    <section class="section relative overflow-hidden">
+    <section class="hero-section section relative overflow-hidden">
       <div class="hero-glow" aria-hidden="true"></div>
       <div class="max-w-6xl mx-auto px-6">
-        <div class="flex flex-col lg:flex-row items-center gap-14 lg:gap-12">
+        <div class="hero-layout flex flex-col lg:flex-row items-center gap-14 lg:gap-12">
 
           <!-- Left: text -->
-          <div class="flex-1 text-center lg:text-left reveal">
-            <div class="inline-flex items-center gap-2 mb-6 px-3.5 py-1.5 rounded-full" style="background:var(--accent-soft);border:1px solid var(--stroke)">
+          <div class="hero-copy flex-1 text-center lg:text-left reveal">
+            <div class="hero-kicker inline-flex items-center gap-2 mb-6 px-3.5 py-1.5 rounded-full" style="background:var(--accent-soft);border:1px solid var(--stroke)">
               <svg class="ico ico-eyebrow" aria-hidden="true"><use href="#i-sparkle"/></svg><span class="eyebrow">Jetzt im App Store</span>
             </div>
             <h1 class="display mb-6">
@@ -436,19 +518,18 @@
               zusammen erleben<br>
               <span style="color:var(--accent)">wollt.</span>
             </h1>
-            <p class="body-lg max-w-xl mx-auto lg:mx-0 mb-5">
-              Kids Bucket List ist eure gemeinsame Bucket List fürs Leben.
-              Lieblingsfilme, Bücher, Games, Reisen, Berge – haltet fest, was ihr
-              irgendwann miteinander erlebt haben wollt.
+            <p class="hero-lede body-lg max-w-xl mx-auto lg:mx-0 mb-5">
+              Eure gemeinsame Liste fürs Leben: Haltet Filme, Bücher, Reisen und
+              Abenteuer fest, die ihr irgendwann miteinander erleben wollt.
             </p>
-            <p class="font-black mb-9" style="color:var(--text-pri);font-size:clamp(1rem,1.6vw,1.2rem)">
+            <p class="hero-tagline font-black mb-9" style="color:var(--text-pri);font-size:clamp(1rem,1.6vw,1.2rem)">
               Heute. Später. Oder wenn es erwachsen ist.
             </p>
-            <div class="flex flex-col items-center lg:items-start gap-3 mb-8">
+            <div class="hero-cta flex flex-col items-center lg:items-start gap-3 mb-8">
               <a href="https://apps.apple.com/de/app/kids-bucket-list/id6762488504" target="_blank" rel="noopener noreferrer" class="btn-primary"><svg class="ico" aria-hidden="true"><use href="#i-download"/></svg> Im App Store laden</a>
               <span class="text-xs font-semibold" style="color:var(--text-ter)">Für iPhone, iPad und Mac</span>
             </div>
-            <div class="flex flex-wrap gap-2.5 justify-center lg:justify-start">
+            <div class="hero-platforms flex flex-wrap gap-2.5 justify-center lg:justify-start">
               <span class="pbadge"><svg class="ico" aria-hidden="true"><use href="#i-smartphone"/></svg> iPhone</span>
               <span class="pbadge"><svg class="ico" aria-hidden="true"><use href="#i-tablet"/></svg> iPad</span>
               <span class="pbadge"><svg class="ico" aria-hidden="true"><use href="#i-laptop"/></svg> Mac</span>
@@ -539,33 +620,6 @@
             <div class="feat-icon mb-5"><svg class="ico ico-feat" aria-hidden="true"><use href="#i-users"/></svg></div>
             <h3 class="text-base font-black mb-2" style="color:var(--text-pri)">Profile für jedes Kind</h3>
             <p class="text-sm leading-relaxed" style="color:var(--text-sec)">Eigene Profile mit Avatar und Lieblingsfarbe – Familienübersicht und Einzelansicht auf Knopfdruck.</p>
-          </div>
-
-          <div class="card p-7 reveal d4">
-            <div class="feat-icon mb-5"><svg class="ico ico-feat" aria-hidden="true"><use href="#i-grid"/></svg></div>
-            <h3 class="text-base font-black mb-2" style="color:var(--text-pri)">Interessenwelten statt Alter</h3>
-            <p class="text-sm leading-relaxed" style="color:var(--text-sec)">Filme, Bücher, Games, Natur, Reisen – jede Kategorie hat ihre eigene Ansicht mit echten Daten.</p>
-          </div>
-
-          <div class="card p-7 reveal d5">
-            <div class="feat-icon mb-5"><svg class="ico ico-feat" aria-hidden="true"><use href="#i-search"/></svg></div>
-            <h3 class="text-base font-black mb-2" style="color:var(--text-pri)">Echte Daten &amp; Vorlagen</h3>
-            <p class="text-sm leading-relaxed" style="color:var(--text-sec)">Bücher suchen, Filme finden, Bastelideen entdecken – und mit einem Tipp auf eure Liste setzen.</p>
-          </div>
-
-          <div class="card p-7 reveal d6">
-            <div class="feat-icon mb-5"><svg class="ico ico-feat" aria-hidden="true"><use href="#i-chart"/></svg></div>
-            <h3 class="text-base font-black mb-2" style="color:var(--text-pri)">Statistiken &amp; Highlights</h3>
-            <p class="text-sm leading-relaxed" style="color:var(--text-sec)">Fortschritt pro Kind, Lieblingskategorien und die schönsten Momente auf einen Blick.</p>
-          </div>
-
-          <!-- iCloud – full width -->
-          <div class="card p-7 lg:col-span-3 flex flex-col sm:flex-row items-start sm:items-center gap-5 reveal">
-            <div class="feat-icon shrink-0" style="background:rgba(90,130,210,.12);color:#5A82D2"><svg class="ico ico-feat" aria-hidden="true"><use href="#i-cloud"/></svg></div>
-            <div>
-              <h3 class="text-base font-black mb-2" style="color:var(--text-pri)">Optionaler iCloud-Sync</h3>
-              <p class="text-sm leading-relaxed" style="color:var(--text-sec)">Aktiviere iCloud-Sync und greife auf allen deinen Apple-Geräten auf eure Bucket List zu – nahtlos zwischen iPhone, iPad und Mac. Deine Daten bleiben privat in deiner eigenen iCloud.</p>
-            </div>
           </div>
 
         </div>
@@ -795,19 +849,6 @@
       </div>
     </section>
 
-    <!-- ═══ §8 SUMMARY STRIP ═══ -->
-    <section class="section-sm">
-      <div class="max-w-4xl mx-auto px-6 text-center reveal">
-        <p class="eyebrow mb-6">Kurz gesagt</p>
-        <div class="flex flex-wrap gap-3 justify-center">
-          <span class="sum-pill"><svg class="ico" aria-hidden="true"><use href="#i-list"/></svg> Wunschliste</span>
-          <span class="sum-pill"><svg class="ico" aria-hidden="true"><use href="#i-heart"/></svg> Erinnerungsspeicher</span>
-          <span class="sum-pill"><svg class="ico" aria-hidden="true"><use href="#i-heart"/></svg> Gemeinsame Interessen</span>
-          <span class="sum-pill"><svg class="ico" aria-hidden="true"><use href="#i-sparkle"/></svg> Vermächtnis künftiger Erlebnisse</span>
-        </div>
-      </div>
-    </section>
-
     <!-- ═══ §9 EMOTIONAL ═══ -->
     <section class="section emotional">
       <div class="max-w-4xl mx-auto px-6 text-center reveal">
@@ -823,36 +864,19 @@
       </div>
     </section>
 
-    <!-- ═══ §10 PLATFORM ═══ -->
-    <section class="section-sm" style="border-top:1px solid var(--stroke);border-bottom:1px solid var(--stroke)">
-      <div class="max-w-4xl mx-auto px-6 text-center reveal">
-        <p class="eyebrow mb-6">Technologie</p>
-        <div class="flex flex-wrap gap-3 justify-center">
-          <span class="pbadge"><svg class="ico" aria-hidden="true"><use href="#i-code"/></svg> Native SwiftUI</span>
-          <span class="pbadge"><svg class="ico" aria-hidden="true"><use href="#i-cloud"/></svg> iCloud Sync</span>
-          <span class="pbadge"><svg class="ico" aria-hidden="true"><use href="#i-lock"/></svg> Privacy-First</span>
-          <span class="pbadge"><svg class="ico" aria-hidden="true"><use href="#i-smartphone"/></svg> iPhone</span>
-          <span class="pbadge"><svg class="ico" aria-hidden="true"><use href="#i-tablet"/></svg> iPad</span>
-          <span class="pbadge"><svg class="ico" aria-hidden="true"><use href="#i-laptop"/></svg> macOS</span>
-          <span class="pbadge"><svg class="ico" aria-hidden="true"><use href="#i-moon"/></svg> Dark Mode</span>
-          <span class="pbadge"><svg class="ico" aria-hidden="true"><use href="#i-globe"/></svg> DE &amp; EN</span>
-        </div>
-      </div>
-    </section>
-
     <!-- ═══ §11 CTA ═══ -->
     <section class="section">
       <div class="max-w-3xl mx-auto px-6 text-center reveal">
-        <div class="rounded-3xl p-12 md:p-16 text-white relative overflow-hidden" style="background:var(--accent)">
+        <div class="accent-panel rounded-3xl p-12 md:p-16 relative overflow-hidden">
           <div style="position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.12) 0%,transparent 55%);pointer-events:none" aria-hidden="true"></div>
           <div class="cta-glyph"><svg class="ico ico-cta" aria-hidden="true"><use href="#i-download"/></svg></div>
           <h2 class="text-2xl md:text-3xl font-black mb-3" style="letter-spacing:-.03em">Jetzt im App Store.</h2>
-          <p class="mb-8" style="color:rgba(255,255,255,.8);max-width:24rem;margin-left:auto;margin-right:auto">Kids Bucket List ist da – für iPhone, iPad und Mac. Beginnt eure gemeinsame Liste fürs Leben.</p>
+          <p class="accent-copy mb-8" style="max-width:24rem;margin-left:auto;margin-right:auto">Kids Bucket List ist da – für iPhone, iPad und Mac. Beginnt eure gemeinsame Liste fürs Leben.</p>
           <div class="flex flex-wrap gap-3 justify-center">
             <a href="https://apps.apple.com/de/app/kids-bucket-list/id6762488504" target="_blank" rel="noopener noreferrer" class="btn-solid"><svg class="ico" aria-hidden="true"><use href="#i-download"/></svg> Im App Store laden</a>
             <a href="support.html" class="btn-ghost"><svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg> Schreib uns</a>
           </div>
-          <p class="mt-7 text-xs" style="color:rgba(255,255,255,.6)">Du willst Neues vorab ausprobieren? <a href="https://testflight.apple.com/join/A3JBhGkD" target="_blank" rel="noopener noreferrer" class="underline hover:opacity-80" style="color:rgba(255,255,255,.85)">Beta über TestFlight</a></p>
+          <p class="accent-meta mt-7 text-xs">Du willst Neues vorab ausprobieren? <a href="https://testflight.apple.com/join/A3JBhGkD" target="_blank" rel="noopener noreferrer" class="accent-link underline hover:opacity-80">Beta über TestFlight</a></p>
         </div>
       </div>
     </section>

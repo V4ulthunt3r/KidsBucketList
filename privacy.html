@@ -4,30 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Datenschutzerklärung | Kids Bucket List</title>
-  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            sage:    '#6E8F73',
-            'sage-l':'#9CC1A2',
-            'sage-d':'#4C8A63',
-            kbg:     '#F4F6F1',
-            ksurf:   '#FCFEFB',
-            ktext:   '#2D3B33',
-            kmuted:  '#6B7F71',
-            dkbg:    '#161A17',
-            dksurf:  '#212723',
-            dktext:  '#E8F0EA',
-            dkmuted: '#8AAD91',
-          },
-          fontFamily: { nunito: ['Nunito', 'sans-serif'] },
-        },
-      },
-    }
-  </script>
+  <link rel="icon" type="image/png" href="app-icon.png">
+  <link rel="apple-touch-icon" href="app-icon.png">
+  <link rel="stylesheet" href="assets/site.css">
   <script>
     (function() {
       const saved = localStorage.getItem('theme');
@@ -36,7 +15,7 @@
       }
     })();
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet">
 </head>
 <body class="min-h-screen bg-kbg dark:bg-dkbg text-ktext dark:text-dktext font-nunito flex flex-col transition-colors duration-200">
 
